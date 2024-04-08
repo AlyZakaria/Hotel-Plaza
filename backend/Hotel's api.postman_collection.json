@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "26fa48f8-968c-431c-ab1e-e6c4cfdda6e6",
+		"name": "Hotel's api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23109576",
+		"_collection_link": "https://galactic-shadow-10565.postman.co/workspace/Team-Workspace~40e81990-8cf4-4eff-8a37-3d9c900bf1cf/collection/23109576-26fa48f8-968c-431c-ab1e-e6c4cfdda6e6?action=share&source=collection_link&creator=23109576"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
