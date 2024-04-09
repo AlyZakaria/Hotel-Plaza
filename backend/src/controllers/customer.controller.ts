@@ -57,7 +57,6 @@ class CustomerController extends Controller {
             customer['token'] = token
             res.status(200).send(customer)
         } catch (error: unknown) {
-            // console.log(error)
             res.status(201).send(`It can't be created, please try again..`)
         }
     }
