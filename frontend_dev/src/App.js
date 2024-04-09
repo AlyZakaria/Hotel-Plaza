@@ -1,9 +1,17 @@
 import "./App.css";
-import AppBar from "../src/components/AppBar/AppBar";
-import Landing from "../src/components/Landing/Landing";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "@emotion/react";
+import router from "../src/routes/router";
+import customTheme from "../src/themes/customTheme";
 
 function App() {
-  return <Landing></Landing>;
+  return (
+    <div className="App">
+      <ThemeProvider theme={customTheme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </div>
+  );
 }
 
 export default App;
