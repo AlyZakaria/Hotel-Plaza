@@ -25,7 +25,7 @@ class CustomerController extends Controller {
             if (!email) throw new Error('Please enter an email')
             // find by email
             const customer: customerData = await this.repository.login(email)
-            // compare the passwords    
+            // compare the passwords
             if (
                 !bcrypt.compareSync(
                     password + pepper,
@@ -57,7 +57,6 @@ class CustomerController extends Controller {
             customer['token'] = token
             res.status(200).send(customer)
         } catch (error: unknown) {
-            // console.log(error)
             res.status(201).send(`It can't be created, please try again..`)
         }
     }
