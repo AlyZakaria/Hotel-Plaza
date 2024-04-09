@@ -13,39 +13,36 @@ datasource db {
   url      = env("SQL_DATABASE_URL")
 }
 
-model UnsignedCustomer {
+
+
+model Customer {
   id      Int    @id @default(autoincrement())
-  fname   String
-  lname   String
-  phone   String @unique
-  country String
-  address String
-  zip     String
-
-  signedCustomer SignedCustomer?
+  email     String?
+  password  String?
+  fname     String
+  lname     String
+  phone     String  @unique
+  country   String
+  address   String
+  zip       String
   reservation    Reservation[]
+  @@map("customers")
 }
-
-model SignedCustomer {
-  customerId Int    @unique
-  email      String @unique
-  password   String @unique
-
-  unsignedcustomer UnsignedCustomer @relation(fields: [customerId], references: [id])
-}
-
 model Reservation {
-  id         Int       @id @default(autoincrement())
-  customerId Int
-  date       DateTime  @default(now())
-  checkin    DateTime
-  checkout   DateTime
-  bill       Bill?
-  rooms      Booking[]
+  id          Int        @id @default(autoincrement())
+  customerId  Int
+  date        DateTime   @default(now())
+  checkin     DateTime
+  checkout    DateTime
+  bill        Bill?
+  rooms       Booking[]
 
-  unsignedcustomer UnsignedCustomer @relation(fields: [customerId], references: [id])
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  @@map("reservations")
+
+
+
 }
-
 enum StatusBill {
   incomplete
   complete
