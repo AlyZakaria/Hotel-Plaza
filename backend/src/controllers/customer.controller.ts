@@ -25,7 +25,7 @@ class CustomerController extends Controller {
             if (!email) throw new Error('Please enter an email')
             // find by email
             const customer: customerData = await this.repository.login(email)
-            // compare the passwords
+            // compare the passwords    
             if (
                 !bcrypt.compareSync(
                     password + pepper,
