@@ -3,6 +3,7 @@ import customerData from '../../interfaces/customerData'
 import CustomerRepository from '../../repositories/customer.repository'
 import request from 'supertest'
 import app from '../../server'
+
 const customerRepository = new CustomerRepository()
 
 const user: customerData = {
@@ -15,6 +16,7 @@ const user: customerData = {
     address: 'Ibrahimia',
     zip: '2125',
 }
+let server: any
 beforeAll(async () => {
     // Truncate all data in the schema
     try {
@@ -28,8 +30,12 @@ describe(`Check Email exist or not`, () => {
         const customer = await customerRepository.register(user)
         expect(customer.phone).toBe(user.phone)
     })
+
     it(`check email already exists`, async () => {
-        const response = await request(app).post('/api/register')
-        expect(response.status).toBe(409)
+        const response = await request(app)
+            .post('/api/register')
+            .send(user)
+            .set('Accept', 'application/json')
+            .expect(409)
     })
 })

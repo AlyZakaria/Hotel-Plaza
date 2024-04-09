@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1712628125412" clover="3.2.0">
-  <project timestamp="1712628125413" name="All files">
-    <metrics statements="86" coveredstatements="56" conditionals="7" coveredconditionals="2" methods="12" coveredmethods="10" elements="105" coveredelements="68" complexity="0" loc="86" ncloc="86" packages="5" files="7" classes="7"/>
+<coverage generated="1712665304653" clover="3.2.0">
+  <project timestamp="1712665304653" name="All files">
+    <metrics statements="86" coveredstatements="56" conditionals="7" coveredconditionals="2" methods="12" coveredmethods="9" elements="105" coveredelements="67" complexity="0" loc="86" ncloc="86" packages="5" files="7" classes="7"/>
     <package name="src">
-      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="server.ts" path="E:\Graduation Project\Hotel-Plaza\backend\src\server.ts">
-        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
