@@ -1,0 +1,50 @@
+{
+  "name": "plaza_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=dev nodemon src/server.ts ",
+    "lint": "eslint \"src/**/*.ts\" ",
+    "prettier": "npx prettier . --write",
+    "test": "cross-env NODE_ENV=test dotenv -e .env.sample -- jest",
+    "build": "tsc",
+    "migration:create": "prisma migrate dev --create-only && dotenv -e .env.sample -- npx prisma migrate",
+    "migrate": "prisma migrate dev  && dotenv -e .env.sample -- npx prisma migrate dev",
+    "migraion:production": "prisma migrate deploy",
+    "seed": "tsc prisma/seed.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.12.5",
+    "@types/supertest": "^6.0.2",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.0.0",
+    "express": "^4.19.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "prisma": "^5.12.1",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "@types/typescript": "^2.0.0",
+    "dotenv-cli": "^7.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
