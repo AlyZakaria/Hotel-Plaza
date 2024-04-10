@@ -9,8 +9,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import Rating from "@mui/material/Rating";
+import LoginIcon from "@mui/icons-material/Login";
+import { Link } from "react-router-dom";
 
 const pages = ["Availability", "About", "Contact", "Policies"];
 
@@ -29,27 +30,33 @@ function ResponsiveAppBar() {
     <AppBar position="static" sx={{ bgcolor: "#143c5c" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ paddingLeft: "5%", paddingRight: "5%" }}>
+          <style>
+            @import
+            url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap')
+          </style>
           <Typography
             variant="h6"
-            noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "Lato, Helvetica, Arial, sans-serif",
-              color: "inherit",
-              textDecoration: "none",
+              fontFamily: "Dancing Script",
+              fontSize: 25,
             }}
           >
-            Hotel Canvas
+            Plaza Hotel
           </Typography>
           <Rating
-            name="half-rating"
-            value={4.5}
+            name="rating"
+            value={5}
             precision={0.5}
             readOnly
-            sx={{ fontSize: "15px", color: "white" }}
+            sx={{
+              fontSize: "15px",
+              color: "white",
+              paddingRight: 5,
+              display: { xs: "none", md: "flex" },
+            }}
           />
 
           <Box
@@ -93,25 +100,20 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+
           <Typography
-            variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
-              mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              fontFamily: "Dancing Script",
+              fontSize: 30,
             }}
           >
-            LOGO
+            Plaza Hotel
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
@@ -124,11 +126,49 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: { xs: "none", sm: "none", md: "flex" },
+            }}
+          >
             <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">Login</Typography>
+              <Link to="/login">
+                <Typography
+                  textAlign="center"
+                  sx={{ color: "white", textDecoration: "none" }}
+                >
+                  Login
+                </Typography>
+              </Link>
             </MenuItem>
           </Box>
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: { xs: "none", sm: "none", md: "flex" },
+            }}
+          >
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Link to="/signup">
+                <Typography
+                  textAlign="center"
+                  sx={{ color: "white", textDecoration: "none" }}
+                >
+                  Sign up
+                </Typography>
+              </Link>
+            </MenuItem>
+          </Box>
+          <Link to="/login">
+            <LoginIcon
+              sx={{
+                color: "white",
+                flexGrow: 0,
+                display: { xs: "flex", sm: "flex", md: "none" },
+              }}
+            ></LoginIcon>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

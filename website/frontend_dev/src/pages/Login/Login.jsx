@@ -22,8 +22,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Plaza Hotel
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -56,7 +56,7 @@ export default function SignInSide() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+              "url(https://wallpapershome.com/images/pages/pic_h/6498.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -122,13 +122,13 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/resetpassword" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account?"}
                   </Link>
                 </Grid>
               </Grid>
