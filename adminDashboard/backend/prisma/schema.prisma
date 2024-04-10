@@ -99,7 +99,7 @@ model RoomType {
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
-  @@unique([capacity, name])
+ 
 }
 
 model ImageURL {
