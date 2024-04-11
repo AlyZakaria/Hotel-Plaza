@@ -79,7 +79,7 @@ model room {
   id       Int       @id @default(autoincrement())
   typeId   Int
   booking  booking[]
-  roomtype roomtype  @relation(fields: [typeId], references: [id], map: "Room_typeId_fkey")
+  roomtype roomtype  @relation(fields: [typeId], references: [id], map: "Room_typeId_fkey", onDelete: Cascade)
 
   @@index([typeId], map: "Room_typeId_fkey")
 }

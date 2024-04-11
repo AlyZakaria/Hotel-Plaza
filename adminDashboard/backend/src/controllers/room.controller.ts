@@ -28,7 +28,7 @@ class RoomController extends Controller {
             const room: Room = req.body
             const roomCreated = await this.repository.addRoom(room)
             if (!roomCreated) throw new Error(`Could not add this room`)
-            res.status(200).send(`Room has been added successfully`)
+            res.status(200).send(roomCreated)
         } catch (error: unknown) {
             res.status(409).send(`Could not add this room`)
         }

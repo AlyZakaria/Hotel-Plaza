@@ -17,7 +17,7 @@ roomTypeRoute.delete('/room-type?', roomTypeController.deleteRoomType)
 roomTypeRoute.put('/room-type', roomTypeController.editRoomType)
 
 roomTypeRoute.put(
-    '/room-type?',
+    '/images/room-type?',
     upload.array('files', 10),
     imageController.addImages
 )

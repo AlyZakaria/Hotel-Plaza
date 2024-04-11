@@ -2,7 +2,9 @@ import express from 'express'
 import roomTypeRoute from './routes/roomType.route'
 import imageRouter from './routes/image.route'
 import roomRoute from './routes/room.route'
+import path from 'path'
 const app = express()
+app.use('/images', express.static('assets'))
 app.use(express.json())
 
 const port = 4000

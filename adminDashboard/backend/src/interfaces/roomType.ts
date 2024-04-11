@@ -1,15 +1,9 @@
-enum view {
-    'garden',
-    'pool',
-    'sea',
-}
-
 interface roomType {
     id?: number
     count: number
     pricepernight: number
     capacity: number
-    view: view
+    view: 'garden' | 'pool' | 'sea'
     name: string
     description: string
 }

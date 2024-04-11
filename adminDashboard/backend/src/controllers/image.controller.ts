@@ -17,7 +17,9 @@ class ImageController extends Controller {
             let images: any = req.body
             let byteArrays: any = []
             let mimetypes: any = []
+
             for (let i = 0; i < images.length; i++) {
+                // console.log(images[i].data_url)
                 let { byteArray, mimetype } = base64toBlob(images[i].data_url)
                 byteArrays.push(byteArray)
                 mimetypes.push(mimetype)
@@ -30,7 +32,6 @@ class ImageController extends Controller {
             if (!addImages) throw new Error(`Could not add iamges`)
             res.status(200).send('Images added successfully')
         } catch (error) {
-            console.log(error)
             res.status(409).send(`Can't add these images`)
         }
     }
