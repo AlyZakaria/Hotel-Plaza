@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,117 +7,122 @@ datasource db {
   url      = env("SQL_DATABASE_URL")
 }
 
-
-
 model Customer {
-  id      Int    @id @default(autoincrement())
-  email     String?
-  password  String?
-  fname     String
-  lname     String
-  phone     String  @unique
-  country   String
-  address   String
-  zip       String
-  reservation    Reservation[]
+  id          Int           @id @default(autoincrement())
+  email       String?
+  password    String?
+  fname       String
+  lname       String
+  phone       String        @unique
+  country     String
+  address     String
+  zip         String
+  reservation Reservation[]
+
   @@map("customers")
 }
+
 model Reservation {
-  id          Int        @id @default(autoincrement())
-  customerId  Int
-  date        DateTime   @default(now())
-  checkin     DateTime
-  checkout    DateTime
-  bill        Bill?
-  rooms       Booking[]
+  id         Int       @id @default(autoincrement())
+  customerId Int
+  date       DateTime  @default(now())
+  checkin    DateTime
+  checkout   DateTime
+  bill       bill?
+  booking    booking[]
+  customer   Customer  @relation(fields: [customerId], references: [id])
 
-  customer    Customer  @relation(fields: [customerId], references: [id])
+  @@index([customerId], map: "reservations_customerId_fkey")
   @@map("reservations")
-
-
-
-}
-enum StatusBill {
-  incomplete
-  complete
 }
 
-model Bill {
+model bill {
   number        Int         @id @default(autoincrement())
-  reservation   Reservation @relation(fields: [reservationId], references: [id])
-  reservationId Int         @unique
+  reservationId Int         @unique(map: "Bill_reservationId_key")
   totalAmount   Decimal
   time          DateTime    @default(now())
-  status        StatusBill
+  status        bill_status
+  reservations  Reservation @relation(fields: [reservationId], references: [id], map: "Bill_reservationId_fkey")
 }
 
-enum StatusBooking {
+model booking {
+  reservationId  Int
+  roomId         Int
+  receptionistId Int?
+  status         booking_status
+  reservations   Reservation    @relation(fields: [reservationId], references: [id], map: "Booking_reservationId_fkey")
+  room           room           @relation(fields: [roomId], references: [id], map: "Booking_roomId_fkey")
+
+  @@unique([reservationId, roomId], map: "Booking_reservationId_roomId_key")
+  @@index([roomId], map: "Booking_roomId_fkey")
+}
+
+model imageurl {
+  id        Int         @id @default(autoincrement())
+  blob      Bytes
+  type      String?
+  typeimage typeimage[]
+}
+
+model offer {
+  id         Int      @id @default(autoincrement())
+  typeId     Int
+  startDate  DateTime
+  endDate    DateTime
+  percentage Decimal
+  roomtype   roomtype @relation(fields: [typeId], references: [id], map: "Offer_typeId_fkey")
+
+  @@index([typeId], map: "Offer_typeId_fkey")
+}
+
+model room {
+  id       Int       @id @default(autoincrement())
+  typeId   Int
+  booking  booking[]
+  roomtype roomtype  @relation(fields: [typeId], references: [id], map: "Room_typeId_fkey")
+
+  @@index([typeId], map: "Room_typeId_fkey")
+}
+
+model roomtype {
+  id            Int           @id @default(autoincrement())
+  count         Int
+  pricepernight Decimal
+  capacity      Int
+  view          roomtype_view
+  name          String        @db.VarChar(6)
+  description   String?
+  offer         offer[]
+  room          room[]
+  typeimage     typeimage[]
+
+  @@unique([capacity, name, pricepernight], map: "RoomType_capacity_name_pricepernight_key")
+}
+
+model typeimage {
+  typeId   Int 
+  imageId  Int
+  imageurl imageurl @relation(fields: [imageId], references: [id], map: "TypeImage_imageId_fkey", onDelete: Cascade)
+  roomtype roomtype @relation(fields: [typeId], references: [id], map: "TypeImage_typeId_fkey" , onDelete: Cascade)
+
+  @@unique([typeId, imageId], map: "TypeImage_typeId_imageId_key")
+  @@index([imageId], map: "TypeImage_imageId_fkey")
+}
+
+enum booking_status {
   reserved
   cancelled
   checked_in
   checked_out
 }
 
-model Booking {
-  reservation    Reservation   @relation(fields: [reservationId], references: [id])
-  reservationId  Int
-  room           Room          @relation(fields: [roomId], references: [id])
-  roomId         Int
-  receptionistId Int?
-  status         StatusBooking
-
-  @@unique([reservationId, roomId])
+enum bill_status {
+  incomplete
+  complete
 }
 
-enum View {
+enum roomtype_view {
   garden
   pool
   sea
-}
-
-model Room {
-  id           Int       @id @default(autoincrement())
-  roomType     RoomType  @relation(fields: [typeId], references: [id])
-  typeId       Int
-  reservations Booking[]
-}
-
-model RoomType {
-  id            Int         @id @default(autoincrement())
-  count         Int
-  pricepernight Decimal
-  capacity      Int
-  view          View
-  name          String      @db.VarChar(6)
-  description   String?
-  room          Room[]
-  imageURLs     TypeImage[]
-  offer         Offer[]
-  @@unique([capacity, name])
-}
-
-model ImageURL {
-  id        Int         @id @default(autoincrement())
-  blob      Bytes
-  type      String?
-  roomTypes TypeImage[]
-}
-
-model TypeImage {
-  roomType RoomType @relation(fields: [typeId], references: [id])
-  typeId   Int
-
-  imageURL ImageURL @relation(fields: [imageId], references: [id])
-  imageId  Int
-
-  @@unique([typeId, imageId])
-}
-
-model Offer {
-  id         Int      @id @default(autoincrement())
-  roomType   RoomType @relation(fields: [typeId], references: [id])
-  typeId     Int
-  startDate  DateTime
-  endDate    DateTime
-  percentage Decimal
 }

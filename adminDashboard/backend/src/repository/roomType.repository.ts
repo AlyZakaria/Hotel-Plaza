@@ -6,7 +6,14 @@ class RoomTypeRepository extends Repository {
         super()
         this._model = this.prisma.roomType
     }
-
+    async getRoomTypes(): Promise<roomType[] | never> {
+        try {
+            const roomTypes = await this._model.findMany()
+            return roomTypes
+        } catch (error: unknown) {
+            throw error
+        }
+    }
     // add room type
     async addRoomType(roomType: roomType): Promise<roomType | never> {
         try {
@@ -19,6 +26,51 @@ class RoomTypeRepository extends Repository {
             throw error
         }
     }
+    async deleteRoomType(roomTypeId: number): Promise<boolean | never> {
+        try {
+            const transaction = await this.prisma.$transaction(async (tx) => {
+                // get all imagesId from typeimage schema
+                const imagesRoomType = await tx.typeImage.findMany({
+                    where: {
+                        typeId: roomTypeId,
+                    },
+                })
+                let imagesId = imagesRoomType.map((image) => image.imageId)
+
+                // delete the roomType
+                const roomTypeDelete = await tx.roomType.delete({
+                    where: { id: roomTypeId },
+                })
+                // delete all images related to this type
+                const imageDeleted = await tx.imageURL.deleteMany({
+                    where: {
+                        id: {
+                            in: imagesId,
+                        },
+                    },
+                })
+            })
+
+            return true
+        } catch (error) {
+            throw error
+        }
+    }
+    async editRoomType(roomType: roomType): Promise<roomType | never> {
+        try {
+            const roomTypeEdit = await this._model.update({
+                where: {
+                    id: roomType.id,
+                },
+                data: roomType,
+            })
+            if (!roomTypeEdit) throw new Error(`Room type can't be edited`)
+            return roomTypeEdit
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
     // delete all room types
     async deleteAll() {
         try {
