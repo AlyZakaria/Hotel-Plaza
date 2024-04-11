@@ -107,10 +107,11 @@ model ImageURL {
   blob      Bytes
   type      String?
   roomTypes TypeImage[]
+
 }
 
 model TypeImage {
-  roomType RoomType @relation(fields: [typeId], references: [id])
+  roomType RoomType @relation(fields: [typeId], references: [id] , onDelete: Cascade)
   typeId   Int
 
   imageURL ImageURL @relation(fields: [imageId], references: [id])

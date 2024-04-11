@@ -1,13 +1,15 @@
 import express from 'express'
 import roomTypeRoute from './routes/roomType.route'
-
+import imageRouter from './routes/image.route'
+import roomRoute from './routes/room.route'
 const app = express()
 app.use(express.json())
 
 const port = 4000
 
 app.use('/api/', roomTypeRoute)
-
+app.use('/api/', imageRouter)
+app.use('/api/', roomRoute)
 if (process.env.NODE_ENV !== 'test') {
     const port = process.env.PORT || 5000
     app.listen(port, () => {
