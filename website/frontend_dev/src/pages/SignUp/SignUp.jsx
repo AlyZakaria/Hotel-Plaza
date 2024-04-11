@@ -25,7 +25,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="/">
         Plaza Hotel
       </Link>{" "}
       {new Date().getFullYear()}
@@ -60,7 +60,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ paddingBottom: 10 }}>
         <CssBaseline />
         <Box
           sx={{
@@ -165,8 +165,8 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/login" variant="body2">
+                  Have an account? Sign in
                 </Link>
               </Grid>
             </Grid>

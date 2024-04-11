@@ -1,13 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
-import Landing from "../components/Landing/Landing";
 import Billing from "../components/Billing/Billing";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
-
+import OTP from "../pages/OTP/OTP";
+import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
+import Home from "../pages/Home/Home.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing></Landing>,
+    element: <Home></Home>,
+  },
+  {
+    path: "/otp",
+    element: <OTP></OTP>,
   },
   {
     path: "/login",
@@ -24,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/billing",
     element: <Billing></Billing>,
+  },
+  {
+    path: "/resetpassword",
+    element: <ForgetPassword></ForgetPassword>,
   },
 ]);
 
