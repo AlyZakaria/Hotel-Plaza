@@ -57,7 +57,6 @@ class ImageRepository extends Repository {
             // Transaction committed successfully
             return 'Transaction completed'
         } catch (error) {
-            console.log(error)
             throw error
         }
     }
@@ -72,6 +71,17 @@ class ImageRepository extends Repository {
             if (!imageDeleted) throw new Error(`image can't be deleted`)
             return true
         } catch (error) {
+            console.log(error)
+            throw error
+        }
+    }
+    // delete All images
+    async deleteAll(): Promise<boolean | never> {
+        try {
+            let roomImagesDeleted = this._model.deleteMany()
+            await this.prisma.$transaction([roomImagesDeleted])
+            return true
+        } catch (error: unknown) {
             console.log(error)
             throw error
         }

@@ -1,5 +1,5 @@
 interface room {
-    id: number
+    id?: number
     typeId: number
 }
 

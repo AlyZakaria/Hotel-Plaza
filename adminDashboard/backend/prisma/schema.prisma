@@ -127,4 +127,9 @@ model Offer {
   startDate  DateTime
   endDate    DateTime
   percentage Decimal
+  status offer_status
+}
+enum offer_status{
+  active
+  inactive
 }
