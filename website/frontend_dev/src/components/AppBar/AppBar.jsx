@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Rating from "@mui/material/Rating";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 const pages = ["Availability", "About", "Contact", "Policies"];
 
@@ -34,6 +34,7 @@ function ResponsiveAppBar() {
             @import
             url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap')
           </style>
+
           <Typography
             variant="h6"
             component="a"
@@ -44,7 +45,9 @@ function ResponsiveAppBar() {
               fontSize: 25,
             }}
           >
-            Plaza Hotel
+            <Link href="/" sx={{ textDecoration: "none", color: "White" }}>
+              Plaza Hotel
+            </Link>
           </Typography>
           <Rating
             name="rating"
@@ -119,7 +122,13 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontFamily: "'Roboto Condensed', sans-serif",
+                  fontWeight: "bold",
+                }}
               >
                 {page}
               </Button>
@@ -133,12 +142,17 @@ function ResponsiveAppBar() {
             }}
           >
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/login">
+              <Link href="/login">
                 <Typography
                   textAlign="center"
-                  sx={{ color: "white", textDecoration: "none" }}
+                  sx={{
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    textDecoration: "none",
+                  }}
                 >
-                  Login
+                  Sign In
                 </Typography>
               </Link>
             </MenuItem>
@@ -150,17 +164,22 @@ function ResponsiveAppBar() {
             }}
           >
             <MenuItem onClick={handleCloseNavMenu}>
-              <Link to="/signup">
+              <Link href="/signup">
                 <Typography
                   textAlign="center"
-                  sx={{ color: "white", textDecoration: "none" }}
+                  sx={{
+                    color: "red",
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    textDecoration: "none",
+                  }}
                 >
                   Sign up
                 </Typography>
               </Link>
             </MenuItem>
           </Box>
-          <Link to="/login">
+          <Link href="/login">
             <LoginIcon
               sx={{
                 color: "white",

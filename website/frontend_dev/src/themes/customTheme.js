@@ -1,31 +1,22 @@
 import { createTheme } from "@mui/material/styles";
 
 const customTheme = createTheme({
-  //   palette: {
-  //     background: {
-  //       paper: "#DDDCD9",
-  //       mode: "dark",
-  //       default: "#fff",
-  //     },
-  //     primary: {
-  //       main: "#594730",
-  //     },
-  //     secondary: {
-  //       main: "#a38444",
-  //     },
-  //   },
   typography: {
-    fontFamily: "Helvetica",
-    fontSize: 13,
+    fontFamily: "'Roboto Condensed', sans-serif",
+    fontSize: 15,
     h5: {
-      fontWeight: 400,
+      fontWeight: "bold",
       color: "#FFFFFF",
-      fontFamily: "Black Ops One",
+      fontFamily: "'Roboto Condensed', sans-serif",
       backgroundColor: "#594730",
       padding: "10px",
     },
     p: {
       color: "#061023",
+    },
+    button: {
+      fontWeight: "bold",
+      fontFamily: "'Roboto condensed', sans-serif",
     },
   },
 });

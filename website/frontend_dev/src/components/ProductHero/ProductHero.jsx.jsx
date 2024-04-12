@@ -23,7 +23,7 @@ export default function ProductHero() {
           alt="increase priority"
         />
         <Typography color="inherit" align="center" variant="h2" marked="center">
-          Book Your Room Now
+          BOOK YOUR ROOM NOW
         </Typography>
       </Layout>
     </div>

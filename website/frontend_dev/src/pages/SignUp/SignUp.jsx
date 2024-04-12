@@ -1,6 +1,7 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
+import Button from "../../components/Button/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
@@ -15,6 +16,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import AppBar from "../../components/AppBar/AppBar";
 
 function Copyright(props) {
   return (
@@ -60,8 +62,8 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <AppBar></AppBar>
       <Container component="main" maxWidth="xs" sx={{ paddingBottom: 10 }}>
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,

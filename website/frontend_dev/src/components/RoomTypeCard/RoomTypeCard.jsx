@@ -8,7 +8,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 
 export default function MultiActionAreaCard() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, padding: "0 5%" }}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -26,7 +26,13 @@ export default function MultiActionAreaCard() {
           <Button
             size="small"
             color="primary"
-            sx={{ bgcolor: "#4681f4", color: "white", padding: "5px 10px" }}
+            sx={{
+              bgcolor: "transparent",
+              color: "Black",
+              padding: "5px 10px",
+              border: "0.1px solid black ",
+              borderRadius: "0px",
+            }}
           >
             Book Now
           </Button>
