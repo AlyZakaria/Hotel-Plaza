@@ -11,7 +11,7 @@ class OfferController extends Controller {
         this.repository = new OfferRepository()
         this.addOffer = this.addOffer.bind(this)
     }
-    // mohamedzakariaali@gmail.com
+
     // add new Offer
     async addOffer(req: Request, res: Response, next: NextFunction) {
         try {
@@ -27,6 +27,7 @@ class OfferController extends Controller {
             await sendEmail(email)
             res.status(200).send(offerCreated)
         } catch (error: any) {
+            console.log(error)
             res.status(409).send(`Error creating offer`)
         }
     }

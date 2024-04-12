@@ -1,6 +1,5 @@
 import Repository from './repository'
 import offer from '../interfaces/offer'
-
 class OfferRepository extends Repository {
     constructor() {
         super()
