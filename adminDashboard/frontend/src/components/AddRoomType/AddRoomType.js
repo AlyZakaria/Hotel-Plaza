@@ -8,6 +8,8 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import InputFileUpload from "@components/UploadFile/UploadFile";
+
 import {
   GridRowModes,
   DataGrid,
@@ -234,27 +236,9 @@ export default function AddRoomType() {
       field: "Upload Image",
       type: "upload image",
       headerName: "Upload Image",
-      width: 100,
+      width: 150,
       cellClassName: "upload image",
-
-      getUpload: ({ id }) => {
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
-      },
-
+      renderCell: () => <InputFileUpload />,
       // editable: true,
     },
   ];

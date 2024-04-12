@@ -65,41 +65,46 @@ describe(`rooms and rooms types testing`, () => {
             room = response.body
         })
     })
-    // add image and assign it to right room type
-    test(`add image and assign it to right room type`, async () => {
-        let response = await request(app).get('/images/im1.jpeg')
+    describe(`Testing Image`, () => {
+        // add image and assign it to right room type
+        test(`add an image and assign it to right room type`, async () => {
+            let response = await request(app).get('/images/im1.jpeg')
 
-        let base64 =
-            `data:image/jpeg;base64,` +
-            Buffer.from(response.body).toString('base64')
+            let base64 =
+                `data:image/jpeg;base64,` +
+                Buffer.from(response.body).toString('base64')
 
-        let images = [
-            {
-                data_url: base64,
-            },
-        ]
-        const response2 = await addImage(images, room_type['id'])
+            let images = [
+                {
+                    data_url: base64,
+                },
+            ]
+            const response2 = await addImage(images, room_type['id'])
 
-        expect(response2.text).toBe(`Images added successfully`)
-        expect(response2.status).toBe(200)
-    })
-    // add image and assign it to right room type
-    test(`add image and assign it to right room type`, async () => {
-        let response = await request(app).get('/images/im1.jpeg')
+            expect(response2.text).toBe(`Images added successfully`)
+            expect(response2.status).toBe(200)
+        })
+        // add image and assign it to right room type
+        test(`add an Simage and assign it to right room type`, async () => {
+            let response = await request(app).get('/images/im1.jpeg')
 
-        let base64 =
-            `data:image/jpeg;base64,` +
-            Buffer.from(response.body).toString('base64')
+            let base64 =
+                `data:image/jpeg;base64,` +
+                Buffer.from(response.body).toString('base64')
 
-        let images = [
-            {
-                data_url: base64,
-            },
-        ]
-        const response2 = await addImage(images, Number(room_type['id']) + 1)
+            let images = [
+                {
+                    data_url: base64,
+                },
+            ]
+            const response2 = await addImage(
+                images,
+                Number(room_type['id']) + 1
+            )
 
-        expect(response2.text).toBe(`Can't add these images`)
-        expect(response2.status).toBe(409)
+            expect(response2.text).toBe(`Can't add these images`)
+            expect(response2.status).toBe(409)
+        })
     })
 })
 
