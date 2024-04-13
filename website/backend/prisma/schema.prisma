@@ -107,7 +107,7 @@ model ImageURL {
   id        Int         @id @default(autoincrement())
   blob      Bytes
   type      String?
-  roomTypes TypeImage[]
+  roomTypes TypeImage[] 
 
 }
 

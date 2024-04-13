@@ -1,5 +1,6 @@
 {
   "SignUp": "/api/register",
   "login": "/api/login",
-  "reset": "/api/reset-password"
+  "reset": "/api/reset-password",
+  "getRoomTypes": "/api/room-types"
 }

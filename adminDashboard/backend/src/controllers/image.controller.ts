@@ -17,9 +17,11 @@ class ImageController extends Controller {
             let images: any = req.body
             let byteArrays: any = []
             let mimetypes: any = []
+            console.log(images[0].data_url)
 
             for (let i = 0; i < images.length; i++) {
                 // console.log(images[i].data_url)
+
                 let { byteArray, mimetype } = base64toBlob(images[i].data_url)
                 byteArrays.push(byteArray)
                 mimetypes.push(mimetype)

@@ -18,9 +18,8 @@ const makeEmail = (offer: offer, roomType: roomType, customers: customer[]) => {
             (customer) => `
           Dear ${capitalize(customer.fname)},
 
-            Experience luxury like never before! For a limited time, we're thrilled to offer you an exclusive **${offer.percentage} discount**
+            Experience luxury like never before! For a limited time, we're thrilled to offer you an exclusive **${offer.percentage}% discount**
             on our ${roomType.name} Rooms at Hotel Plaza.
-
             Whether you're planning a romantic getaway, a family vacation, or a solo adventure,
             Hotel Plaza promises an unforgettable stay.
 
