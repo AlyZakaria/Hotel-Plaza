@@ -20,6 +20,7 @@ class CustomerController extends Controller {
         this.register = this.register.bind(this)
         this.login = this.login.bind(this)
         this.resetPassword = this.resetPassword.bind(this)
+        this.verifyOtp = this.verifyOtp.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -88,9 +89,23 @@ class CustomerController extends Controller {
             // send otp to the email
             const sendableEmail = makeEmail(otpData)
             await sendEmail(sendableEmail)
-            res.status(200).send(`Email found`)
+            res.status(200).send(`OTP sent`)
         } catch (error: unknown) {
             res.status(404).send(`Email not found`)
+        }
+    }
+    // verify otp
+    async verifyOtp(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, otp } = req.body
+            const verified = await this.repository.verifyOTP(email, Number(otp))
+            console.log(verified)
+            if (!verified) throw new Error()
+
+            res.status(200).send(`correct OTP`)
+        } catch (error: unknown) {
+            console.log(error)
+            res.status(401).send(`Wrong OTP`)
         }
     }
 }

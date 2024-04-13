@@ -5,7 +5,7 @@ const makeEmail = (optData: any) => {
         from: 'alizakariya45@gmail.com',
         to: [optData.email],
         subject: ['Your OTP for Hotel Plaza'],
-        text: [`Your OTP is ${optData.otp}`],
+        text: [`Your verification code is: ${optData.otp}`],
     }
     return email
 }

@@ -66,7 +66,25 @@ class CustomerRepository extends Repository {
     }
 
     // verifyOTP
+    async verifyOTP(email: string, otp: number): Promise<boolean | never> {
+        try {
+            const verify = await this._model.findFirst({
+                select: {
+                    email: true,
+                    otp: true,
+                },
+            })
+            console.log(verify)
 
+            console.log(verify.email == email)
+            console.log(verify.otp.otp == otp)
+            if (verify.email == email && verify.otp.otp == otp) return true
+
+            return false
+        } catch (error: unknown) {
+            throw error
+        }
+    }
     async deleteAll() {
         try {
             const customer = this._model.deleteMany()

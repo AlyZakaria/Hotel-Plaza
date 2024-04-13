@@ -9,5 +9,6 @@ const customerController = new CustomerController()
 customerRoute.post('/login', customerController.login)
 customerRoute.post('/register', checkEmail, customerController.register)
 customerRoute.post('/reset-password', customerController.resetPassword)
+customerRoute.post('/verify-otp', customerController.verifyOtp)
 
 export default customerRoute

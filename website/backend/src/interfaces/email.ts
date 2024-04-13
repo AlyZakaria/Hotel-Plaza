@@ -2,7 +2,8 @@ interface email {
     from: string
     to: string[]
     subject: string[]
-    text: string[]
+    text?: string[]
+    html?: any
 }
 
 export default email
