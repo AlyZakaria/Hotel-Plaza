@@ -1,0 +1,5 @@
+{
+  "SignUp": "/api/register",
+  "login": "/api/login",
+  "reset": "/api/reset-password"
+}

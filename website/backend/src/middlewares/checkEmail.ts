@@ -5,7 +5,8 @@ const customerRepository = new CustomerRepository()
 async function checkEmail(req: Request, res: Response, next: NextFunction) {
     try {
         const email = req.body.email
-        if (!email) res.status(409).end(`Can't register`)
+        if (!email) throw new Error()
+        // res.status(409).end(`Can't register`)
         const emailExist = await customerRepository.checkEmail(req.body.email)
         if (!emailExist) next()
         else res.status(409).end(`Email already exist`)

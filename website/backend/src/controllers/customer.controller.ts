@@ -16,6 +16,7 @@ class CustomerController extends Controller {
         this.repository = new CustomerRepository()
         this.register = this.register.bind(this)
         this.login = this.login.bind(this)
+        this.resetPassword = this.resetPassword.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -45,6 +46,7 @@ class CustomerController extends Controller {
     // signup
     async register(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.body)
             const password = req.body.password
             const hash = bcrypt.hashSync(password + pepper, Number(saltRounds))
             delete req.body['password']
@@ -58,6 +60,20 @@ class CustomerController extends Controller {
             res.status(200).send(customer)
         } catch (error: unknown) {
             res.status(201).send(`It can't be created, please try again..`)
+        }
+    }
+
+    // reset password
+
+    async resetPassword(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email } = req.body
+            const customerExist = await this.repository.checkEmail(email)
+            if (!customerExist) throw new Error(`Email not found`)
+            console.log(customerExist.id)
+            res.status(200).send(`Email found`)
+        } catch (error: unknown) {
+            res.status(404).send(`Email not found`)
         }
     }
 }

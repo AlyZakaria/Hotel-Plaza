@@ -35,14 +35,14 @@ class CustomerRepository extends Repository {
         }
     }
     //check Email exists
-    async checkEmail(email: string): Promise<boolean | never> {
+    async checkEmail(email: string): Promise<any | never> {
         try {
             const customer = await this._model.findFirst({
                 where: {
                     email: email,
                 },
             })
-            if (customer) return true
+            if (customer) return customer
 
             return false
         } catch (error) {

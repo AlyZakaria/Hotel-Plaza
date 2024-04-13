@@ -26,6 +26,7 @@ model Customer {
   address   String
   zip       String
   reservation    Reservation[]
+  otp otp?
   @@map("customers")
 }
 model Reservation {
@@ -132,4 +133,12 @@ model Offer {
 enum offer_status{
   active
   inactive
+}
+
+model otp {
+  id Int @id @default(autoincrement())
+  otp Int? 
+  customer Customer @relation(fields: [userId], references: [id])
+  userId   Int @unique
+  @@unique([otp,userId])
 }

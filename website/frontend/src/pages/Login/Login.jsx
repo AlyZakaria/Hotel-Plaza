@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import useLogin from "../../hooks/useLogin";
 
 function Copyright(props) {
   return (
@@ -36,14 +37,21 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+//User data
+let user = {};
+
 export default function SignInSide() {
+  const [submit, setSubmit] = React.useState(false);
+  useLogin(user, submit, setSubmit); // hook called
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    user = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    setSubmit(true);
   };
 
   return (
