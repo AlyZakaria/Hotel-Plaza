@@ -1,7 +1,7 @@
 {
   "SignUp": "/api/register",
   "login": "/api/login",
-  "reset": "/api/reset-password",
+  "forgetPassword": "/api/forget-password",
   "getRoomTypes": "/api/room-types",
-  "otp": "/api/otp"
+  "otp": "/api/verify-otp"
 }

@@ -4,9 +4,9 @@ import URLs from "../Apis/URLS.json";
 const useOTP = (otp, submit, setSubmit) => {
   const verifyOTP = async () => {
     try {
-      console.log(otp);
-      const response = await axios.post(URLs.otp, otp);
-      console.log(response.data);
+      let email = sessionStorage.getItem("emailOtp");
+      const response = await axios.post(URLs.otp, { email: email , otp: otp });
+      console.log("token => " + response.data);
     } catch (error) {
       console.error(error);
     } finally {

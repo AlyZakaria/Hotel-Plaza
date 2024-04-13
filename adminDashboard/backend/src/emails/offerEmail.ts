@@ -14,6 +14,7 @@ const makeEmail = (offer: offer, roomType: roomType, customers: customer[]) => {
         subject: customers.map(
             () => 'Exclusive Offer Just for You - Discover with Hotel Plaza'
         ),
+
         text: customers.map(
             (customer) => `
           Dear ${capitalize(customer.fname)},
@@ -21,13 +22,13 @@ const makeEmail = (offer: offer, roomType: roomType, customers: customer[]) => {
             Experience luxury like never before! For a limited time, we're thrilled to offer you an exclusive **${offer.percentage}% discount**
             on our ${roomType.name} Rooms at Hotel Plaza.
             Whether you're planning a romantic getaway, a family vacation, or a solo adventure,
-            Hotel Plaza promises an unforgettable stay. <br>
+            Hotel Plaza promises an unforgettable stay. 
 
             Picture yourself sipping cocktails by the pool, exploring local markets,
-            and indulging in world-class cuisine. <br>
+            and indulging in world-class cuisine. 
 
             **Book now** to secure your spot! Simply call our reservations team at [Phone Number].
-            Don't miss out on this incredible offer! <br>
+            Don't miss out on this incredible offer! 
             We can't wait to welcome you to Plaza Hotel. Your dream escape awaits!
           
             Warm regards,

@@ -6,10 +6,11 @@ const useForgetPassword = (email, submit, setSubmit) => {
   const navigate = useNavigate();
   const login = async () => {
     try {
-      console.log(email);
-      const response = await axios.post(URLs.reset, email);
-      console.log(response.status);
+      const response = await axios.post(URLs.forgetPassword, email);
+
       if (response.status == 200) {
+        //
+        sessionStorage.setItem("emailOtp", email.email);
         navigate("/otp");
       }
     } catch (error) {

@@ -5,6 +5,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import OTP from "../pages/OTP/OTP";
 import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import Home from "../pages/Home/Home.jsx";
+import ResetPassword from "../components/ResetPassword/ResetPassword.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,10 +32,13 @@ const router = createBrowserRouter([
     element: <Billing></Billing>,
   },
   {
-    path: "/resetpassword",
+    path: "/forgetpassword",
     element: <ForgetPassword></ForgetPassword>,
   },
-  
+  {
+    path: "/reset-password",
+    element: <ResetPassword></ResetPassword>,
+  },
 ]);
 
 export default router;

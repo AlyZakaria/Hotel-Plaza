@@ -30,7 +30,7 @@ class RoomTypeController extends Controller {
                     type: roomType.imageUrl.imageURL.type,
                 },
             }))
-            console.log(roomTypesUpdated)
+            // console.log(roomTypesUpdated)
 
             res.status(200).send(roomTypesUpdated)
         } catch (error: unknown) {

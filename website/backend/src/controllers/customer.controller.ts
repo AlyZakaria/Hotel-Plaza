@@ -21,6 +21,7 @@ class CustomerController extends Controller {
         this.login = this.login.bind(this)
         this.resetPassword = this.resetPassword.bind(this)
         this.verifyOtp = this.verifyOtp.bind(this)
+        this.forgetPassword = this.forgetPassword.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -67,8 +68,8 @@ class CustomerController extends Controller {
         }
     }
 
-    // reset password
-    async resetPassword(req: Request, res: Response, next: NextFunction) {
+    // forget password
+    async forgetPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const { email } = req.body
             const customerExist = await this.repository.checkEmail(email)
@@ -85,12 +86,16 @@ class CustomerController extends Controller {
             }
             const otpData: otpData = await this.repository.sendOTP(otpObject)
             otpData['email'] = req.body['email']
+
             console.log(otpData)
             // send otp to the email
             const sendableEmail = makeEmail(otpData)
             await sendEmail(sendableEmail)
-            res.status(200).send(`OTP sent`)
+
+
+            res.status(200).send()
         } catch (error: unknown) {
+            console.log(error)
             res.status(404).send(`Email not found`)
         }
     }
@@ -98,14 +103,39 @@ class CustomerController extends Controller {
     async verifyOtp(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, otp } = req.body
+            console.log(email, otp)
             const verified = await this.repository.verifyOTP(email, Number(otp))
             console.log(verified)
             if (!verified) throw new Error()
-
-            res.status(200).send(`correct OTP`)
+            let token = jwt.sign(
+                {
+                    email: email,
+                },
+                tokenSecret as string,
+                {
+                    expiresIn: '5m',
+                }
+            )
+            res.status(200).send(token)
         } catch (error: unknown) {
             console.log(error)
             res.status(401).send(`Wrong OTP`)
+        }
+    }
+    //reset password
+    async resetPassword(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, newPassword } = req.body
+            // hash the password
+            const hash = bcrypt.hashSync(
+                newPassword + pepper,
+                Number(saltRounds)
+            )
+            const verified = await this.repository.resetPassword(email, hash)
+            if (!verified) throw new Error()
+            res.status(200).send(`Password reset successful`)
+        } catch (error: unknown) {
+            res.status(404).send(`Email not found`)
         }
     }
 }

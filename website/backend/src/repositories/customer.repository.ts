@@ -55,6 +55,8 @@ class CustomerRepository extends Repository {
     // sendOTP
     async sendOTP(otpObject: otpData): Promise<otpData | never> {
         try {
+            // delete otp if exists
+
             const otp = await this.prisma.otp.create({
                 data: otpObject,
             })
@@ -68,19 +70,58 @@ class CustomerRepository extends Repository {
     // verifyOTP
     async verifyOTP(email: string, otp: number): Promise<boolean | never> {
         try {
+            // get the otp data from otp schema
             const verify = await this._model.findFirst({
                 select: {
+                    id: true,
                     email: true,
                     otp: true,
                 },
             })
-            console.log(verify)
+            // if not exists throw error
+            if (!verify) throw new Error()
 
-            console.log(verify.email == email)
-            console.log(verify.otp.otp == otp)
             if (verify.email == email && verify.otp.otp == otp) return true
 
             return false
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    // reset password
+    async resetPassword(
+        email: string,
+        newPassword: string
+    ): Promise<boolean | never> {
+        try {
+            const transaction = await this.prisma.$transaction(async (tx) => {
+                // check if the reset password is pending and otp status is verified
+                const verify = await this._model.findFirst({
+                    select: {
+                        id: true,
+                        email: true,
+                        otp: true,
+                    },
+                })
+                console.log(verify)
+                // make transcation to update the password where email is equal to the email and the email is not null
+
+                const customer = await tx.customer.updateMany({
+                    where: {
+                        id: verify.id,
+                        email: email,
+                    },
+                    data: {
+                        password: newPassword,
+                    },
+                })
+
+                // if not exists throw error
+                if (!customer) return false
+                return true
+            })
+            if (!transaction) throw new Error()
+            return true
         } catch (error: unknown) {
             throw error
         }
