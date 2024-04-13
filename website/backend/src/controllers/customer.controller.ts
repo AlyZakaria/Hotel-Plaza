@@ -5,6 +5,9 @@ import Controller from './Controller'
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import otpData from '../interfaces/otpData'
+import makeEmail from '../emails/otpEmail'
+import sendEmail from '../helpers/sendEmail'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -64,13 +67,27 @@ class CustomerController extends Controller {
     }
 
     // reset password
-
     async resetPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const { email } = req.body
             const customerExist = await this.repository.checkEmail(email)
             if (!customerExist) throw new Error(`Email not found`)
+            let otp = ''
+            for (let i = 0; i < 4; i++) {
+                otp += Math.floor(Math.random() * 10)
+            }
+            console.log(otp)
             console.log(customerExist.id)
+            const otpObject: otpData = {
+                otp: Number(otp),
+                userId: customerExist.id,
+            }
+            const otpData: otpData = await this.repository.sendOTP(otpObject)
+            otpData['email'] = req.body['email']
+            console.log(otpData)
+            // send otp to the email
+            const sendableEmail = makeEmail(otpData)
+            await sendEmail(sendableEmail)
             res.status(200).send(`Email found`)
         } catch (error: unknown) {
             res.status(404).send(`Email not found`)

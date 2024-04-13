@@ -1,6 +1,8 @@
 import Repository from './repository'
 import signedCustomer from '../interfaces/signedCustomer'
 import customerData from '../interfaces/customerData'
+import otpData from '../interfaces/otpData'
+import { error } from 'console'
 
 class CustomerRepository extends Repository {
     constructor() {
@@ -49,6 +51,21 @@ class CustomerRepository extends Repository {
             return false
         }
     }
+
+    // sendOTP
+    async sendOTP(otpObject: otpData): Promise<otpData | never> {
+        try {
+            const otp = await this.prisma.otp.create({
+                data: otpObject,
+            })
+            if (!otp) throw new Error()
+            return otp
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    // verifyOTP
 
     async deleteAll() {
         try {

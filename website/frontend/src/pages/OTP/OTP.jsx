@@ -1,6 +1,6 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import Button from "../../components/Button/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MuiOtpInput } from "mui-one-time-password-input";
+import useOTP from "../../hooks/useOTP";
+import AppBar from "../../components/AppBar/AppBar";
 
 function Copyright(props) {
   return (
@@ -33,15 +35,31 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+// otp
+
+let otpObject = {};
+
+export default function OTP() {
   const [otp, setOtp] = React.useState("");
+  const [submit, setSubmit] = React.useState(false);
+  useOTP(otp, submit, setSubmit); // hook called
 
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    otpObject = {
+      otp: data.get("otp"),
+    };
+    setSubmit(true);
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
+      <AppBar></AppBar>
       <Container component="main" maxWidth="xs" sx={{ paddingBottom: 10 }}>
         <CssBaseline />
         <Box
@@ -67,14 +85,21 @@ export default function SignUp() {
               <MuiOtpInput value={otp} onChange={handleChange} />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ width: "100%" }}
           >
-            Verify
-          </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Verify
+            </Button>
+          </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
