@@ -137,7 +137,7 @@ enum offer_status{
 
 model otp {
   id Int @id @default(autoincrement())
-  otp Int? 
+  otp String? 
   customer Customer @relation(fields: [userId], references: [id])
   userId   Int @unique
   @@unique([otp,userId])

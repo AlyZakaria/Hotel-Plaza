@@ -1,6 +1,6 @@
 interface otpData {
     id?: number
-    otp?: number | null
+    otp?: string | null
     userId: number
     email?: string | undefined
 }

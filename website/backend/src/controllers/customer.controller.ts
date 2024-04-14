@@ -81,7 +81,7 @@ class CustomerController extends Controller {
             console.log(otp)
             console.log(customerExist.id)
             const otpObject: otpData = {
-                otp: Number(otp),
+                otp: otp,
                 userId: customerExist.id,
             }
             const otpData: otpData = await this.repository.sendOTP(otpObject)
@@ -103,7 +103,7 @@ class CustomerController extends Controller {
         try {
             const { email, otp } = req.body
             console.log(email, otp)
-            const verified = await this.repository.verifyOTP(email, Number(otp))
+            const verified = await this.repository.verifyOTP(email, otp)
 
             let token = jwt.sign(
                 {
@@ -111,7 +111,7 @@ class CustomerController extends Controller {
                 },
                 tokenSecret as string,
                 {
-                    expiresIn: '5m',
+                    expiresIn: '1m',
                 }
             )
             res.status(200).send(token)
@@ -123,20 +123,22 @@ class CustomerController extends Controller {
     //reset password
     async resetPassword(req: Request, res: Response, next: NextFunction) {
         try {
-            const { email, oldPassword, newPassword } = req.body
+            const { token, oldPassword, newPassword } = req.body
+            console.log(token, oldPassword, newPassword)
             // hash the password
             const hash = bcrypt.hashSync(
                 newPassword + pepper,
                 Number(saltRounds)
             )
             const updatePassword = await this.repository.resetPassword(
-                email,
+                token.email,
                 oldPassword,
                 hash
             )
             if (!updatePassword) throw new Error()
             res.status(200).send(`Password reset successful`)
         } catch (error: unknown) {
+            console.log(error)
             res.status(404).send(`Email not found`)
         }
     }

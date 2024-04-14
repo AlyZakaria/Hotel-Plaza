@@ -12,8 +12,10 @@ const verifyOtpToken = (req: Request, res: Response, next: NextFunction) => {
         const token = authHeader.split(' ')[1]
         if (token && bearer === 'bearer') {
             console.log(token)
-            const decoded = verify(token, tokenSecret as unknown as string)
-            if (decoded) {
+            const decoded: any = verify(token, tokenSecret as unknown as string)
+            let dateNow = new Date()
+            if (decoded && decoded.exp < dateNow.getTime() - decoded.iat) {
+                req.body['token'] = decoded
                 console.log(decoded)
                 next()
             } else throw new Error()

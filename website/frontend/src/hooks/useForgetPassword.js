@@ -2,15 +2,15 @@ import { useEffect } from "react";
 import axios from "../Apis/axios";
 import URLs from "../Apis/URLS.json";
 import { useNavigate } from "react-router-dom";
-const useForgetPassword = (email, submit, setSubmit) => {
+const useForgetPassword = (user, submit, setSubmit) => {
   const navigate = useNavigate();
   const login = async () => {
     try {
-      const response = await axios.post(URLs.forgetPassword, email);
+      const response = await axios.post(URLs.forgetPassword, user);
 
-      if (response.status == 200) {
+      if (response.status === 200) {
         //
-        sessionStorage.setItem("emailOtp", email.email);
+        sessionStorage.setItem("emailOtp", user.email);
         navigate("/otp");
       }
     } catch (error) {

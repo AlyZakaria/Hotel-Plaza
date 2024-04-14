@@ -6,9 +6,10 @@ const useResetPassword = (passwords, submit, setSubmit) => {
   const navigate = useNavigate();
   const reset = async () => {
     try {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + sessionStorage.getItem("otpToken");
       const response = await axios.post(URLs.resetPassword, passwords);
-
-      if (response.status == 200) {
+      if (response.status === 200) {
         navigate("/");
       }
     } catch (error) {

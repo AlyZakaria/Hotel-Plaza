@@ -72,7 +72,7 @@ class CustomerRepository extends Repository {
     }
 
     // verifyOTP
-    async verifyOTP(email: string, otp: number): Promise<any | never> {
+    async verifyOTP(email: string, otp: string): Promise<any | never> {
         try {
             const transaction = await this.prisma.$transaction(async (tx) => {
                 // get the customer by email
@@ -148,6 +148,8 @@ class CustomerRepository extends Repository {
                 if (!updated) throw new Error()
                 return updated
             })
+            if (!transaction) throw new Error()
+            return transaction
         } catch (error: unknown) {
             throw error
         }
