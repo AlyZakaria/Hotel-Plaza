@@ -3,5 +3,6 @@
   "login": "/api/login",
   "forgetPassword": "/api/forget-password",
   "getRoomTypes": "/api/room-types",
-  "otp": "/api/verify-otp"
+  "otp": "/api/verify-otp",
+  "resetPassword": "/api/reset-password"
 }
