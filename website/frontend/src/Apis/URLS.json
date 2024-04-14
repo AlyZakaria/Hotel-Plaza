@@ -4,5 +4,6 @@
   "forgetPassword": "/api/forget-password",
   "getRoomTypes": "/api/room-types",
   "otp": "/api/verify-otp",
-  "resetPassword": "/api/reset-password"
+  "resetPassword": "/api/reset-password",
+  "receiveOffer": "/api/receive-offer"
 }

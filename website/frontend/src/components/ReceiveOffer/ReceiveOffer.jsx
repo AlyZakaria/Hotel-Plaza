@@ -4,20 +4,21 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 // import Typography from "../components/Typography";
 import TextField from "../TextField/TextField";
-// import Snackbar from "../components/Snackbar";
 import Button from "../Button/Button";
 import Typography from "@mui/material/Typography";
 import backgroundImage from "../../assets/productCTAImageDots.png";
+import useReceiveOffer from "../../hooks/useReceiveOffer";
+
+let email;
 function ProductCTA() {
-  const [open, setOpen] = React.useState(false);
+  const [submit, setSubmit] = React.useState(false);
+  useReceiveOffer(email, submit, setSubmit); // hook called
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+    const data = new FormData(event.currentTarget);
+    email = data.get("email");
+    setSubmit(true);
   };
 
   return (
@@ -53,6 +54,7 @@ function ProductCTA() {
               </Typography>
               <Typography variant="h5">Subscribe to our Newsletter</Typography>
               <TextField
+                name="email"
                 noBorder
                 placeholder="Your email"
                 variant="standard"
@@ -102,11 +104,6 @@ function ProductCTA() {
           />
         </Grid>
       </Grid>
-      {/* <Snackbar
-        open={open}
-        closeFunc={handleClose}
-        message="We will send you our best offers, once a week."
-      /> */}
     </Container>
   );
 }

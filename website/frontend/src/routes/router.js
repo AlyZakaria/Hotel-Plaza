@@ -6,6 +6,7 @@ import OTP from "../pages/OTP/OTP";
 import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import Home from "../pages/Home/Home.jsx";
 import ResetPassword from "../pages/ResetPassword/ResetPassword.jsx";
+import Settings from "../pages/userSettings/userSettings.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPassword></ResetPassword>,
+  },
+  {
+    path: "/settings",
+    element: <Settings></Settings>,
   },
 ]);
 
