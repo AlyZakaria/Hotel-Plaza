@@ -1,7 +1,7 @@
 interface customerData {
     id?: number
-    email: string
-    password?: string
+    email: string | null
+    password?: string | null
     fname: string
     lname: string
     phone: string
