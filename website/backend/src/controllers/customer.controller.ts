@@ -8,6 +8,8 @@ import bcrypt from 'bcrypt'
 import otpData from '../interfaces/otpData'
 import makeEmail from '../emails/otpEmail'
 import sendEmail from '../helpers/sendEmail'
+import generateOtp from '../helpers/generateOtp'
+import otpToken from '../interfaces/otpToken'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -22,6 +24,7 @@ class CustomerController extends Controller {
         this.resetPassword = this.resetPassword.bind(this)
         this.verifyOtp = this.verifyOtp.bind(this)
         this.forgetPassword = this.forgetPassword.bind(this)
+        this.receiveOffer = this.receiveOffer.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -71,23 +74,19 @@ class CustomerController extends Controller {
     // forget password
     async forgetPassword(req: Request, res: Response, next: NextFunction) {
         try {
-            const { email } = req.body
-            const customerExist = await this.repository.checkEmail(email)
-            if (!customerExist) throw new Error(`Email not found`)
-            let otp = ''
-            for (let i = 0; i < 4; i++) {
-                otp += Math.floor(Math.random() * 10)
-            }
-            console.log(otp)
-            console.log(customerExist.id)
+            const customerExist = req.body.customer
+
+            const otp = generateOtp()
+
+            // make otpObject before sending to repository
             const otpObject: otpData = {
                 otp: otp,
                 userId: customerExist.id,
             }
+            // create otp instance to the database
             const otpData: otpData = await this.repository.sendOTP(otpObject)
-            otpData['email'] = req.body['email']
+            otpData['email'] = customerExist.email
 
-            console.log(otpData)
             // send otp to the email
             const sendableEmail = makeEmail(otpData)
             await sendEmail(sendableEmail)
@@ -104,6 +103,7 @@ class CustomerController extends Controller {
             const { email, otp } = req.body
             console.log(email, otp)
             const verified = await this.repository.verifyOTP(email, otp)
+            if (!verified) throw new Error()
 
             let token = jwt.sign(
                 {
@@ -111,7 +111,7 @@ class CustomerController extends Controller {
                 },
                 tokenSecret as string,
                 {
-                    expiresIn: '1m',
+                    expiresIn: '5m',
                 }
             )
             res.status(200).send(token)
@@ -131,7 +131,7 @@ class CustomerController extends Controller {
                 Number(saltRounds)
             )
             const updatePassword = await this.repository.resetPassword(
-                token.email,
+                token,
                 oldPassword,
                 hash
             )
@@ -140,6 +140,19 @@ class CustomerController extends Controller {
         } catch (error: unknown) {
             console.log(error)
             res.status(404).send(`Email not found`)
+        }
+    }
+
+    // recieve offer
+    async receiveOffer(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, name } = req.body
+            if (!email) throw new Error(`Please enter an email`)
+            const notify = await this.repository.receiveOffer(email, name)
+            if (!notify) throw new Error()
+            res.status(200).send(`You will receive offers from now on`)
+        } catch (error: any) {
+            res.status(404).send(error.message)
         }
     }
 }

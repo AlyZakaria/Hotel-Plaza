@@ -4,6 +4,7 @@ import customerData from '../interfaces/customerData'
 import otpData from '../interfaces/otpData'
 import { error } from 'console'
 import bcrypt from 'bcrypt'
+import otpToken from '../interfaces/otpToken'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -42,30 +43,50 @@ class CustomerRepository extends Repository {
         }
     }
     //check Email exists
-    async checkEmail(email: string): Promise<any | never> {
+    async checkEmail(email: string): Promise<customerData | null | never> {
         try {
-            const customer = await this._model.findFirst({
+            const customer: customerData | null = await this._model.findFirst({
+                select: {
+                    id: true,
+                    email: true,
+                    fname: true,
+                    phone: true,
+                    country: true,
+                    address: true,
+                    zip: true,
+                },
                 where: {
                     email: email,
                 },
             })
             if (customer) return customer
 
-            return false
+            return null
         } catch (error) {
-            return false
+            return null
         }
     }
 
     // sendOTP
     async sendOTP(otpObject: otpData): Promise<otpData | never> {
         try {
-            // delete otp if exists
-            const otp = await this.prisma.otp.create({
-                data: otpObject,
+            const createOrUpdateOtp = await this.prisma.otp.upsert({
+                where: {
+                    userId: otpObject.userId
+                        ? Number(otpObject.userId)
+                        : undefined,
+                },
+                update: {
+                    otp: otpObject.otp,
+                },
+                create: {
+                    otp: otpObject.otp,
+                    userId: otpObject.userId,
+                },
             })
-            if (!otp) throw new Error()
-            return otp
+
+            if (!createOrUpdateOtp) throw new Error()
+            return createOrUpdateOtp
         } catch (error: unknown) {
             throw error
         }
@@ -112,7 +133,7 @@ class CustomerRepository extends Repository {
     }
     // reset password
     async resetPassword(
-        email: string,
+        token: otpToken,
         oldPassword: string,
         newPassword: string
     ): Promise<any | never> {
@@ -122,7 +143,7 @@ class CustomerRepository extends Repository {
                 const customer: customerData | null =
                     await tx.customer.findFirst({
                         where: {
-                            email: email,
+                            email: token.email,
                         },
                     })
                 if (!customer) throw new Error(`Customer not found`)
@@ -154,6 +175,18 @@ class CustomerRepository extends Repository {
             throw error
         }
     }
+    async receiveOffer(email: string, name: string): Promise<boolean | never> {
+        try {
+            const customer: any = await this.prisma.newsLetter.create({
+                data: { email: email, name: name },
+            })
+            if (!customer) return false
+            return true
+        } catch (error: any) {
+            throw new Error(`You already subscribed..`)
+        }
+    }
+
     async deleteAll() {
         try {
             const customer = this._model.deleteMany()

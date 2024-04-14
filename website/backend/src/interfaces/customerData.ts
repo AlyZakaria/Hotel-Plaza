@@ -3,7 +3,7 @@ interface customerData {
     email: string | null
     password?: string | null
     fname: string
-    lname: string
+    lname?: string
     phone: string
     country: string
     address: string
