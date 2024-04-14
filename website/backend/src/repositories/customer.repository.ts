@@ -3,6 +3,11 @@ import signedCustomer from '../interfaces/signedCustomer'
 import customerData from '../interfaces/customerData'
 import otpData from '../interfaces/otpData'
 import { error } from 'console'
+import bcrypt from 'bcrypt'
+
+const saltRounds = process.env.SALT_ROUNDS
+const pepper = process.env.BCRYPT_PASSWORD
+const tokenSecret = process.env.TOKEN
 
 class CustomerRepository extends Repository {
     constructor() {
@@ -56,7 +61,6 @@ class CustomerRepository extends Repository {
     async sendOTP(otpObject: otpData): Promise<otpData | never> {
         try {
             // delete otp if exists
-
             const otp = await this.prisma.otp.create({
                 data: otpObject,
             })
@@ -68,22 +72,40 @@ class CustomerRepository extends Repository {
     }
 
     // verifyOTP
-    async verifyOTP(email: string, otp: number): Promise<boolean | never> {
+    async verifyOTP(email: string, otp: number): Promise<any | never> {
         try {
-            // get the otp data from otp schema
-            const verify = await this._model.findFirst({
-                select: {
-                    id: true,
-                    email: true,
-                    otp: true,
-                },
+            const transaction = await this.prisma.$transaction(async (tx) => {
+                // get the customer by email
+                const customer = await tx.customer.findFirst({
+                    select: {
+                        id: true,
+                        email: true,
+                    },
+                    where: {
+                        email: email,
+                    },
+                })
+                if (!customer) throw new Error(`Customer not found`)
+
+                // get the otp data from otp schema
+                const verify = await tx.otp.findFirst({
+                    select: {
+                        id: true,
+                        otp: true,
+                        userId: true,
+                    },
+                    where: {
+                        userId: customer.id,
+                        otp: otp,
+                    },
+                })
+                if (!verify) throw new Error()
+
+                return verify
             })
-            // if not exists throw error
-            if (!verify) throw new Error()
 
-            if (verify.email == email && verify.otp.otp == otp) return true
-
-            return false
+            if (!transaction) throw new Error()
+            return transaction
         } catch (error: unknown) {
             throw error
         }
@@ -91,37 +113,41 @@ class CustomerRepository extends Repository {
     // reset password
     async resetPassword(
         email: string,
+        oldPassword: string,
         newPassword: string
-    ): Promise<boolean | never> {
+    ): Promise<any | never> {
         try {
             const transaction = await this.prisma.$transaction(async (tx) => {
-                // check if the reset password is pending and otp status is verified
-                const verify = await this._model.findFirst({
-                    select: {
-                        id: true,
-                        email: true,
-                        otp: true,
-                    },
-                })
-                console.log(verify)
-                // make transcation to update the password where email is equal to the email and the email is not null
+                // compare the password
+                const customer: customerData | null =
+                    await tx.customer.findFirst({
+                        where: {
+                            email: email,
+                        },
+                    })
+                if (!customer) throw new Error(`Customer not found`)
+                if (
+                    !bcrypt.compareSync(
+                        oldPassword + pepper,
+                        customer.password as string
+                    )
+                ) {
+                    throw new Error(`Wrong password`)
+                }
 
-                const customer = await tx.customer.updateMany({
+                // update the password
+                const updated = await tx.customer.update({
                     where: {
-                        id: verify.id,
-                        email: email,
+                        id: customer.id,
+                        email: customer.email,
                     },
                     data: {
                         password: newPassword,
                     },
                 })
-
-                // if not exists throw error
-                if (!customer) return false
-                return true
+                if (!updated) throw new Error()
+                return updated
             })
-            if (!transaction) throw new Error()
-            return true
         } catch (error: unknown) {
             throw error
         }

@@ -21,4 +21,5 @@ const verifyOtpToken = (req: Request, res: Response, next: NextFunction) => {
     } else throw new Error()
 }
 
+// body => {old, new}  => {email, old, new}
 export default verifyOtpToken
