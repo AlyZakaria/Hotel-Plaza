@@ -16,8 +16,8 @@ const makeEmail = (offer: offer, roomType: roomType, customers: customer[]) => {
         ),
 
         text: customers.map(
-            (customer) => `
-          Dear ${capitalize(customer.fname)},
+            (customer: any) => `
+          Dear ${capitalize(customer.name)},
 
             Experience luxury like never before! For a limited time, we're thrilled to offer you an exclusive **${offer.percentage}% discount**
             on our ${roomType.name} Rooms at Hotel Plaza.

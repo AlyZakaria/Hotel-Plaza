@@ -26,8 +26,11 @@ model Customer {
   address   String
   zip       String
   reservation    Reservation[]
+  otp otp?
   @@map("customers")
 }
+
+
 model Reservation {
   id          Int        @id @default(autoincrement())
   customerId  Int
@@ -106,7 +109,7 @@ model ImageURL {
   id        Int         @id @default(autoincrement())
   blob      Bytes
   type      String?
-  roomTypes TypeImage[]
+  roomTypes TypeImage[] 
 
 }
 
@@ -132,4 +135,19 @@ model Offer {
 enum offer_status{
   active
   inactive
+}
+
+model otp {
+  id Int @id @default(autoincrement())
+  otp String? 
+  customer Customer @relation(fields: [userId], references: [id])
+  userId   Int @unique
+  @@unique([otp,userId])
+}
+
+
+model newsLetter {
+  email String @id 
+  name String
+
 }

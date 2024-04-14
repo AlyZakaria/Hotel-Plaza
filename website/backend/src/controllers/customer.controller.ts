@@ -22,6 +22,7 @@ class CustomerController extends Controller {
         this.resetPassword = this.resetPassword.bind(this)
         this.verifyOtp = this.verifyOtp.bind(this)
         this.forgetPassword = this.forgetPassword.bind(this)
+        this.receiveOffer = this.receiveOffer.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -140,6 +141,19 @@ class CustomerController extends Controller {
         } catch (error: unknown) {
             console.log(error)
             res.status(404).send(`Email not found`)
+        }
+    }
+
+    // recieve offer
+    async receiveOffer(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, name } = req.body
+            if (!email) throw new Error(`Please enter an email`)
+            const notify = await this.repository.receiveOffer(email,name)
+            if (!notify) throw new Error()
+            res.status(200).send(`You will receive offers from now on`)
+        } catch (error: any) {
+            res.status(404).send(error.message)
         }
     }
 }

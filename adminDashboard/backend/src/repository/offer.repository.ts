@@ -20,16 +20,14 @@ class OfferRepository extends Repository {
                         id: offer.typeId,
                     },
                 })
-                customers = await tx.customer.findMany({
-                    where: {
-                        email: { not: null },
-                    },
-                })
+                customers = await tx.newsLetter.findMany()
+                console.log(customers)
                 return { offerCreated, roomType, customers }
             })
             if (!transaction) throw new Error(`Can't create offer`)
             return transaction
         } catch (error: unknown) {
+            console.log(error)
             throw error
         }
     }

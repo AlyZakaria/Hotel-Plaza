@@ -10,6 +10,11 @@ customerRoute.post('/login', customerController.login)
 customerRoute.post('/register', checkEmail, customerController.register)
 customerRoute.post('/forget-password', customerController.forgetPassword)
 customerRoute.post('/verify-otp', customerController.verifyOtp)
-customerRoute.post('/reset-password', verifyOtpToken ,customerController.resetPassword)
+customerRoute.post(
+    '/reset-password',
+    verifyOtpToken,
+    customerController.resetPassword
+)
+customerRoute.post('/receive-offer', customerController.receiveOffer)
 
 export default customerRoute

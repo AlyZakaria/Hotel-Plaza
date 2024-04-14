@@ -4,7 +4,6 @@ import customerData from '../interfaces/customerData'
 import otpData from '../interfaces/otpData'
 import { error } from 'console'
 import bcrypt from 'bcrypt'
-
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
 const tokenSecret = process.env.TOKEN
@@ -154,6 +153,18 @@ class CustomerRepository extends Repository {
             throw error
         }
     }
+    async receiveOffer(email: string, name: string): Promise<boolean | never> {
+        try {
+            const customer: any = await this.prisma.newsLetter.create({
+                data: { email: email, name: name},
+            })
+                if (!customer) return false
+            return true
+        } catch (error: any) {
+            throw new Error(`You already subscribed..`)
+        }
+    }
+
     async deleteAll() {
         try {
             const customer = this._model.deleteMany()
