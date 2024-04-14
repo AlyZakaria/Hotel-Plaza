@@ -2,6 +2,7 @@ import express from 'express'
 import customerRoute from './routes/customer.routes'
 import cron from 'node-cron'
 import offerUpdateSchedule from './scheduled-events/offerUpdate'
+import otpTokenDelete from './scheduled-events/otpTokenDelete'
 import cors from 'cors'
 import roomTypesRoute from './routes/roomTypes.routes'
 
@@ -12,6 +13,10 @@ app.use(cors())
 const port = 4000
 
 // cron.schedule('*/1 * * * *', offerUpdateSchedule)
+
+// will check every 6 hours if the otp token is expired
+cron.schedule('0 */6 * * *', otpTokenDelete)
+
 app.use('/api/', customerRoute)
 app.use('/api/', roomTypesRoute)
 

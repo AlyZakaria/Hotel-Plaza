@@ -140,6 +140,7 @@ enum offer_status{
 model otp {
   id Int @id @default(autoincrement())
   otp String? 
+  createdAt  DateTime @default(now()) @map("created_at")
   customer Customer @relation(fields: [userId], references: [id])
   userId   Int @unique
   @@unique([otp,userId])
