@@ -1,5 +1,6 @@
 interface offer {
     id?: number
+    name: string
     typeId: number
     startDate: Date
     endDate: Date

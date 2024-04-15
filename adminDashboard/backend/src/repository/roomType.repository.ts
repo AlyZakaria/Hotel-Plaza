@@ -23,6 +23,7 @@ class RoomTypeRepository extends Repository {
             if (!roomTypeCreated) throw new Error(`Room Type can't be created`)
             return roomTypeCreated
         } catch (error: unknown) {
+            console.log(error)
             throw error
         }
     }

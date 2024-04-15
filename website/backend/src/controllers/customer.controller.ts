@@ -123,8 +123,7 @@ class CustomerController extends Controller {
     //reset password
     async resetPassword(req: Request, res: Response, next: NextFunction) {
         try {
-            const { token, oldPassword, newPassword } = req.body
-            console.log(token, oldPassword, newPassword)
+            const { token, newPassword } = req.body
             // hash the password
             const hash = bcrypt.hashSync(
                 newPassword + pepper,
@@ -132,7 +131,6 @@ class CustomerController extends Controller {
             )
             const updatePassword = await this.repository.resetPassword(
                 token,
-                oldPassword,
                 hash
             )
             if (!updatePassword) throw new Error()

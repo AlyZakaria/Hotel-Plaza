@@ -1,5 +1,6 @@
 import { blob } from 'stream/consumers'
 import Repository from './repository'
+import { View } from '@prisma/client'
 
 class RoomTypeRepository extends Repository {
     constructor() {
@@ -29,9 +30,49 @@ class RoomTypeRepository extends Repository {
             if (!roomTypes.length) throw new Error(`No room types found`)
             return roomTypes
         } catch (error: unknown) {
-            console.log(error)
             throw error
         }
+    }
+    async getRoomType(id: number): Promise<any | never> {
+        // Get the room type by id
+        try {
+            const roomType = await this._model.findUnique({
+                where: {
+                    id: id,
+                },
+                select: {
+                    id: true,
+                    capacity: true,
+                    view: true,
+                    name: true,
+                    description: true,
+                    imageURLs: {
+                        select: {
+                            imageId: true,
+                            imageURL: {
+                                select: {
+                                    id: true,
+                                    blob: true,
+                                    type: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            })
+
+            if (!roomType) throw new Error(`No room type found`)
+            return roomType
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async checkAvailability(
+        checkIn: any,
+        checkOut: any,
+        capacity: number
+    ): Promise<any | never> {
+        // Check the availability of the room
     }
 }
 

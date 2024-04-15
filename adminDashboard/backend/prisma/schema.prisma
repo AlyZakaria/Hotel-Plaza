@@ -97,7 +97,7 @@ model RoomType {
   pricepernight Decimal
   capacity      Int
   view          View
-  name          String      @db.VarChar(6)
+  name          String     
   description   String?
   room          Room[]
   imageURLs     TypeImage[]
@@ -125,6 +125,7 @@ model TypeImage {
 
 model Offer {
   id         Int      @id @default(autoincrement())
+  name       String 
   roomType   RoomType @relation(fields: [typeId], references: [id])
   typeId     Int
   startDate  DateTime

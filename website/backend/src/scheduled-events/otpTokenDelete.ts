@@ -8,6 +8,10 @@ async function otpTokenDeleteSchedule() {
         const transaction = await prisma.$transaction(async (tx) => {
             const otps = await tx.otp.findMany()
             console.log(otps)
+            if (!otps.length) {
+                console.log('No OTPs found')
+                return
+            }
 
             // check the diffence between the current date and the createdAt date
             // if the difference is greater than 1 hr then delete the otp token
