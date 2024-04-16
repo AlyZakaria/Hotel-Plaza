@@ -42,7 +42,7 @@ function ResponsiveAppBar() {
               mr: 2,
               display: { xs: "none", md: "flex" },
               fontFamily: "Dancing Script",
-              fontSize: 25,
+              fontSize: { xs: 20, md: 30 },
             }}
           >
             <Link href="/" sx={{ textDecoration: "none", color: "White" }}>

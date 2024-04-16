@@ -51,7 +51,6 @@ export default function ResetPassword() {
       return;
     }
     passwords = {
-      oldPassword: data.get("old-password"),
       newPassword: data.get("new-password"),
     };
     console.log(passwords);

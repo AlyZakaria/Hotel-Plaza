@@ -7,6 +7,7 @@ import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import Home from "../pages/Home/Home.jsx";
 import ResetPassword from "../pages/ResetPassword/ResetPassword.jsx";
 import Settings from "../pages/userSettings/userSettings.jsx";
+import RoomView from "../pages/RoomView/RoomView.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <Settings></Settings>,
+  },
+  {
+    path: "/room-details",
+    element: <RoomView></RoomView>,
   },
 ]);
 
