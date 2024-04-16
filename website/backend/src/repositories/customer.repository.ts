@@ -134,7 +134,6 @@ class CustomerRepository extends Repository {
     // reset password
     async resetPassword(
         token: otpToken,
-        oldPassword: string,
         newPassword: string
     ): Promise<any | never> {
         try {
@@ -147,20 +146,12 @@ class CustomerRepository extends Repository {
                         },
                     })
                 if (!customer) throw new Error(`Customer not found`)
-                if (
-                    !bcrypt.compareSync(
-                        oldPassword + pepper,
-                        customer.password as string
-                    )
-                ) {
-                    throw new Error(`Wrong password`)
-                }
 
                 // update the password
                 const updated = await tx.customer.update({
                     where: {
                         id: customer.id,
-                        email: customer.email,
+                        email: customer.email,  
                     },
                     data: {
                         password: newPassword,
