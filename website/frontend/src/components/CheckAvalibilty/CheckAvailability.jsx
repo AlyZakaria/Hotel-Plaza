@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid";
 import { DateContext } from "../../contexts/Date";
+import ErrorIcon from "@mui/icons-material/Error";
 import "./styles.css";
 
 const CheckAvailability = () => {
@@ -20,11 +21,21 @@ const CheckAvailability = () => {
 
   useEffect(() => {
     if (date.checkOut <= date.checkIn) {
-      toast("Check-out date must be after check-in date");
       setDate({ ...{ date, checkOut: date.checkIn.add(1, "day") } });
+      toast("Check-out date must be after check-in date", {
+        icon: <ErrorIcon sx={{ color: "yellow" }} />,
+        theme: "light",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
     } else if (date.checkIn >= date.checkOut) {
-      toast("Check-In date must be before check-in date");
       setDate({ ...{ date, checkIn: date.checkOut.subtract(1, "day") } });
+      toast("Check-In date must be before check-in date", {
+        icon: <ErrorIcon sx={{ color: "yellow" }} />,
+        theme: "light",
+        autoClose: 2000,
+        progress: undefined,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date.checkOut, date.checkIn]);

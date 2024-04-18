@@ -37,8 +37,6 @@ const defaultTheme = createTheme();
 let user = {};
 
 export default function ForgetPassword() {
-  const [state, setState] = React.useState(false);
-  const [error, setError] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
 
   useForgetPassword(user, submit, setSubmit);
@@ -69,7 +67,7 @@ export default function ForgetPassword() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Reset Password
           </Typography>
           <Box
             component="form"
@@ -95,7 +93,7 @@ export default function ForgetPassword() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Reset
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

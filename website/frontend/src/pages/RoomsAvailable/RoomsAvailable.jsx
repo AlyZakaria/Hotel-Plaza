@@ -9,7 +9,6 @@ import { Box } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Button from "@mui/material/Button";
 import { DateContext } from "../../contexts/Date.js";
-import "./styles.css";
 
 const RoomsAvailable = () => {
   let { date } = useContext(DateContext);
@@ -27,7 +26,7 @@ const RoomsAvailable = () => {
     <div>
       <ProductHero></ProductHero>
       <CheckAvailability></CheckAvailability>
-      <Container className="RoomsAvailable" sx={{ marginTop: "100px" }}>
+      <Container sx={{ marginTop: "100px" }}>
         <Grid
           container
           sx={{
@@ -97,7 +96,6 @@ const RoomsAvailable = () => {
                     sx={{
                       textAlign: "left",
                       padding: "20px",
-                      // fontWeight: "bold",
                       fontFamily: "sans-serif",
                     }}
                   >

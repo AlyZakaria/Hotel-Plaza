@@ -1,0 +1,21 @@
+import React from "react";
+import Grid from "@mui/material/Grid";
+
+const RoomDetailsImageView = () => {
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <img
+          src="https://www.gentinghotel.co.uk/_next/image?url=https%3A%2F%2Fs3.eu-west-2.amazonaws.com%2Fstaticgh.gentinghotel.co.uk%2Fuploads%2Fcarousel%2FGenting-Hotel-42.jpg&w=3840&q=75"
+          alt="Room"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        />
+      </Grid>
+    </Grid>
+  );
+};
+
+export default RoomDetailsImageView;

@@ -5,14 +5,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import useOTP from "../../hooks/useOTP";
 import AppBar from "../../components/AppBar/AppBar";
-
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 function Copyright(props) {
   return (
     <Typography
@@ -36,7 +35,6 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 // otp
-
 let otpObject = {};
 
 export default function OTP() {
@@ -71,7 +69,7 @@ export default function OTP() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-            <LockOutlinedIcon />
+            <MarkEmailReadIcon />
           </Avatar>
           <Typography
             component="h1"

@@ -12,3 +12,7 @@
 .checkAvailability > *{
     z-index: 3;
 }
+
+.Toastify__progress-bar {
+    background-color: red; /* Set your desired color */
+}
