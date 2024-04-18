@@ -9,7 +9,7 @@ const user: customerData = {
     password: '000',
     fname: 'aly',
     lname: 'zakaria',
-    phone: '01154567214',
+    phone: '02524520',
     country: 'Egypt',
     address: 'Ibrahimia',
     zip: '2125',

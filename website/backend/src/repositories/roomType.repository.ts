@@ -13,6 +13,10 @@ class RoomTypeRepository extends Repository {
                 select: {
                     id: true,
                     name: true,
+                    view: true,
+                    description: true,
+                    capacity: true,
+                    pricepernight: true,
                     imageURLs: {
                         select: {
                             imageId: true,
@@ -46,6 +50,7 @@ class RoomTypeRepository extends Repository {
                     view: true,
                     name: true,
                     description: true,
+                    pricepernight: true,
                     imageURLs: {
                         select: {
                             imageId: true,
@@ -72,7 +77,67 @@ class RoomTypeRepository extends Repository {
         checkOut: any,
         capacity: number
     ): Promise<any | never> {
-        // Check the availability of the room
+        try {
+            // Check the availability of the room
+            const roomTypesAvailable = await this.prisma.reservation.findMany({
+                select: {
+                    id: true,
+                    checkin: true,
+                    checkout: true,
+                    rooms: {
+                        select: {
+                            receptionistId: true,
+                            roomId: true,
+                            status: true,
+                            room: {
+                                select: {
+                                    id: true,
+                                    typeId: true,
+                                    roomType: {
+                                        select: {
+                                            id: true,
+                                            name: true,
+                                            capacity: true,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                where: {
+                    OR: [
+                        {
+                            checkin: {
+                                gt: new Date(checkOut), // Check-in date is after the provided check-out date
+                            },
+                        },
+                        {
+                            checkout: {
+                                lt: new Date(checkIn), // Check-out date is before the provided check-in date
+                            },
+                        },
+                    ],
+                    rooms: {
+                        some: {
+                            status: {
+                                in: ['reserved', 'checked_out'],
+                            },
+                            room: {
+                                roomType: {
+                                    capacity: { gte: capacity },
+                                },
+                            },
+                        },
+                    },
+                },
+            })
+
+            console.log(roomTypesAvailable)
+            return roomTypesAvailable
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

@@ -1,0 +1,27 @@
+
+
+.RoomAvailable{
+    box-shadow: 2px 16px 10px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.imageContainer{
+    max-width: 100%; 
+    overflow: hidden; 
+    border-radius: 10px;
+}
+.image-container img {
+    border-radius: 10px 0px 0px 0px;
+    margin-bottom: 10px;
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+.cut-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid black; /* Customize the line style */
+    transform: translateY(-50%);
+  }

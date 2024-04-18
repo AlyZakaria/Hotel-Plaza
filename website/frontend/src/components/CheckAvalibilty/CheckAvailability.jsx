@@ -1,31 +1,37 @@
 import * as React from "react";
 import { Container } from "@mui/material";
-import dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import { useEffect } from "react";
-import Box from "@mui/material/Box";
-import Popper from "@mui/material/Popper";
-
+import { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid";
+import { DateContext } from "../../contexts/Date";
 import "./styles.css";
 
 const CheckAvailability = () => {
-  const [checkIn, setCheckIn] = React.useState(dayjs("2024-04-17"));
-  const [checkOut, setCheckOut] = React.useState(dayjs("2024-04-18"));
+  let { date, setDate } = useContext(DateContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // This effect runs after every render
-
-    if (checkOut <= checkIn) {
-      alert("Check-out date must be after check-in date");
-      setCheckOut(checkIn.add(1, "day"));
+    if (date.checkOut <= date.checkIn) {
+      toast("Check-out date must be after check-in date");
+      setDate({ ...{ date, checkOut: date.checkIn.add(1, "day") } });
+    } else if (date.checkIn >= date.checkOut) {
+      toast("Check-In date must be before check-in date");
+      setDate({ ...{ date, checkIn: date.checkOut.subtract(1, "day") } });
     }
-  }, [checkOut]); // Only re-run the effect if checkOut changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date.checkOut, date.checkIn]);
+
+  function navigateTo() {
+    navigate("/available-rooms");
+  }
 
   return (
     <Container className="checkAvailability">
@@ -34,8 +40,8 @@ const CheckAvailability = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Check-in"
-              value={checkIn}
-              onChange={(newValue) => setCheckIn(newValue)}
+              value={date.checkIn}
+              onChange={(newValue) => setDate({ ...date, checkIn: newValue })}
             />
           </LocalizationProvider>
         </Grid>
@@ -44,8 +50,8 @@ const CheckAvailability = () => {
             <DatePicker
               aria-describedby="id"
               label="Check-out"
-              value={checkOut}
-              onChange={(newValue) => setCheckOut(newValue)}
+              value={date.checkOut}
+              onChange={(newValue) => setDate({ ...date, checkOut: newValue })}
             />
           </LocalizationProvider>
         </Grid>
@@ -76,7 +82,9 @@ const CheckAvailability = () => {
           }}
         >
           <div style={{ color: "#143c5c" }}>
-            <Button variant="contained">Check Available</Button>
+            <Button variant="contained" onClick={() => navigateTo()}>
+              Check Available
+            </Button>
           </div>
         </Grid>
       </Grid>

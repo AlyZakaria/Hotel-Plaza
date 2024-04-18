@@ -11,6 +11,7 @@ import ImageRepository from '../../repository/image.repository'
 
 const roomTypeRepository = new RoomTypeRepository()
 let imageRepository = new ImageRepository()
+
 const room_type: roomType = {
     count: 2,
     pricepernight: 100,
