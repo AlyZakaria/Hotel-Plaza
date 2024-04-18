@@ -15,13 +15,19 @@ const RoomView = () => {
           display="flex"
           justifyContent={"center"}
           alignContent={"center"}
-          height="fit-content"
+          sx={{ height: { xs: "inherit", sm: "inherit", md: "fit-content" } }}
         >
           <Grid container sx={{ width: "90%" }} height="100%" margin="auto">
             <Grid item xs={12} md={8.5}>
               <RoomDetailsImageView></RoomDetailsImageView>
             </Grid>
-            <Grid item xs={12} md={0.5} bgcolor={"cyan"}></Grid>
+            <Grid
+              item
+              xs={12}
+              md={0.5}
+              bgcolor={"cyan"}
+              sx={{ display: { xs: "none", md: "flex" } }}
+            ></Grid>
             <Grid item xs={12} md={3}>
               <RoomDetailsDetailsBox></RoomDetailsDetailsBox>
             </Grid>

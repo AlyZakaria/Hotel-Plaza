@@ -12,7 +12,7 @@ const RoomDetailsDetailsBox = () => {
     <Box
       bgcolor={"red"}
       sx={{
-        height: "100%",
+        height: { xs: "auto", md: "100%" },
       }}
     >
       <Stack
