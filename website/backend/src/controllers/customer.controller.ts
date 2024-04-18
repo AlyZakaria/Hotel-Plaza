@@ -25,6 +25,7 @@ class CustomerController extends Controller {
         this.verifyOtp = this.verifyOtp.bind(this)
         this.forgetPassword = this.forgetPassword.bind(this)
         this.receiveOffer = this.receiveOffer.bind(this)
+        this.getAllCustomers = this.getAllCustomers.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -67,6 +68,7 @@ class CustomerController extends Controller {
             customer['token'] = token
             res.status(200).send(customer)
         } catch (error: unknown) {
+            console.log(error)
             res.status(201).send(`It can't be created, please try again..`)
         }
     }
@@ -151,6 +153,15 @@ class CustomerController extends Controller {
             res.status(200).send(`You will receive offers from now on`)
         } catch (error: any) {
             res.status(404).send(error.message)
+        }
+    }
+    async getAllCustomers(req: Request, res: Response, next: NextFunction) {
+        try {
+            const getAllCustomers = await this.repository.getAllCustomers()
+            res.status(200).send(getAllCustomers)
+        } catch (error) {
+            console.log(error)
+            res.status(404).send(error)
         }
     }
 }

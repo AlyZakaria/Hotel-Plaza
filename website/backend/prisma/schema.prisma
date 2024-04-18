@@ -97,12 +97,13 @@ model RoomType {
   pricepernight Decimal
   capacity      Int
   view          View
-  name          String      @db.VarChar(6)
+  name          String     
   description   String?
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
- 
+   @@unique([name, view , capacity])
+
 }
 
 model ImageURL {
@@ -130,6 +131,7 @@ model Offer {
   startDate  DateTime
   endDate    DateTime
   percentage Decimal
+  name String
   status offer_status
 }
 enum offer_status{

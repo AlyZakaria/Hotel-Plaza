@@ -12,11 +12,19 @@ import MenuItem from "@mui/material/MenuItem";
 import Rating from "@mui/material/Rating";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["Availability", "About", "Contact", "Policies"];
+const links = ["/available-rooms", "/about", "/contact", "/policies"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigate = useNavigate();
+
+  const navigateTo = (event, link) => {
+    console.log(link);
+    navigate(link);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -96,8 +104,11 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {pages.map((page, index) => (
+                <MenuItem
+                  key={page}
+                  onClick={(e) => navigateTo(e, links[index])}
+                >
                   <Typography>{page}</Typography>
                 </MenuItem>
               ))}
@@ -118,10 +129,10 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={(e) => navigateTo(e, links[index])}
                 sx={{
                   my: 2,
                   color: "white",

@@ -7,6 +7,7 @@ import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import Home from "../pages/Home/Home.jsx";
 import ResetPassword from "../pages/ResetPassword/ResetPassword.jsx";
 import Settings from "../pages/userSettings/userSettings.jsx";
+import RoomsAvailable from "../pages/RoomsAvailable/RoomsAvailable.jsx";
 import RoomView from "../pages/RoomView/RoomView.jsx";
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <Settings></Settings>,
+  },
+  {
+    path: "/available-rooms",
+    element: <RoomsAvailable></RoomsAvailable>,
   },
   {
     path: "/room-details",

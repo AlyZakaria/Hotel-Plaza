@@ -25,6 +25,7 @@ const useForgetPassword = (user, submit, setSubmit) => {
       console.log("Inside if");
       login();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submit]);
 };
 export default useForgetPassword;

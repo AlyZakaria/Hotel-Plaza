@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 const ProductHeroLayoutRoot = styled("section")(({ theme }) => ({
   color: theme.palette.common.white,
@@ -56,7 +55,6 @@ function ProductHeroLayout(props) {
           }}
         />
         <Background sx={sxBackground} />
-        <ArrowDownwardIcon></ArrowDownwardIcon>
       </Container>
     </ProductHeroLayoutRoot>
   );

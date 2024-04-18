@@ -5,6 +5,7 @@ import otpData from '../interfaces/otpData'
 import { error } from 'console'
 import bcrypt from 'bcrypt'
 import otpToken from '../interfaces/otpToken'
+import { Sql } from '@prisma/client/runtime/library'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -151,7 +152,7 @@ class CustomerRepository extends Repository {
                 const updated = await tx.customer.update({
                     where: {
                         id: customer.id,
-                        email: customer.email,  
+                        email: customer.email,
                     },
                     data: {
                         password: newPassword,
@@ -175,6 +176,17 @@ class CustomerRepository extends Repository {
             return true
         } catch (error: any) {
             throw new Error(`You already subscribed..`)
+        }
+    }
+
+    async getAllCustomers() {
+        try {
+            const result = await this.prisma.$queryRaw`CALL get_customers`
+            
+            console.log(result)
+            return result
+        } catch (error) {
+            throw error
         }
     }
 
