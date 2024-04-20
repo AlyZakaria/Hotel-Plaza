@@ -26,6 +26,7 @@ class CustomerController extends Controller {
         this.forgetPassword = this.forgetPassword.bind(this)
         this.receiveOffer = this.receiveOffer.bind(this)
         this.getAllCustomers = this.getAllCustomers.bind(this)
+        this.updateCustomer = this.updateCustomer.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -71,7 +72,32 @@ class CustomerController extends Controller {
             res.status(201).send(`It can't be created, please try again..`)
         }
     }
+    async updateCustomer(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log(req.body)
+            if (!req.body.id) throw new Error()
 
+            const customer: customerData = {
+                id: Number(req.body.id),
+                fname: req.body.name,
+                lname: req.body.lname,
+                email: req.body.email,
+                password: req.body.password,
+                phone: req.body.phone,
+                address: req.body.address,
+                zip: req.body.zip,
+                country: req.body.country,
+            }
+
+            const updatedCustomer =
+                await this.repository.updateCustomer(customer)
+            if (!updatedCustomer) throw new Error()
+            res.status(200).send(updatedCustomer)
+        } catch (error: unknown) {
+            console.log(error)
+            res.status(404).send(`Customer not found`)
+        }
+    }
     // forget password
     async forgetPassword(req: Request, res: Response, next: NextFunction) {
         try {

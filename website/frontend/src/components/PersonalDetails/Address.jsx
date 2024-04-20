@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
-const Address = () => {
+const Address = ({ customer, setCustomer }) => {
   return (
     <Box
       component="form"
@@ -19,6 +19,9 @@ const Address = () => {
           id="outlined-size-small"
           size="small"
           placeholder="Address"
+          onChange={(e) =>
+            setCustomer({ ...customer, address: e.target.value })
+          }
         />
       </div>
     </Box>

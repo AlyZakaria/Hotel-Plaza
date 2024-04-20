@@ -1,7 +1,8 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-const NameForm = () => {
+const NameForm = ({ customer, setCustomer }) => {
   return (
     <Box
       component="form"
@@ -23,6 +24,7 @@ const NameForm = () => {
           sx={{
             bgcolor: "white !important",
           }}
+          onChange={(e) => setCustomer({ ...customer, fname: e.target.value })}
         />
         <TextField
           hiddenLabel
@@ -33,6 +35,7 @@ const NameForm = () => {
           sx={{
             bgcolor: "white",
           }}
+          onChange={(e) => setCustomer({ ...customer, lname: e.target.value })}
         />
       </div>
     </Box>

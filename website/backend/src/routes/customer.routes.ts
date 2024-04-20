@@ -21,6 +21,8 @@ customerRoute.post(
     customerController.resetPassword
 )
 customerRoute.post('/receive-offer', customerController.receiveOffer)
+
+customerRoute.put('/update-customer', customerController.updateCustomer)
 customerRoute.get('/customers', customerController.getAllCustomers)
 
 export default customerRoute

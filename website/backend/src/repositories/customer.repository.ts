@@ -43,6 +43,21 @@ class CustomerRepository extends Repository {
             throw error
         }
     }
+    async updateCustomer(
+        customerData: customerData
+    ): Promise<customerData | never> {
+        try {
+            const customer = await this._model.update({
+                where: {
+                    id: customerData.id,
+                },
+                data: customerData,
+            })
+            return customer
+        } catch (error: unknown) {
+            throw error
+        }
+    }
     //check Email exists
     async checkEmail(email: string): Promise<customerData | null | never> {
         try {

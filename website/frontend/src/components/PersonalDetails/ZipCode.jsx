@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
-const ZipCode = () => {
+const ZipCode = ({ customer, setCustomer }) => {
   return (
     <Box
       component="form"
@@ -19,6 +19,7 @@ const ZipCode = () => {
           id="outlined-size-small"
           size="small"
           placeholder="zip code"
+          onChange={(e) => setCustomer({ ...customer, zip: e.target.value })}
         />
       </div>
     </Box>

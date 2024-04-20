@@ -14,6 +14,7 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
       if (response.status === 200) {
         console.log("Login Successfull");
         setCustomer({ ...response.data });
+        sessionStorage.setItem("token", JSON.stringify(response.data.token));
         sessionStorage.setItem("customer", JSON.stringify(response.data));
         toast.success("Login Successfull", {
           icon: <CheckCircleIcon sx={{ color: "green" }} />,

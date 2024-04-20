@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { MuiTelInput } from "mui-tel-input";
 
-const PhoneForm = () => {
+const PhoneForm = ({ customer, setCustomer }) => {
   const [phoneNumber, setPhoneNumber] = React.useState("+20");
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = React.useState("");
@@ -11,6 +11,7 @@ const PhoneForm = () => {
 
   const handlePhoneNumberChange = (newValue) => {
     setPhoneNumber(newValue);
+    setCustomer({ ...customer, phone: newValue });
   };
   return (
     <Box sx={{ marginTop: "5px" }}>

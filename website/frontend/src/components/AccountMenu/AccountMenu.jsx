@@ -32,6 +32,7 @@ export default function AccountMenu() {
   const logOut = () => {
     handleClose();
     sessionStorage.removeItem("customer");
+    sessionStorage.removeItem("token");
     setCustomer({});
   };
   const ToManageAccount = () => {

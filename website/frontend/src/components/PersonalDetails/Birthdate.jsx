@@ -5,8 +5,7 @@ import { DateField } from "@mui/x-date-pickers/DateField";
 import { CustomerContext } from "../../contexts/Customer";
 import dayjs from "dayjs";
 
-const Birthdate = () => {
-  let { customer, setCustomer } = React.useContext(CustomerContext);
+const Birthdate = ({ customer, setCustomer }) => {
   const [value, setValue] = React.useState(dayjs("2022-04-17"));
 
   return (
@@ -15,7 +14,10 @@ const Birthdate = () => {
         defaultValue={customer.birthdate}
         label="Birthdate"
         value={value}
-        onChange={(newValue) => setValue(newValue)}
+        onChange={(newValue) => {
+          setValue(newValue);
+          setCustomer({ ...customer, birthdate: newValue });
+        }}
       />
     </LocalizationProvider>
   );

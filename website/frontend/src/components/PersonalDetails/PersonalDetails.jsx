@@ -11,12 +11,23 @@ import Address from "./Address";
 import CountrySelect from "./CountrySelect";
 import ZipCode from "./ZipCode";
 import { CustomerContext } from "../../contexts/Customer";
+import useSavePersonalDetails from "../../hooks/useSavePersonalDetails";
 
 const PeronDetails = () => {
   let { customer, setCustomer } = React.useContext(CustomerContext);
 
   let [clicked, setClicked] = React.useState(new Array(7).fill(false));
   let [edit, setEdit] = React.useState(false);
+
+  let customerSession = sessionStorage.getItem("customer");
+  const [tempCustomer, setTempCustomer] = React.useState(
+    customerSession ? { ...JSON.parse(customerSession) } : { ...customer }
+  );
+
+  const [save, setSave] = React.useState(false);
+
+  useSavePersonalDetails(save, setSave, tempCustomer, setCustomer);
+
   let details = [
     ["Name", "Let us know what to call you"],
     ["Email address", customer.email],
@@ -27,16 +38,26 @@ const PeronDetails = () => {
     ["Zip code", customer.zip],
   ];
   let components = [
-    <NameForm />,
-    <Email />,
-    <PhoneForm />,
-    <Birthdate />,
-    <Address />,
-    <CountrySelect />,
-    <ZipCode />,
+    <NameForm customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <Email customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <PhoneForm customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <Birthdate customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <Address customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <CountrySelect customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <ZipCode customer={tempCustomer} setCustomer={setTempCustomer} />,
   ];
   const clicking = (index) => {
     console.log(clicked);
+    setClicked([
+      ...clicked.slice(0, index),
+      !clicked[index],
+      ...clicked.slice(index + 1),
+    ]);
+    setEdit(!edit);
+  };
+
+  const submit = (index) => {
+    setSave(true);
     setClicked([
       ...clicked.slice(0, index),
       !clicked[index],
@@ -114,7 +135,7 @@ const PeronDetails = () => {
                       justifyContent: "right",
                     }}
                   >
-                    <Button href="" size="small">
+                    <Button href="" size="small" onClick={() => submit(index)}>
                       Save
                     </Button>
                     <Button
