@@ -78,8 +78,9 @@ class ImageRepository extends Repository {
     // delete All images
     async deleteAll(): Promise<boolean | never> {
         try {
-            let roomImagesDeleted = this._model.deleteMany()
-            await this.prisma.$transaction([roomImagesDeleted])
+            let roomImagesDeleted = this.prisma.typeImage.deleteMany({})
+            let imageIds = this._model.deleteMany({})
+            await this.prisma.$transaction([roomImagesDeleted, imageIds])
             return true
         } catch (error: unknown) {
             console.log(error)

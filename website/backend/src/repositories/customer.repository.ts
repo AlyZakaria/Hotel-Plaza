@@ -140,12 +140,11 @@ class CustomerRepository extends Repository {
         try {
             const transaction = await this.prisma.$transaction(async (tx) => {
                 // compare the password
-                const customer: customerData | null =
-                    await tx.customer.findFirst({
-                        where: {
-                            email: token.email,
-                        },
-                    })
+                const customer = await tx.customer.findFirst({
+                    where: {
+                        email: token.email,
+                    },
+                })
                 if (!customer) throw new Error(`Customer not found`)
 
                 // update the password
@@ -182,7 +181,7 @@ class CustomerRepository extends Repository {
     async getAllCustomers() {
         try {
             const result = await this.prisma.$queryRaw`CALL get_customers`
-            
+
             console.log(result)
             return result
         } catch (error) {

@@ -86,7 +86,7 @@ enum View {
 
 model Room {
   id           Int       @id @default(autoincrement())
-  roomType     RoomType  @relation(fields: [typeId], references: [id])
+  roomType     RoomType  @relation(fields: [typeId], references: [id], onDelete: Cascade)
   typeId       Int
   reservations Booking[]
 }
@@ -118,7 +118,7 @@ model TypeImage {
   roomType RoomType @relation(fields: [typeId], references: [id] , onDelete: Cascade)
   typeId   Int
 
-  imageURL ImageURL @relation(fields: [imageId], references: [id])
+  imageURL ImageURL @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId  Int
 
   @@unique([typeId, imageId])

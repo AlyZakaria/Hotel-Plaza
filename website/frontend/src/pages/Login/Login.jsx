@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import useLogin from "../../hooks/useLogin";
+import { useContext } from "react";
+import { CustomerContext } from "../../contexts/Customer";
 
 function Copyright(props) {
   return (
@@ -42,7 +44,8 @@ let user = {};
 
 export default function SignInSide() {
   const [submit, setSubmit] = React.useState(false);
-  useLogin(user, submit, setSubmit); // hook called
+  let { customer, setCustomer } = useContext(CustomerContext);
+  useLogin(user, setCustomer, submit, setSubmit); // hook called
 
   const handleSubmit = (event) => {
     event.preventDefault();

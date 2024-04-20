@@ -55,7 +55,6 @@ class CustomerController extends Controller {
     // signup
     async register(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body)
             const password = req.body.password
             const hash = bcrypt.hashSync(password + pepper, Number(saltRounds))
             delete req.body['password']

@@ -1,6 +1,6 @@
 interface customerData {
     id?: number
-    email: string | null
+    email?: string 
     password?: string | null
     fname: string
     lname?: string
