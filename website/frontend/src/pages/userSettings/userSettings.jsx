@@ -25,7 +25,6 @@ let sideBarIcons = [
 export default function UserSettings() {
   let { customer, setCustomer } = React.useContext(CustomerContext);
   const navigate = useNavigate();
-  console.log(customer);
   console.log(sessionStorage.getItem("customer"));
   React.useEffect(() => {
     if (!sessionStorage.getItem("customer") || !customer) {
@@ -39,7 +38,14 @@ export default function UserSettings() {
   return (
     <div>
       <AppBar></AppBar>
-      <Container>
+      <Container
+        sx={{
+          height: "100vh",
+          overflowY: "auto",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none !important",
+        }}
+      >
         <Grid
           container
           sx={{

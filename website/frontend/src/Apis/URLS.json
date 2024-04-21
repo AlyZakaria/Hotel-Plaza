@@ -6,5 +6,6 @@
   "otp": "/api/verify-otp",
   "resetPassword": "/api/reset-password",
   "receiveOffer": "/api/receive-offer",
-  "updateCustomer":"/api/update-customer"
+  "updateCustomer":"/api/update-customer",
+  "uploadProfile": "/api/upload-profile"
 }

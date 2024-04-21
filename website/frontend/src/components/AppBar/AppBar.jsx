@@ -26,7 +26,6 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   const navigateTo = (event, link) => {
-    console.log(link);
     navigate(link);
   };
 

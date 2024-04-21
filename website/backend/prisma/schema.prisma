@@ -25,6 +25,8 @@ model Customer {
   country   String
   address   String
   zip       String
+  image      Bytes?
+  imageType  String?
   reservation    Reservation[]
   otp otp?
   @@map("customers")

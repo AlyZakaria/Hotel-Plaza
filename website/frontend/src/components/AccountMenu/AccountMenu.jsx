@@ -51,12 +51,26 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <AccountCircleIcon
-              sx={{
-                color: "white",
-                fontSize: "30px",
-              }}
-            />
+            {customer && (
+              <Avatar
+                alt={`${customer.fname}`}
+                src={
+                  customer.image
+                    ? `data:image/${customer.imageType};base64,${customer.image}`
+                    : customer.fname
+                }
+                sx={{ width: 40, height: 40 }}
+              />
+            )}
+            {!customer && (
+              <AccountCircleIcon
+                sx={{
+                  color: "white",
+                  fontSize: "30px",
+                }}
+              />
+            )}
+
             <Typography sx={{ ml: 2, color: "white" }}>
               {customer.fname} {customer.lname}
             </Typography>

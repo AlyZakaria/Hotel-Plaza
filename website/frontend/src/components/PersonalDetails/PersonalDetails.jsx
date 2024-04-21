@@ -12,12 +12,28 @@ import CountrySelect from "./CountrySelect";
 import ZipCode from "./ZipCode";
 import { CustomerContext } from "../../contexts/Customer";
 import useSavePersonalDetails from "../../hooks/useSavePersonalDetails";
+import Avatar from "@mui/material/Avatar";
+import { styled } from "@mui/material/styles";
+import useSetprofile from "../../hooks/useSetProfile";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 const PeronDetails = () => {
   let { customer, setCustomer } = React.useContext(CustomerContext);
-
-  let [clicked, setClicked] = React.useState(new Array(7).fill(false));
-  let [edit, setEdit] = React.useState(false);
+  const [profile, setProfile] = React.useState({});
+  const [upload, setUpload] = React.useState(false);
+  const [clicked, setClicked] = React.useState(new Array(7).fill(false));
+  const [edit, setEdit] = React.useState(false);
 
   let customerSession = sessionStorage.getItem("customer");
   const [tempCustomer, setTempCustomer] = React.useState(
@@ -27,6 +43,8 @@ const PeronDetails = () => {
   const [save, setSave] = React.useState(false);
 
   useSavePersonalDetails(save, setSave, tempCustomer, setCustomer);
+
+  useSetprofile(upload, setUpload, customer, setCustomer, profile);
 
   let details = [
     ["Name", "Let us know what to call you"],
@@ -69,16 +87,47 @@ const PeronDetails = () => {
   return (
     <Box>
       <Box sx={{ paddingBottom: "10px" }}>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            textAlign: "left",
-            fontSize: "30px",
-          }}
-          variant="h6"
-        >
-          Personal Details
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              textAlign: "left",
+              fontSize: "30px",
+            }}
+            variant="h6"
+          >
+            Personal Details
+          </Typography>
+
+          <Button component="label" role={undefined} variant="" tabIndex={-1}>
+            <VisuallyHiddenInput
+              id="profile"
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                console.log(file);
+                setProfile(file);
+                console.log(profile);
+                setUpload(true);
+              }}
+            />
+            <Avatar
+              alt={`${customer.fname}`}
+              src={
+                customer.image
+                  ? `data:image/${customer.imageType};base64,${customer.image}`
+                  : customer.fname
+              }
+              sx={{
+                width: 56,
+                height: 56,
+                cursor: "pointer",
+                border: "2px solid #ffb700",
+              }}
+            ></Avatar>
+          </Button>
+        </Box>
+
         <Typography
           sx={{
             textAlign: "left !important",
@@ -95,9 +144,13 @@ const PeronDetails = () => {
       <Divider />
       {details.map((item, index) => (
         <>
-          <Box sx={{ padding: "20px" }}>
-            <Grid container>
-              <Grid item xs={12} sm={3}>
+          <Box
+            sx={{
+              padding: "20px",
+            }}
+          >
+            <Grid container sx={{}}>
+              <Grid item xs={12} sm={3} sx={{}}>
                 <Typography
                   sx={{ textAlign: "left", fontSize: "18px" }}
                   variant="p"
@@ -153,6 +206,11 @@ const PeronDetails = () => {
                       disabled={edit}
                       href=""
                       onClick={() => clicking(index)}
+                      sx={{
+                        fontSize: "14px",
+                        textAlign: "right",
+                        textTransform: "capitalize",
+                      }}
                     >
                       Edit
                     </Button>

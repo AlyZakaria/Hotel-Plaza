@@ -43,6 +43,27 @@ class CustomerRepository extends Repository {
             throw error
         }
     }
+    async uploadProfileImage(
+        id: number,
+        byteArrays: any,
+        mimeType: any
+    ): Promise<any | never> {
+        try {
+            const customer = await this._model.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    image: byteArrays,
+                    imageType: mimeType,
+                },
+            })
+            return customer
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
     async updateCustomer(
         customerData: customerData
     ): Promise<customerData | never> {

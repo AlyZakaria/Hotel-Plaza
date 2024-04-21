@@ -10,6 +10,8 @@ import makeEmail from '../emails/otpEmail'
 import sendEmail from '../helpers/sendEmail'
 import generateOtp from '../helpers/generateOtp'
 import otpToken from '../interfaces/otpToken'
+import base64toBlob from '../helpers/base64toBlob'
+import uint8ArrayToBase64 from '../helpers/uint8ArrayToBase64'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -27,6 +29,7 @@ class CustomerController extends Controller {
         this.receiveOffer = this.receiveOffer.bind(this)
         this.getAllCustomers = this.getAllCustomers.bind(this)
         this.updateCustomer = this.updateCustomer.bind(this)
+        this.uploadProfileImage = this.uploadProfileImage.bind(this)
     }
     // login
     async login(req: Request, res: Response, next: NextFunction) {
@@ -36,6 +39,7 @@ class CustomerController extends Controller {
             if (!email) throw new Error('Please enter an email')
             // find by email
             const customer: customerData = await this.repository.login(email)
+
             // compare the passwords
             if (
                 !bcrypt.compareSync(
@@ -45,6 +49,9 @@ class CustomerController extends Controller {
             )
                 throw new Error('Invalid password')
 
+            if (customer.image && customer.imageType) {
+                customer.image = uint8ArrayToBase64(customer.image)
+            }
             let token = jwt.sign(customer, tokenSecret as string)
             delete customer['password']
             customer['token'] = token
@@ -98,9 +105,40 @@ class CustomerController extends Controller {
             res.status(404).send(`Customer not found`)
         }
     }
+    async uploadProfileImage(req: Request, res: Response, next: NextFunction) {
+        try {
+            if (!req.params.id) throw new Error()
+            let id = Number(req.params.id)
+            const image: any = req.file
+            // convert to base64 as large string with data:image/jpeg;base64,
+            let base64 =
+                `data:image/${image.mimetype};base64,` +
+                image.buffer.toString('base64')
+            let { byteArray, mimetype } = base64toBlob(base64)
+
+            const updatedCustomer = await this.repository.uploadProfileImage(
+                id,
+                byteArray,
+                mimetype
+            )
+            if (updatedCustomer.image && updatedCustomer.imageType) {
+                updatedCustomer.image = uint8ArrayToBase64(
+                    updatedCustomer.image
+                )
+            }
+
+            if (!updatedCustomer) throw new Error()
+            res.status(200).send(updatedCustomer)
+        } catch (error: unknown) {
+            console.log(error)
+            res.status(404).send(`Customer not found`)
+        }
+    }
+
     // forget password
     async forgetPassword(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.body.customer)
             const customerExist = req.body.customer
 
             const otp = generateOtp()
