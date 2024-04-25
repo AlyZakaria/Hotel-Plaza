@@ -71,7 +71,13 @@ export default function AccountMenu() {
               />
             )}
 
-            <Typography sx={{ ml: 2, color: "white" }}>
+            <Typography
+              sx={{
+                display: { xs: "none", sm: "flex" },
+                ml: 2,
+                color: "white",
+              }}
+            >
               {customer.fname} {customer.lname}
             </Typography>
           </IconButton>
