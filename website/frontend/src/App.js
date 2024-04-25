@@ -3,12 +3,43 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import router from "../src/routes/router";
 import customTheme from "../src/themes/customTheme";
+import { ToastContainer } from "react-toastify";
+import { DateContext } from "./contexts/Date";
+import { CustomerContext } from "./contexts/Customer";
+import { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import useGetCustomer from "./hooks/useGetCustomer";
+import dayjs from "dayjs";
 
 function App() {
+  const [customer, setCustomer] = useState({});
+  const [date, setDate] = useState({
+    checkIn: dayjs("2024-04-17"),
+    checkOut: dayjs("2024-04-18"),
+  });
+  useGetCustomer(setCustomer);
+
   return (
     <div className="App">
       <ThemeProvider theme={customTheme}>
-        <RouterProvider router={router} />
+        <CustomerContext.Provider value={{ customer, setCustomer }}>
+          <DateContext.Provider value={{ date, setDate }}>
+            <RouterProvider router={router} />
+          </DateContext.Provider>
+        </CustomerContext.Provider>
+
+        <ToastContainer
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          type="warning"
+        />
       </ThemeProvider>
     </div>
   );

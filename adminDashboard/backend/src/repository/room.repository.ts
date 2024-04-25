@@ -53,6 +53,15 @@ class RoomRepository extends Repository {
             throw error
         }
     }
+    async deleteAll(): Promise<boolean | never> {
+        try {
+            const rooms = await this._model.deleteMany()
+            if (!rooms) throw new Error(`Could not delete rooms`)
+            return true
+        } catch (error: unknown) {
+            throw error
+        }
+    }
 }
 
 export default RoomRepository

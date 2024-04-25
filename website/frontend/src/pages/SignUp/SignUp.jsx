@@ -16,6 +16,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import AppBar from "../../components/AppBar/AppBar";
 import useSignUp from "../../hooks/useSignUp";
+import { useContext } from "react";
+import { CustomerContext } from "../../contexts/Customer";
 
 function Copyright(props) {
   return (
@@ -43,12 +45,13 @@ let user = {};
 
 export default function SignUp() {
   const [state, setState] = React.useState(false);
+  let { customer, setCustomer } = useContext(CustomerContext);
   const [phoneNumber, setPhoneNumber] = React.useState("+20");
   const [error, setError] = React.useState("");
   const [gender, setGender] = React.useState(0);
   const [submit, setSubmit] = React.useState(false);
 
-  useSignUp(user, submit, setSubmit);
+  useSignUp(user, customer, setCustomer, submit, setSubmit);
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);

@@ -8,9 +8,11 @@ import { RoomWithRightRoomTypeId } from './room'
 import room from '../../interfaces/room'
 import addImage from './image'
 import ImageRepository from '../../repository/image.repository'
-
+import RoomRepository from '../../repository/room.repository'
 const roomTypeRepository = new RoomTypeRepository()
 let imageRepository = new ImageRepository()
+let roomRepository = new RoomRepository()
+
 const room_type: roomType = {
     count: 2,
     pricepernight: 100,
@@ -24,9 +26,9 @@ let room: room
 beforeAll(async () => {
     // truncate all data in room type schema & imageUrl schema
     try {
-        await roomTypeRepository.deleteAll()
-
         await imageRepository.deleteAll()
+        await roomRepository.deleteAll()
+        await roomTypeRepository.deleteAll()
     } catch (error: unknown) {
         console.log(error)
     }

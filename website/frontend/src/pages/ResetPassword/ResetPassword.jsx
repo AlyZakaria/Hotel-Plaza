@@ -37,8 +37,6 @@ const defaultTheme = createTheme();
 let passwords = {};
 
 export default function ResetPassword() {
-  const [state, setState] = React.useState(false);
-  const [error, setError] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
 
   useResetPassword(passwords, submit, setSubmit);
@@ -73,7 +71,7 @@ export default function ResetPassword() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Reset Password
           </Typography>
           <Box
             component="form"
@@ -82,16 +80,6 @@ export default function ResetPassword() {
             sx={{ mt: 3, width: "100%" }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="oldPassword"
-                  label="Old Password"
-                  name="old-password"
-                  autoComplete="Old Password"
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required

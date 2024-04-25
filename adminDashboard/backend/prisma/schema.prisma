@@ -97,11 +97,13 @@ model RoomType {
   pricepernight Decimal
   capacity      Int
   view          View
-  name          String     
+  name          String      
   description   String?
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
+
+  @@unique([name, view , capacity])
  
 }
 
@@ -115,9 +117,9 @@ model ImageURL {
 
 model TypeImage {
   roomType RoomType @relation(fields: [typeId], references: [id] , onDelete: Cascade)
-  typeId   Int
+  typeId   Int 
 
-  imageURL ImageURL @relation(fields: [imageId], references: [id])
+  imageURL ImageURL @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId  Int
 
   @@unique([typeId, imageId])
@@ -125,12 +127,12 @@ model TypeImage {
 
 model Offer {
   id         Int      @id @default(autoincrement())
-  name       String 
   roomType   RoomType @relation(fields: [typeId], references: [id])
   typeId     Int
   startDate  DateTime
   endDate    DateTime
   percentage Decimal
+   name String
   status offer_status
 }
 enum offer_status{
@@ -141,6 +143,7 @@ enum offer_status{
 model otp {
   id Int @id @default(autoincrement())
   otp String? 
+  createdAt  DateTime @default(now()) @map("created_at")
   customer Customer @relation(fields: [userId], references: [id])
   userId   Int @unique
   @@unique([otp,userId])

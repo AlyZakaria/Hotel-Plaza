@@ -3,6 +3,10 @@ import CustomerController from '../controllers/customer.controller'
 import checkEmail from '../middlewares/checkEmail'
 import verifyOtpToken from '../middlewares/verifyOtpToken'
 import emailExist from '../middlewares/emailExist'
+import multer from 'multer'
+
+const upload = multer()
+
 const customerRoute = Router()
 
 const customerController = new CustomerController()
@@ -21,5 +25,13 @@ customerRoute.post(
     customerController.resetPassword
 )
 customerRoute.post('/receive-offer', customerController.receiveOffer)
+customerRoute.put(
+    '/upload-profile/:id',
+    upload.single('files'),
+    customerController.uploadProfileImage
+)
+
+customerRoute.put('/update-customer', customerController.updateCustomer)
+customerRoute.get('/customers', customerController.getAllCustomers)
 
 export default customerRoute

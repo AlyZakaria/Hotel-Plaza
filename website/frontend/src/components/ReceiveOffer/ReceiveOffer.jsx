@@ -10,14 +10,17 @@ import backgroundImage from "../../assets/productCTAImageDots.png";
 import useReceiveOffer from "../../hooks/useReceiveOffer";
 
 let email;
+let name;
 function ProductCTA() {
   const [submit, setSubmit] = React.useState(false);
-  useReceiveOffer(email, submit, setSubmit); // hook called
+  useReceiveOffer(email, name, submit, setSubmit); // hook called
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     email = data.get("email");
+    name = data.get("name");
+
     setSubmit(true);
   };
 
@@ -57,6 +60,13 @@ function ProductCTA() {
                 name="email"
                 noBorder
                 placeholder="Your email"
+                variant="standard"
+                sx={{ width: "100%", mt: 3, mb: 2 }}
+              />
+              <TextField
+                name="name"
+                noBorder
+                placeholder="Your name"
                 variant="standard"
                 sx={{ width: "100%", mt: 3, mb: 2 }}
               />

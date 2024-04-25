@@ -12,7 +12,7 @@ const makeEmail = (offer: offer, roomType: roomType, customers: customer[]) => {
         from: 'alizakariya45@gmail.com',
         to: customers.map((customer) => customer.email),
         subject: customers.map(
-            () => 'Exclusive Offer Just for You - Discover with Hotel Plaza'
+            () => 'xclusive Offer Just for You - Discover with HotelE Plaza'
         ),
 
         text: customers.map(

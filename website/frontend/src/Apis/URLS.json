@@ -5,5 +5,7 @@
   "getRoomTypes": "/api/room-types",
   "otp": "/api/verify-otp",
   "resetPassword": "/api/reset-password",
-  "receiveOffer": "/api/receive-offer"
+  "receiveOffer": "/api/receive-offer",
+  "updateCustomer":"/api/update-customer",
+  "uploadProfile": "/api/upload-profile"
 }

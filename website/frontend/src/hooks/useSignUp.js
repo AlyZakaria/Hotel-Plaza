@@ -1,11 +1,18 @@
 import { useEffect } from "react";
 import axios from "../Apis/axios";
 import URLs from "../Apis/URLS.json";
-const useSignUp = (userData, submit, setSubmit) => {
+import { useNavigate } from "react-router-dom";
+const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
+  const navigate = useNavigate();
   const signUp = async () => {
     try {
       console.log(userData);
       const response = await axios.post(URLs.SignUp, userData);
+      if (response.status === 200) {
+        setCustomer({ ...response.data });
+        navigate("/");
+        console.log("SignUp Successfull");
+      }
       console.log(response.data);
     } catch (error) {
       console.error(error);

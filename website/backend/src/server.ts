@@ -7,8 +7,12 @@ import cors from 'cors'
 import roomTypesRoute from './routes/roomTypes.routes'
 import availabilityRoute from './routes/availability.routes'
 
+import bodyParser from 'body-parser'
 const app = express()
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
 app.use(cors())
 
 const port = 4000

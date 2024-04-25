@@ -12,11 +12,22 @@ import MenuItem from "@mui/material/MenuItem";
 import Rating from "@mui/material/Rating";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
+import { CustomerContext } from "../../contexts/Customer";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 const pages = ["Availability", "About", "Contact", "Policies"];
+const links = ["/available-rooms", "/about", "/contact", "/policies"];
 
 function ResponsiveAppBar() {
+  let { customer, setCustomer } = React.useContext(CustomerContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigate = useNavigate();
+
+  const navigateTo = (event, link) => {
+    navigate(link);
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -96,8 +107,11 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {pages.map((page, index) => (
+                <MenuItem
+                  key={page}
+                  onClick={(e) => navigateTo(e, links[index])}
+                >
                   <Typography>{page}</Typography>
                 </MenuItem>
               ))}
@@ -118,10 +132,10 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={(e) => navigateTo(e, links[index])}
                 sx={{
                   my: 2,
                   color: "white",
@@ -134,60 +148,65 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          {customer.fname && <AccountMenu />}
+          {!customer.fname && (
+            <>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: { xs: "none", sm: "none", md: "flex" },
+                }}
+              >
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link href="/login">
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: "white",
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign In
+                    </Typography>
+                  </Link>
+                </MenuItem>
+              </Box>
 
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: { xs: "none", sm: "none", md: "flex" },
-            }}
-          >
-            <MenuItem onClick={handleCloseNavMenu}>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: { xs: "none", sm: "none", md: "flex" },
+                }}
+              >
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link href="/signup">
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: "red",
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign up
+                    </Typography>
+                  </Link>
+                </MenuItem>
+              </Box>
               <Link href="/login">
-                <Typography
-                  textAlign="center"
+                <LoginIcon
                   sx={{
                     color: "white",
-                    textTransform: "uppercase",
-                    fontWeight: "bold",
-                    textDecoration: "none",
+                    flexGrow: 0,
+                    display: { xs: "flex", sm: "flex", md: "none" },
                   }}
-                >
-                  Sign In
-                </Typography>
+                ></LoginIcon>
               </Link>
-            </MenuItem>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: { xs: "none", sm: "none", md: "flex" },
-            }}
-          >
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Link href="/signup">
-                <Typography
-                  textAlign="center"
-                  sx={{
-                    color: "red",
-                    textTransform: "uppercase",
-                    fontWeight: "bold",
-                    textDecoration: "none",
-                  }}
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </MenuItem>
-          </Box>
-          <Link href="/login">
-            <LoginIcon
-              sx={{
-                color: "white",
-                flexGrow: 0,
-                display: { xs: "flex", sm: "flex", md: "none" },
-              }}
-            ></LoginIcon>
-          </Link>
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

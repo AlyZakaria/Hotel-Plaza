@@ -5,6 +5,7 @@ import otpData from '../interfaces/otpData'
 import { error } from 'console'
 import bcrypt from 'bcrypt'
 import otpToken from '../interfaces/otpToken'
+import { Sql } from '@prisma/client/runtime/library'
 
 const saltRounds = process.env.SALT_ROUNDS
 const pepper = process.env.BCRYPT_PASSWORD
@@ -35,6 +36,42 @@ class CustomerRepository extends Repository {
     async register(customerData: customerData): Promise<customerData | never> {
         try {
             const customer = await this._model.create({
+                data: customerData,
+            })
+            return customer
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async uploadProfileImage(
+        id: number,
+        byteArrays: any,
+        mimeType: any
+    ): Promise<any | never> {
+        try {
+            const customer = await this._model.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    image: byteArrays,
+                    imageType: mimeType,
+                },
+            })
+            return customer
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    async updateCustomer(
+        customerData: customerData
+    ): Promise<customerData | never> {
+        try {
+            const customer = await this._model.update({
+                where: {
+                    id: customerData.id,
+                },
                 data: customerData,
             })
             return customer
@@ -139,19 +176,18 @@ class CustomerRepository extends Repository {
         try {
             const transaction = await this.prisma.$transaction(async (tx) => {
                 // compare the password
-                const customer: customerData | null =
-                    await tx.customer.findFirst({
-                        where: {
-                            email: token.email,
-                        },
-                    })
+                const customer = await tx.customer.findFirst({
+                    where: {
+                        email: token.email,
+                    },
+                })
                 if (!customer) throw new Error(`Customer not found`)
 
                 // update the password
                 const updated = await tx.customer.update({
                     where: {
                         id: customer.id,
-                        email: customer.email,  
+                        email: customer.email,
                     },
                     data: {
                         password: newPassword,
@@ -175,6 +211,17 @@ class CustomerRepository extends Repository {
             return true
         } catch (error: any) {
             throw new Error(`You already subscribed..`)
+        }
+    }
+
+    async getAllCustomers() {
+        try {
+            const result = await this.prisma.$queryRaw`CALL get_customers`
+
+            console.log(result)
+            return result
+        } catch (error) {
+            throw error
         }
     }
 
