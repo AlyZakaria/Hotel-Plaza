@@ -5,6 +5,8 @@ import offerUpdateSchedule from './scheduled-events/offerUpdate'
 import otpTokenDelete from './scheduled-events/otpTokenDelete'
 import cors from 'cors'
 import roomTypesRoute from './routes/roomTypes.routes'
+import availabilityRoute from './routes/availability.routes'
+
 import bodyParser from 'body-parser'
 const app = express()
 app.use(express.json())
@@ -22,6 +24,7 @@ cron.schedule('0 */6 * * *', otpTokenDelete)
 
 app.use('/api/', customerRoute)
 app.use('/api/', roomTypesRoute)
+app.use('/api/', availabilityRoute)
 
 if (process.env.NODE_ENV !== 'test') {
     const port = process.env.PORT || 4000
