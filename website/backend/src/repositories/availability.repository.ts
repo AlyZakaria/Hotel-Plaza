@@ -10,16 +10,27 @@ class availabilityRepository extends Repository {
     async allAvailableRooms(checkin: Date, checkout: Date): Promise<any | never> {
         try {
             const availability = await this._model.$queryRaw`
-            SELECT roomtype, (totalRooms - COUNT(roomId)) as available FROM availability
-            WHERE ((checkin BETWEEN ${checkin} AND ${checkout} OR checkout BETWEEN ${checkin} AND ${checkout})
-            OR (checkin <= ${checkin} AND checkout >= ${checkout}))
-            GROUP BY (typeId)
+            WITH cte AS ( 
+                SELECT 
+                roomtype.name AS roomtype,
+                (roomtype.count - COUNT(booking.roomId)) as available 
+                FROM booking 
+                JOIN reservations ON reservations.id = booking.reservationId
+                JOIN room ON booking.roomId = room.id
+                JOIN roomtype ON room.typeId = roomtype.id
+                WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
+                OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                GROUP BY (room.typeId)
+            )
+            SELECT * FROM cte
 
             UNION
 
-            SELECT roomtype, COUNT(roomId) as available FROM allRooms
-            WHERE roomtype NOT IN(SELECT roomtype FROM availability)
-            GROUP BY (roomtype)`
+            SELECT roomtype.name, COUNT(room.id)
+            FROM roomtype
+            JOIN room ON roomtype.id = room.typeId
+            WHERE roomtype.name NOT IN(SELECT roomtype FROM cte)
+            GROUP BY (roomtype.name)`
 
             if (!availability) throw new Error(`Error Checking Availability For The Specified Type!`)
             return availability
@@ -33,18 +44,29 @@ class availabilityRepository extends Repository {
     async typeAvailableRooms(checkin: Date, checkout: Date, type: string): Promise<any | never> {
         try {
             const availability = await this._model.$queryRaw`
-                SELECT roomtype, (totalRooms - COUNT(roomId)) as available FROM availability
-                WHERE ((checkin BETWEEN ${checkin} AND ${checkout} OR checkout BETWEEN ${checkin} AND ${checkout})
-                OR (checkin <= ${checkin} AND checkout >= ${checkout}))
-                AND roomtype = ${type}
-                GROUP BY (typeId)
+                WITH cte AS ( 
+                SELECT 
+                roomtype.name AS roomtype,
+                (roomtype.count - COUNT(booking.roomId)) as available 
+                FROM booking 
+                JOIN reservations ON reservations.id = booking.reservationId
+                JOIN room ON booking.roomId = room.id
+                JOIN roomtype ON room.typeId = roomtype.id
+                WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
+                OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                AND roomtype.name = ${type}
+                GROUP BY (room.typeId)
+            )
+            SELECT * FROM cte
 
-                UNION
+            UNION
 
-                SELECT roomtype, COUNT(roomId) as available FROM allRooms
-                WHERE roomtype NOT IN(SELECT roomtype FROM availability)
-                AND roomtype = ${type}
-                GROUP BY (roomtype)`
+            SELECT roomtype.name, COUNT(room.id)
+            FROM roomtype
+            JOIN room ON roomtype.id = room.typeId
+            WHERE roomtype.name NOT IN(SELECT roomtype FROM cte)
+            AND roomtype.name = ${type}
+            GROUP BY (roomtype.name)`
 
             if (!availability) throw new Error(`Error Checking Availability!`)
             return availability
@@ -59,15 +81,20 @@ class availabilityRepository extends Repository {
         try {
             const availability = await this._model.$queryRaw`
                 WITH cte AS ( 
-                SELECT roomtype, roomId 
-                FROM availability
-                WHERE ((checkin BETWEEN ${checkin} AND ${checkout} OR checkout BETWEEN ${checkin} AND ${checkout})
-                OR (checkin <= ${checkin} AND checkout >= ${checkout}))
+                    SELECT 
+                    roomtype.name AS roomtype, booking.roomId
+                    FROM booking 
+                    JOIN reservations ON reservations.id = booking.reservationId
+                    JOIN room ON booking.roomId = room.id
+                    JOIN roomtype ON room.typeId = roomtype.id
+                    WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
+                    OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
                 )
 
-                SELECT roomtype, roomId
-                FROM allRooms
-                WHERE roomId NOT IN(SELECT roomId FROM cte)`
+                SELECT roomtype.name, room.id
+                FROM roomtype
+                JOIN room ON roomtype.id = room.typeId
+                WHERE room.id NOT IN(SELECT roomId FROM cte)`
 
             if (!availability) throw new Error(`Error Checking Availability For The Specified Type!`)
             return availability
@@ -82,17 +109,22 @@ class availabilityRepository extends Repository {
         try {
             const availability = await this._model.$queryRaw`
                 WITH cte AS ( 
-                SELECT roomtype, roomId 
-                FROM availability
-                WHERE ((checkin BETWEEN ${checkin} AND ${checkout} OR checkout BETWEEN ${checkin} AND ${checkout})
-                OR (checkin <= ${checkin} AND checkout >= ${checkout}))
-                AND roomtype = ${type}
+                    SELECT 
+                    roomtype.name AS roomtype, booking.roomId
+                    FROM booking 
+                    JOIN reservations ON reservations.id = booking.reservationId
+                    JOIN room ON booking.roomId = room.id
+                    JOIN roomtype ON room.typeId = roomtype.id
+                    WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
+                    OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                    AND roomtype.name = ${type}
                 )
-
-                SELECT roomtype, roomId
-                FROM allRooms
-                WHERE roomId NOT IN(SELECT roomId FROM cte)
-                AND roomtype = ${type}`
+                
+                SELECT roomtype.name, room.id
+                FROM roomtype
+                JOIN room ON roomtype.id = room.typeId
+                WHERE room.id NOT IN(SELECT roomId FROM cte)
+                AND roomtype.name = ${type}`
 
 
             if (!availability) throw new Error(`Error Checking Availability For The Specified Type!`)
