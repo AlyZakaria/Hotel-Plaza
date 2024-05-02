@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
+import { EMAIL_PASS } from '../config/constants'
 
 const sendEmail = async (email: any) => {
-    const password = process.env.EMAIL_PASS
     try {
         const transporter = nodemailer.createTransport({
             service: 'gmail', // For example, using Gmail
@@ -10,7 +10,7 @@ const sendEmail = async (email: any) => {
             secure: true,
             auth: {
                 user: email.from,
-                pass: password,
+                pass: EMAIL_PASS,
             },
         })
         for (let i = 0; i < email.to.length; i++) {

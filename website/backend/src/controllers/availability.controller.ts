@@ -6,36 +6,41 @@ class availabilityController extends Controller {
     constructor() {
         super()
         this.repository = new availabilityRepository()
-        this.allAvailableRooms = this.allAvailableRooms.bind(this)
-        this.typeAvailableRooms = this.typeAvailableRooms.bind(this)
-        this.allIdsAvailable = this.allIdsAvailable.bind(this)
-        this.typeIdsAvailable = this.typeIdsAvailable.bind(this)
-
     }
 
     async allAvailableRooms(req: Request, res: Response, next: NextFunction) {
         try {
-
             const checkin = req.body.checkin
             const checkout = req.body.checkout
 
-            const allRoomsAvailable = await this.repository.allAvailableRooms(checkin, checkout)
+            const allRoomsAvailable = await this.repository.allAvailableRooms(
+                checkin,
+                checkout
+            )
             if (!allRoomsAvailable) throw new Error()
 
-            res.status(200).send(allRoomsAvailable)
+            res.status(200).send(
+                JSON.stringify(allRoomsAvailable, (_, v) =>
+                    typeof v === 'bigint' ? v.toString() : v
+                )
+            )
         } catch (error: unknown) {
+            console.log(error)
             res.status(404).send('No available rooms found')
         }
     }
 
     async typeAvailableRooms(req: Request, res: Response, next: NextFunction) {
         try {
-
             const checkin = req.body.checkin
             const checkout = req.body.checkout
             const type = req.body.type
 
-            const typeRoomsAvailable = await this.repository.typeAvailableRooms(checkin, checkout, type)
+            const typeRoomsAvailable = await this.repository.typeAvailableRooms(
+                checkin,
+                checkout,
+                type
+            )
             if (!typeRoomsAvailable) throw new Error()
 
             res.status(200).send(typeRoomsAvailable)
@@ -46,11 +51,13 @@ class availabilityController extends Controller {
 
     async allIdsAvailable(req: Request, res: Response, next: NextFunction) {
         try {
-
             const checkin = req.body.checkin
             const checkout = req.body.checkout
 
-            const idsAvailable = await this.repository.allIdsAvailable(checkin, checkout)
+            const idsAvailable = await this.repository.allIdsAvailable(
+                checkin,
+                checkout
+            )
             if (!idsAvailable) throw new Error()
 
             res.status(200).send(idsAvailable)
@@ -61,12 +68,15 @@ class availabilityController extends Controller {
 
     async typeIdsAvailable(req: Request, res: Response, next: NextFunction) {
         try {
-
             const checkin = req.body.checkin
             const checkout = req.body.checkout
             const type = req.body.type
 
-            const allRoomsAvailable = await this.repository.typeIdsAvailable(checkin, checkout, type)
+            const allRoomsAvailable = await this.repository.typeIdsAvailable(
+                checkin,
+                checkout,
+                type
+            )
             if (!allRoomsAvailable) throw new Error()
 
             res.status(200).send(allRoomsAvailable)
@@ -74,6 +84,5 @@ class availabilityController extends Controller {
             res.status(404).send('Ids for this type are not found')
         }
     }
-
 }
 export default availabilityController
