@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import Controller from './Controller'
-import { generateOtp, sendEmail } from '../helpers'
+import { generateOtp } from '../helpers'
 import jwt from 'jsonwebtoken'
 import { ResetPasswordRepository } from '../repositories'
 import { SALT_ROUNDS, BCRYPT_PASSWORD, TOKEN } from '../config/constants'
 import { otpData } from '../interfaces'
-import makeEmail from '../emails/otpEmail'
+import OtpEmail from '../utils/emails/OtpEmail'
 import bcrypt from 'bcrypt'
-
+import { statusCode } from '../constants/statusCode'
 class ResetPasswordController extends Controller {
     constructor() {
         super()
@@ -31,13 +31,13 @@ class ResetPasswordController extends Controller {
             otpData['email'] = customerExist.email
 
             // send otp to the email
-            const sendableEmail = makeEmail(otpData)
-            await sendEmail(sendableEmail)
+            const otpEmail = new OtpEmail(otpData.email, otpData.otp)
+            await otpEmail.sendOtpEmail()
 
-            res.status(200).send()
+            res.status(statusCode.success.ok).send()
         } catch (error: unknown) {
             console.log(error)
-            res.status(404).send(`Email not found`)
+            res.status(statusCode.clientError.notFound).send(`Email not found`)
         }
     }
     // verify otp
@@ -57,9 +57,9 @@ class ResetPasswordController extends Controller {
                     expiresIn: '5m',
                 }
             )
-            res.status(200).send(token)
+            res.status(statusCode.success.ok).send(token)
         } catch (error: unknown) {
-            res.status(401).send(`Wrong OTP`)
+            res.status(statusCode.clientError.unauthorized).send(`Wrong OTP`)
         }
     }
     //reset password
@@ -76,9 +76,9 @@ class ResetPasswordController extends Controller {
                 hash
             )
             if (!updatePassword) throw new Error()
-            res.status(200).send(`Password reset successful`)
+            res.status(statusCode.success.ok).send(`Password reset successful`)
         } catch (error: unknown) {
-            res.status(404).send(`Email not found`)
+            res.status(statusCode.clientError.notFound).send(`Email not found`)
         }
     }
 }

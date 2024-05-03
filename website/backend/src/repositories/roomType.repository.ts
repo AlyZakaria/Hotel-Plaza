@@ -29,6 +29,7 @@ class RoomTypeRepository extends Repository {
                     },
                 },
             })
+
             if (!roomTypes.length) throw new Error(`No room types found`)
             return roomTypes
         } catch (error: unknown) {

@@ -10,7 +10,9 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
   const login = async () => {
     try {
       console.log(userData);
+      console.log(axios.getBaseURL);
       const response = await axios.post(URLs.login, userData);
+      console.log(response);
       if (response.status === 200) {
         console.log("Login Successfull");
         setCustomer({ ...response.data });

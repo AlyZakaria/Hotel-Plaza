@@ -34,35 +34,37 @@ class ResetPasswordRepository extends Repository {
     // verifyOTP
     async verifyOTP(email: string, otp: string): Promise<any | never> {
         try {
-            const transaction = await this.prisma.$transaction(async (tx) => {
-                // get the customer by email
-                const customer = await tx.customer.findFirst({
-                    select: {
-                        id: true,
-                        email: true,
-                    },
-                    where: {
-                        email: email,
-                    },
-                })
-                if (!customer) throw new Error(`Customer not found`)
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    // get the customer by email
+                    const customer = await tx.customer.findFirst({
+                        select: {
+                            id: true,
+                            email: true,
+                        },
+                        where: {
+                            email: email,
+                        },
+                    })
+                    if (!customer) throw new Error(`Customer not found`)
 
-                // get the otp data from otp schema
-                const verify = await tx.otp.findFirst({
-                    select: {
-                        id: true,
-                        otp: true,
-                        userId: true,
-                    },
-                    where: {
-                        userId: customer.id,
-                        otp: otp,
-                    },
-                })
-                if (!verify) throw new Error()
+                    // get the otp data from otp schema
+                    const verify = await tx.otp.findFirst({
+                        select: {
+                            id: true,
+                            otp: true,
+                            userId: true,
+                        },
+                        where: {
+                            userId: customer.id,
+                            otp: otp,
+                        },
+                    })
+                    if (!verify) throw new Error()
 
-                return verify
-            })
+                    return verify
+                }
+            )
 
             if (!transaction) throw new Error()
             return transaction
@@ -76,28 +78,30 @@ class ResetPasswordRepository extends Repository {
         newPassword: string
     ): Promise<any | never> {
         try {
-            const transaction = await this.prisma.$transaction(async (tx) => {
-                // compare the password
-                const customer = await tx.customer.findFirst({
-                    where: {
-                        email: token.email,
-                    },
-                })
-                if (!customer) throw new Error(`Customer not found`)
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    // compare the password
+                    const customer = await tx.customer.findFirst({
+                        where: {
+                            email: token.email,
+                        },
+                    })
+                    if (!customer) throw new Error(`Customer not found`)
 
-                // update the password
-                const updated = await tx.customer.update({
-                    where: {
-                        id: customer.id,
-                        email: customer.email,
-                    },
-                    data: {
-                        password: newPassword,
-                    },
-                })
-                if (!updated) throw new Error()
-                return updated
-            })
+                    // update the password
+                    const updated = await tx.customer.update({
+                        where: {
+                            id: customer.id,
+                            email: customer.email,
+                        },
+                        data: {
+                            password: newPassword,
+                        },
+                    })
+                    if (!updated) throw new Error()
+                    return updated
+                }
+            )
             if (!transaction) throw new Error()
             return transaction
         } catch (error: unknown) {

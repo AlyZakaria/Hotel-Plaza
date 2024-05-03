@@ -7,6 +7,9 @@ const useSavePersonalDetails = (save, setSave, tempCustomer, setCustomer) => {
     try {
       console.log(tempCustomer);
 
+      // set token
+      let token = JSON.parse(sessionStorage.getItem("token"));
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       let response = await axios.put(urls.updateCustomer, {
         id: tempCustomer.id,
         fname: tempCustomer.fname,

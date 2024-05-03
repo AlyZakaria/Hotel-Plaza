@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import { RoomTypeRepository } from '../repositories'
 import { uint8ArrayToBase64 } from '../helpers'
 import { roomType } from '../interfaces'
+import { statusCode } from '../constants/statusCode'
 
 class RoomTypeController extends Controller {
     constructor() {
@@ -27,6 +28,7 @@ class RoomTypeController extends Controller {
                     imageUrl: roomType.imageURLs[0] || null,
                 })
             )
+
             const roomTypesUpdated: roomType[] = roomTypesFiltered.map(
                 (roomType: any) => ({
                     id: roomType.id,
@@ -35,7 +37,7 @@ class RoomTypeController extends Controller {
                     description: roomType.description,
                     capacity: roomType.capacity,
                     pricepernight: roomType.pricepernight,
-                    imageUrl: roomType.imageUrl.id
+                    imageUrl: roomType.imageUrl
                         ? {
                               id: roomType.imageUrl.imageURL.id,
                               blob: uint8ArrayToBase64(
@@ -47,9 +49,11 @@ class RoomTypeController extends Controller {
                 })
             )
 
-            res.status(200).send(roomTypesUpdated)
+            res.status(statusCode.success.ok).send(roomTypesUpdated)
         } catch (error: unknown) {
-            res.status(404).send('No room Types found')
+            res.status(statusCode.clientError.notFound).send(
+                'No room Types found'
+            )
         }
     }
     async getRoomType(req: Request, res: Response, next: NextFunction) {
@@ -58,9 +62,11 @@ class RoomTypeController extends Controller {
             const roomType: roomType =
                 await this.repository.getRoomType(roomTypeId)
             if (!roomType) throw new Error()
-            res.status(200).send(roomType)
+            res.status(statusCode.success.ok).send(roomType)
         } catch (error: unknown) {
-            res.status(404).send('No room Type found')
+            res.status(statusCode.clientError.notFound).send(
+                'No room Type found'
+            )
         }
     }
 }

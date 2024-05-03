@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { base64toBlob, uint8ArrayToBase64 } from '../helpers'
 import { SALT_ROUNDS, BCRYPT_PASSWORD, TOKEN } from '../config/constants'
-
+import { statusCode } from '../constants/statusCode'
 class CustomerController extends Controller {
     constructor() {
         super()
@@ -15,6 +15,7 @@ class CustomerController extends Controller {
     // login
     async login(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.body)
             const { email, password }: signedCustomer = req.body
             // check first that the email is not null
             if (!email) throw new Error('Please enter an email')
@@ -37,9 +38,9 @@ class CustomerController extends Controller {
             let token = jwt.sign(customer, TOKEN as string)
             delete customer['password']
             customer['token'] = token
-            res.status(200).send(customer)
+            res.status(statusCode.success.ok).send(customer)
         } catch (error: any) {
-            res.status(404).send(error.message)
+            res.status(statusCode.clientError.unauthorized).send(error.message)
         }
     }
     // signup
@@ -62,9 +63,12 @@ class CustomerController extends Controller {
             let token = jwt.sign(customer, TOKEN as string)
             delete customer['password']
             customer['token'] = token
-            res.status(200).send(customer)
+            res.status(statusCode.success.created).send(customer)
         } catch (error: unknown) {
-            res.status(201).send(`It can't be created, please try again..`)
+            console.log(error)
+            res.status(statusCode.clientError.badRequest).send(
+                `It can't be created, please try again..`
+            )
         }
     }
     async updateCustomer(req: Request, res: Response, next: NextFunction) {
@@ -78,10 +82,12 @@ class CustomerController extends Controller {
             const updatedCustomer =
                 await this.repository.updateCustomer(customer)
             if (!updatedCustomer) throw new Error()
-            res.status(200).send(updatedCustomer)
+            res.status(statusCode.success.ok).send(updatedCustomer)
         } catch (error: unknown) {
             console.log(error)
-            res.status(404).send(`Customer not found`)
+            res.status(statusCode.clientError.badRequest).send(
+                `Customer not found`
+            )
         }
     }
     async uploadProfileImage(req: Request, res: Response, next: NextFunction) {
@@ -108,10 +114,12 @@ class CustomerController extends Controller {
             }
 
             if (!updatedCustomer) throw new Error()
-            res.status(200).send(updatedCustomer)
+            res.status(statusCode.success.ok).send(updatedCustomer)
         } catch (error: unknown) {
             console.log(error)
-            res.status(404).send(`Customer not found`)
+            res.status(statusCode.clientError.badRequest).send(
+                `Customer not found`
+            )
         }
     }
 
@@ -122,18 +130,20 @@ class CustomerController extends Controller {
             if (!email) throw new Error(`Please enter an email`)
             const notify = await this.repository.receiveOffer(email, name)
             if (!notify) throw new Error()
-            res.status(200).send(`You will receive offers from now on`)
+            res.status(statusCode.success.ok).send(
+                `You will receive offers from now on`
+            )
         } catch (error: any) {
-            res.status(404).send(error.message)
+            res.status(statusCode.clientError.badRequest).send(error.message)
         }
     }
     async getAllCustomers(req: Request, res: Response, next: NextFunction) {
         try {
             const getAllCustomers = await this.repository.getAllCustomers()
-            res.status(200).send(getAllCustomers)
+            res.status(statusCode.success.ok).send(getAllCustomers)
         } catch (error) {
             console.log(error)
-            res.status(404).send(error)
+            res.status(statusCode.clientError.notFound).send(error)
         }
     }
 }
