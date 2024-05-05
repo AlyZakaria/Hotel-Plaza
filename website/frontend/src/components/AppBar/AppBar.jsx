@@ -128,7 +128,9 @@ function ResponsiveAppBar() {
               fontSize: 30,
             }}
           >
-            Plaza Hotel
+            <Link href="/" sx={{ textDecoration: "none", color: "White" }}>
+              Plaza Hotel
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
