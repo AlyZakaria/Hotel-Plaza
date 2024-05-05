@@ -36,7 +36,11 @@ const RoomAvailable = ({
           <div className="image-container">
             <img
               alt={`${roomType.name}`}
-              src={`data:${roomImage.type};base64,${roomImage.blob}`}
+              src={
+                roomType.imageUrl
+                  ? `data:${roomImage.type};base64,${roomImage.blob}`
+                  : ""
+              }
             ></img>
           </div>
         </Grid>

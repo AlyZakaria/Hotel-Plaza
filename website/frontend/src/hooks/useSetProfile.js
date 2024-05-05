@@ -9,10 +9,11 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
   const navigate = useNavigate();
   const uploadProfile = async () => {
     try {
-      const token = sessionStorage.getItem("token");
-
       let data = new FormData();
       data.append("files", profile, profile.name);
+      // set token
+      let token = JSON.parse(sessionStorage.getItem("token"));
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.put(
         `${urls.uploadProfile}/${customer.id}`,
         data,

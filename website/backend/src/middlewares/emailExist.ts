@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-import CustomerRepository from '../repositories/customer.repository'
-import customerData from '../interfaces/customerData'
-
+import { CustomerRepository } from '../repositories'
+import { customerData } from '../interfaces'
+import { statusCode } from '../constants/statusCode'
 const customerRepository = new CustomerRepository()
 async function emailExist(req: Request, res: Response, next: NextFunction) {
     try {
@@ -14,10 +14,10 @@ async function emailExist(req: Request, res: Response, next: NextFunction) {
             req.body['customer'] = customer
             next()
         } else {
-            res.status(409).end(`Email doesn't exist`)
+            throw new Error()
         }
     } catch (error) {
-        res.status(409).end(`Email doesn't exist`)
+        res.status(statusCode.clientError.notFound).end(`Email doesn't exist`)
     }
 }
 

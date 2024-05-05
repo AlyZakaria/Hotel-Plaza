@@ -14,11 +14,15 @@ export default function MultiActionAreaCard({ roomType }) {
         <CardMedia
           component="img"
           height="140"
-          image={`data:${roomType.imageUrl.type};base64,${roomType.imageUrl.blob}`}
-          alt="green iguana"
+          image={
+            roomType.imageUrl
+              ? `data:${roomType.imageUrl.type};base64,${roomType.imageUrl.blob}`
+              : ""
+          }
+          alt="ROOM IMAGE"
         />
         <CardContent>
-          <Typography gutterBottom>{roomType.name} Room</Typography>
+          <Typography gutterBottom>{roomType.name}</Typography>
         </CardContent>
       </CardActionArea>
 

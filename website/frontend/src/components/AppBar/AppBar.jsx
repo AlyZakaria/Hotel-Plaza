@@ -150,8 +150,8 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-          {customer.fname && <AccountMenu />}
-          {!customer.fname && (
+          {sessionStorage.getItem("customer") && <AccountMenu />}
+          {!sessionStorage.getItem("customer") && (
             <>
               <Box
                 sx={{
