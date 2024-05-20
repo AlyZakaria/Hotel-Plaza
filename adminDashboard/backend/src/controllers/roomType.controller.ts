@@ -26,10 +26,14 @@ class RoomTypeController extends Controller {
     async addRoomType(req: Request, res: Response, next: NextFunction) {
         try {
             const roomType: roomType = req.body
+            roomType.bed = 'single'
+            roomType.size = 0
+            console.log(roomType)
             if (!roomType) throw new Error(`Room type can't be created`)
             const roomTypeCreated = await this.repository.addRoomType(roomType)
             res.status(201).send(roomTypeCreated)
         } catch (error: unknown) {
+            console.log(error)
             res.status(409).send(`It can't be created, please try again..`)
         }
     }

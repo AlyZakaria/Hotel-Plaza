@@ -7,5 +7,6 @@
   "resetPassword": "/api/reset-password",
   "receiveOffer": "/api/receive-offer",
   "updateCustomer":"/api/update-customer",
-  "uploadProfile": "/api/upload-profile"
+  "uploadProfile": "/api/upload-profile",
+  "availableRooms": "/api/all-available"
 }

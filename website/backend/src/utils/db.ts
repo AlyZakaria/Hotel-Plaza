@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
-class Database {
+class Database {    
     private static instance: Database
     private prisma: PrismaClient
 

@@ -6,5 +6,7 @@ interface roomType {
     view: 'garden' | 'pool' | 'sea'
     name: string
     description: string
+    bed: string
+    size: number
 }
 export default roomType
