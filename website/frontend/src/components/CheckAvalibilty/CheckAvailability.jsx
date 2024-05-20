@@ -53,6 +53,7 @@ const CheckAvailability = () => {
               label="Check-in"
               value={date.checkIn}
               onChange={(newValue) => setDate({ ...date, checkIn: newValue })}
+              sx={{ width: "auto" }}
             />
           </LocalizationProvider>
         </Grid>
@@ -63,6 +64,7 @@ const CheckAvailability = () => {
               label="Check-out"
               value={date.checkOut}
               onChange={(newValue) => setDate({ ...date, checkOut: newValue })}
+              sx={{ width: "auto" }}
             />
           </LocalizationProvider>
         </Grid>
@@ -77,14 +79,14 @@ const CheckAvailability = () => {
                 { label: "3" },
                 { label: "4" },
               ]}
-              sx={{ width: 200 }}
+              sx={{ width: 250 }}
               renderInput={(params) => <TextField {...params} label="Guests" />}
             />
           </div>
         </Grid>
         <Grid
           item
-          md={2}
+          md={3}
           xs={12}
           sx={{
             display: "flex",
@@ -93,8 +95,13 @@ const CheckAvailability = () => {
           }}
         >
           <div style={{ color: "#143c5c" }}>
-            <Button variant="contained" onClick={() => navigateTo()}>
-              Check Available
+            <Button
+              variant="contained"
+              size="large"
+              onClick={() => navigateTo()}
+              sx={{ width: { xs: 250, sm: 250, md: 220 } }}
+            >
+              Check Availability
             </Button>
           </div>
         </Grid>

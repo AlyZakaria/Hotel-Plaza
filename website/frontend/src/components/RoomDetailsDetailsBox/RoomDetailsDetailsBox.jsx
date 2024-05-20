@@ -8,11 +8,17 @@ import Stack from "@mui/material/Stack";
 
 const RoomDetailsDetailsBox = () => {
   const isSmallScreen = useMediaQuery("(max-width:1000px)");
+  const [selected, setSelected] = React.useState(false);
+  const onSelect = () => {
+    setSelected(true);
+  };
   return (
     <Box
-      bgcolor={"red"}
+      bgcolor={"#143c5c"}
       sx={{
-        height: "100%",
+        height: { xs: "350px", sm: "450px", md: "100%" },
+        border: "1px solid #e6e6e6",
+        borderRadius: "10px",
       }}
     >
       <Stack
@@ -20,10 +26,10 @@ const RoomDetailsDetailsBox = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          height: { sm: "20%", md: "10%" },
+          height: { xs: "20%", sm: "20%", md: "10%" },
         }}
       >
-        <Typography sx={{ fontWeight: "bold", fontSize: 25 }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: 25, color: "white" }}>
           Room Details
         </Typography>
       </Stack>
@@ -34,7 +40,7 @@ const RoomDetailsDetailsBox = () => {
           bgcolor: "white",
           display: "flex",
           justifyContent: "space-around",
-          height: { sm: "80%", md: "90%" },
+          height: { xs: "80%", sm: "80%", md: "90%" },
           padding: "0 10%",
         }}
       >
@@ -50,9 +56,18 @@ const RoomDetailsDetailsBox = () => {
         <TextField label="Check In" size="small"></TextField>
         <TextField label="Check Out" size="small"></TextField>
 
-        <Button size="small" sx={{ bgcolor: "blue", color: "white" }}>
+        <Button
+          size="large"
+          sx={{ bgcolor: "#143c5c", color: "white" }}
+          onClick={onSelect}
+        >
           Check Price
         </Button>
+        {selected && (
+          <Button size="large" sx={{ bgcolor: "#143c5c", color: "white" }}>
+            Proceed To Checkout
+          </Button>
+        )}
       </Stack>
     </Box>
   );

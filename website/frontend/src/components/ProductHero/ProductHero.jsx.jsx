@@ -7,7 +7,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import "./style.css";
 const backgroundImage =
-  "https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400";
+  "https://www.cvent.com/sites/default/files/image/2021-01/iStock-537361842-2.jpg";
 
 export default function ProductHero() {
   return (
@@ -32,17 +32,16 @@ export default function ProductHero() {
               alt="increase priority"
             />
             <Box className="content">
-              {" "}
               <Typography
                 color="inherit"
-                variant="h4"
-                component="h4"
+                variant="h3"
+                component="h3"
                 marked="center"
                 sx={{
                   animationDelay: "1000ms",
                 }}
               >
-                Welcome to Hotel plaza
+                Welcome to Plaza Hotel
               </Typography>
               <ArrowDownwardIcon></ArrowDownwardIcon>
             </Box>

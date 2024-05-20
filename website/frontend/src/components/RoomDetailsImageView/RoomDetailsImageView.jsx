@@ -4,7 +4,11 @@ import Grid from "@mui/material/Grid";
 const RoomDetailsImageView = () => {
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        sx={{ height: { xs: "350px", sm: "450px", md: "600px" } }}
+      >
         <img
           src="https://www.gentinghotel.co.uk/_next/image?url=https%3A%2F%2Fs3.eu-west-2.amazonaws.com%2Fstaticgh.gentinghotel.co.uk%2Fuploads%2Fcarousel%2FGenting-Hotel-42.jpg&w=3840&q=75"
           alt="Room"
