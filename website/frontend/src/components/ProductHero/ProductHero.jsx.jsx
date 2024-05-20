@@ -7,7 +7,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import "./style.css";
 const backgroundImage =
-  "https://www.cvent.com/sites/default/files/image/2021-01/iStock-537361842-2.jpg";
+  "https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg";
 
 export default function ProductHero() {
   return (
