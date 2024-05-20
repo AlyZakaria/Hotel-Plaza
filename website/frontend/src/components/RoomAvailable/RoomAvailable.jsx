@@ -36,7 +36,11 @@ const RoomAvailable = ({
           <div className="image-container">
             <img
               alt={`${roomType.name}`}
-              src={`data:${roomImage.type};base64,${roomImage.blob}`}
+              src={
+                roomType.imageUrl
+                  ? `data:${roomImage.type};base64,${roomImage.blob}`
+                  : ""
+              }
             ></img>
           </div>
         </Grid>
@@ -201,7 +205,7 @@ const RoomAvailable = ({
               className="cut-line"
             >
               <del data-v-e7c45ce0="" aria-hidden="true">
-                EGY&nbsp;200
+                EGY&nbsp;{roomPrice}
               </del>
             </Typography>
             <Typography
@@ -216,7 +220,7 @@ const RoomAvailable = ({
                 margin: "0px",
               }}
             >
-              EGY 100
+              EGY {roomPrice}
             </Typography>
           </Box>
         </Box>

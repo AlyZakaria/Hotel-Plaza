@@ -14,6 +14,10 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import useLogin from "../../hooks/useLogin";
+import { useContext } from "react";
+import { CustomerContext } from "../../contexts/Customer";
+import { UserLoginSchema } from "../../Validations/UserLogin";
+import { ToastContainer, toast } from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -42,7 +46,9 @@ let user = {};
 
 export default function SignInSide() {
   const [submit, setSubmit] = React.useState(false);
-  useLogin(user, submit, setSubmit); // hook called
+  let { customer, setCustomer } = useContext(CustomerContext);
+
+  useLogin(user, setCustomer, submit, setSubmit); // hook called
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,6 +57,11 @@ export default function SignInSide() {
       email: data.get("email"),
       password: data.get("password"),
     };
+    const isValid = UserLoginSchema.isValidSync(user);
+    if (!isValid) {
+      toast.error("Invalid data format and/or empty field(s)");
+      return;
+    }
     setSubmit(true);
   };
 

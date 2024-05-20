@@ -16,6 +16,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import AppBar from "../../components/AppBar/AppBar";
 import useSignUp from "../../hooks/useSignUp";
+import { useContext } from "react";
+import { CustomerContext } from "../../contexts/Customer";
+import { AddUserSchema } from "../../Validations/AddUser";
+import { ToastContainer, toast } from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -43,12 +47,13 @@ let user = {};
 
 export default function SignUp() {
   const [state, setState] = React.useState(false);
+  let { customer, setCustomer } = useContext(CustomerContext);
   const [phoneNumber, setPhoneNumber] = React.useState("+20");
   const [error, setError] = React.useState("");
-  const [gender, setGender] = React.useState(0);
+  const [gender, setGender] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
 
-  useSignUp(user, submit, setSubmit);
+  useSignUp(user, customer, setCustomer, submit, setSubmit);
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -65,7 +70,14 @@ export default function SignUp() {
       country: "Egypt",
       zip: "123123",
       address: "Alexandria",
+      gender: data.get("gender"),
     };
+    const isValid = AddUserSchema.isValidSync(user);
+    console.log(isValid);
+    if (!isValid) {
+      toast.error("Invalid data format and/or empty field(s)");
+      return;
+    }
     console.log(user);
     setSubmit(true);
   };
@@ -160,6 +172,7 @@ export default function SignUp() {
                     id="gender"
                     value={gender}
                     label="Gender"
+                    name="gender"
                     onChange={handleGenderChange}
                     error={state}
                     helperText={error}

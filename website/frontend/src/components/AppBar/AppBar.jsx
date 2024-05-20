@@ -13,16 +13,19 @@ import Rating from "@mui/material/Rating";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
+import { CustomerContext } from "../../contexts/Customer";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 const pages = ["Availability", "About", "Contact", "Policies"];
 const links = ["/available-rooms", "/about", "/contact", "/policies"];
 
 function ResponsiveAppBar() {
+  let { customer, setCustomer } = React.useContext(CustomerContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
 
   const navigateTo = (event, link) => {
-    console.log(link);
     navigate(link);
   };
 
@@ -125,7 +128,9 @@ function ResponsiveAppBar() {
               fontSize: 30,
             }}
           >
-            Plaza Hotel
+            <Link href="/" sx={{ textDecoration: "none", color: "White" }}>
+              Plaza Hotel
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -145,60 +150,78 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          {sessionStorage.getItem("customer") && <AccountMenu />}
+          {!sessionStorage.getItem("customer") && (
+            <>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: { xs: "none", sm: "none", md: "flex" },
+                }}
+              >
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link href="/login">
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: "white",
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign In
+                    </Typography>
+                  </Link>
+                  <Link href="/checkout">
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: "white",
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Checkout
+                    </Typography>
+                  </Link>
+                </MenuItem>
+              </Box>
 
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: { xs: "none", sm: "none", md: "flex" },
-            }}
-          >
-            <MenuItem onClick={handleCloseNavMenu}>
+              <Box
+                sx={{
+                  flexGrow: 0,
+                  display: { xs: "none", sm: "none", md: "flex" },
+                }}
+              >
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link href="/signup">
+                    <Typography
+                      textAlign="center"
+                      sx={{
+                        color: "red",
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign up
+                    </Typography>
+                  </Link>
+                </MenuItem>
+              </Box>
               <Link href="/login">
-                <Typography
-                  textAlign="center"
+                <LoginIcon
                   sx={{
                     color: "white",
-                    textTransform: "uppercase",
-                    fontWeight: "bold",
-                    textDecoration: "none",
+                    flexGrow: 0,
+                    display: { xs: "flex", sm: "flex", md: "none" },
                   }}
-                >
-                  Sign In
-                </Typography>
+                ></LoginIcon>
               </Link>
-            </MenuItem>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 0,
-              display: { xs: "none", sm: "none", md: "flex" },
-            }}
-          >
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Link href="/signup">
-                <Typography
-                  textAlign="center"
-                  sx={{
-                    color: "red",
-                    textTransform: "uppercase",
-                    fontWeight: "bold",
-                    textDecoration: "none",
-                  }}
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </MenuItem>
-          </Box>
-          <Link href="/login">
-            <LoginIcon
-              sx={{
-                color: "white",
-                flexGrow: 0,
-                display: { xs: "flex", sm: "flex", md: "none" },
-              }}
-            ></LoginIcon>
-          </Link>
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

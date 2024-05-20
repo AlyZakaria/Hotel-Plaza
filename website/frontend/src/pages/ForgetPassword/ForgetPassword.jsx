@@ -11,7 +11,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AppBar from "../../components/AppBar/AppBar";
 import useForgetPassword from "../../hooks/useForgetPassword";
-
+import { ForgetPasswordSchema } from "../../Validations/ForgetPassword";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Copyright(props) {
   return (
     <Typography
@@ -30,8 +32,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 let user = {};
@@ -47,6 +47,12 @@ export default function ForgetPassword() {
     user = {
       email: data.get("email"),
     };
+    const isValid = ForgetPasswordSchema.isValidSync(user);
+    console.log(isValid);
+    if (isValid == false) {
+      toast.error("Invalid Email Format \n Example: email@email.com");
+      return;
+    }
     console.log(user);
     setSubmit(true);
   };

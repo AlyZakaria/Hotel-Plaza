@@ -12,7 +12,8 @@ const Home = () => {
       <ProductHero></ProductHero>
       <CheckAvailability></CheckAvailability>
       <HotelServices></HotelServices>
-      <RoomTypesCarousel></RoomTypesCarousel> <ReceiveOffer></ReceiveOffer>
+      <RoomTypesCarousel></RoomTypesCarousel>
+      <ReceiveOffer></ReceiveOffer>
       <Anchor></Anchor>
     </div>
   );

@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=dev nodemon src/server.ts ",
     "lint": "eslint \"src/**/*.ts\" ",
     "prettier": "npx prettier . --write",
-    "test": "cross-env NODE_ENV=test dotenv -e .env.sample -- jest",
+    "test": "cross-env NODE_ENV=test dotenv -e .env.sample -- jest  --runInBand",
     "build": "tsc",
     "migration:create": "prisma migrate dev --create-only && dotenv -e .env.sample -- npx prisma migrate",
     "migrate": "prisma migrate dev  && dotenv -e .env.sample -- npx prisma migrate dev",
@@ -46,9 +46,12 @@
     "@prisma/client": "^5.12.1",
     "@types/typescript": "^2.0.0",
     "dotenv-cli": "^7.4.1",
+    "generate-index-file": "^1.3.0",
+    "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.13"
+    "nodemailer": "^6.9.13",
+    "paypal-rest-sdk": "^1.8.1"
   }
 }

@@ -9,6 +9,7 @@ import ResetPassword from "../pages/ResetPassword/ResetPassword.jsx";
 import Settings from "../pages/userSettings/userSettings.jsx";
 import RoomsAvailable from "../pages/RoomsAvailable/RoomsAvailable.jsx";
 import RoomView from "../pages/RoomView/RoomView.jsx";
+import Checkout from "../pages/Checkout/Checkout.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/room-details",
     element: <RoomView></RoomView>,
+  },
+  {
+    path: "/checkout",
+    element: <Checkout></Checkout>,
   },
 ]);
 

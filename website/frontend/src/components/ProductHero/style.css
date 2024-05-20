@@ -33,7 +33,7 @@
     opacity: 0;
     transition:  2s;
     transform: translateX(-50%) translateY(100%);
-    animation: slide-up 3s ease forwards !important;
+    animation: slide-up 0.01s ease forwards !important;
     text-transform: uppercase;
 }
 .content h4{

@@ -6,7 +6,7 @@ const roomRoute = Router()
 const roomController = new RoomController()
 
 roomRoute.get('/rooms', roomController.getRooms)
-
+    
 roomRoute.post('/room', roomController.addRoom)
 
 roomRoute.put('/room', roomController.updateRoom)

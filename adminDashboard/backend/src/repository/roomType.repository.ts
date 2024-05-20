@@ -23,7 +23,6 @@ class RoomTypeRepository extends Repository {
             if (!roomTypeCreated) throw new Error(`Room Type can't be created`)
             return roomTypeCreated
         } catch (error: unknown) {
-            console.log(error)
             throw error
         }
     }
@@ -75,7 +74,9 @@ class RoomTypeRepository extends Repository {
     // delete all room types
     async deleteAll() {
         try {
-            let roomTypeDeleted = this._model.deleteMany()
+            // delete all room types and not truncate
+
+            let roomTypeDeleted = this._model.deleteMany({})
             await this.prisma.$transaction([roomTypeDeleted])
         } catch (error: unknown) {
             console.log(error)

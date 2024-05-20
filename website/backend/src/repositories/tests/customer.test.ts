@@ -25,16 +25,16 @@ beforeAll(async () => {
 })
 
 describe(`Register new customer and then login`, () => {
-    it(`Register new customer`, async () => {
+    test(`Register new customer`, async () => {
         const customer = await customerRepository.register(user)
         expect(customer.phone).toBe(user.phone)
     })
-    it(`customer login with correct email`, async () => {
-        const customer = await customerRepository.login(user.email)
+    test(`customer login with correct email`, async () => {
+        const customer = await customerRepository.login(user.email ?? '')
         expect(customer.email).toBe(user.email)
         expect(customer.phone).toBe(user.phone)
     })
-    it(`customer login with incorrect email`, async () => {
+    test(`customer login with incorrect email`, async () => {
         try {
             const customer = await customerRepository.login(
                 user.email + 'Wrong'
