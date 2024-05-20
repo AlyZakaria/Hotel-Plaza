@@ -99,13 +99,22 @@ model RoomType {
   pricepernight Decimal
   capacity      Int
   view          View
-  name          String     
+  name          String 
+  bed           bed_types    
+  size          Decimal
   description   String?
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
    @@unique([name, view , capacity])
 
+}
+
+enum bed_types{
+  single
+  double
+  king
+  queen
 }
 
 model ImageURL {
