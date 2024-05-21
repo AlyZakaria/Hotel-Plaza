@@ -67,9 +67,6 @@ export default function SignUp() {
       fname: data.get("firstName"),
       lname: data.get("lastName"),
       phone: phoneNumber,
-      country: "Egypt",
-      zip: "123123",
-      address: "Alexandria",
       gender: data.get("gender"),
     };
     const isValid = AddUserSchema.isValidSync(user);

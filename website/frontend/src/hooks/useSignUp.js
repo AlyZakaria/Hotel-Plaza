@@ -8,7 +8,7 @@ const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
     try {
       console.log(userData);
       const response = await axios.post(URLs.SignUp, userData);
-      if (response.status === 200) {
+      if (response.status === 201) {
         setCustomer({ ...response.data });
         navigate("/");
         console.log("SignUp Successfull");

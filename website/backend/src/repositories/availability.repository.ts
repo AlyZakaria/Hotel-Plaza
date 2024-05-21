@@ -33,7 +33,7 @@ class availabilityRepository extends Repository {
                             (roomtype.count - COUNT(booking.roomId)) as available
                             FROM booking
                             JOIN reservations ON reservations.id = booking.reservationId
-                            JOIN room ON booking.roomId = room.id
+                            JOIN room ON booking.roomId = room.room_id
                             JOIN roomtype ON room.typeId = roomtype.id
                             WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                             OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
@@ -55,7 +55,7 @@ class availabilityRepository extends Repository {
                         roomtype.description,
                         roomtype.bed,
                         roomtype.size,
-                        COUNT(room.id)
+                        COUNT(room.room_id)
                         FROM roomtype
                         JOIN room ON roomtype.id = room.typeId 
                         WHERE roomtype.name NOT IN(SELECT roomtype FROM cte ) 

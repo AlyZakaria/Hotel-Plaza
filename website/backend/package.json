@@ -12,7 +12,8 @@
     "migration:create": "prisma migrate dev --create-only && dotenv -e .env.sample -- npx prisma migrate",
     "migrate": "prisma migrate dev  && dotenv -e .env.sample -- npx prisma migrate dev",
     "migraion:production": "prisma migrate deploy",
-    "seed": "tsc prisma/seed.ts"
+    "prisma:reset": "npx prisma migrate reset",
+    "prisma:seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "author": "",
   "license": "ISC",

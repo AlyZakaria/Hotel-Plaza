@@ -22,9 +22,7 @@ model Customer {
   fname     String
   lname     String
   phone     String  @unique
-  country   String
-  address   String
-  zip       String
+  gender    gender
   image      Bytes?
   imageType  String?
   reservation    Reservation[]
@@ -32,6 +30,10 @@ model Customer {
   @@map("customers")
 }
 
+enum gender{
+  male
+  female
+}
 
 model Reservation {
   id          Int        @id @default(autoincrement())
@@ -72,7 +74,7 @@ enum StatusBooking {
 model Booking {
   reservation    Reservation   @relation(fields: [reservationId], references: [id])
   reservationId  Int
-  room           Room          @relation(fields: [roomId], references: [id])
+  room           Room          @relation(fields: [roomId], references: [room_id])
   roomId         Int
   receptionistId Int?
   status         StatusBooking
@@ -87,7 +89,7 @@ enum View {
 }
 
 model Room {
-  id           Int       @id @default(autoincrement())
+  room_id           Int       @id @default(autoincrement())
   roomType     RoomType  @relation(fields: [typeId], references: [id], onDelete: Cascade)
   typeId       Int
   reservations Booking[]

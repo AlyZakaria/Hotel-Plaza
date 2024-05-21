@@ -5,11 +5,14 @@ interface customerData {
     fname: string
     lname?: string
     phone: string
-    country: string
-    address: string
-    zip: string
+    gender: gender
     token?: string
-    image?: any
-    imageType?: string
+    image?: any | null
+    imageType?: string | null
 }
+enum gender {
+    male,
+    female,
+}
+
 export default customerData
