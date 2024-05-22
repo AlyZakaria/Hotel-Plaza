@@ -23,6 +23,10 @@ model Customer {
   lname     String
   phone     String  @unique
   gender    gender
+  dob       DateTime?
+  address   String?
+  provenance   String?
+  country   String?
   image      Bytes?
   imageType  String?
   reservation    Reservation[]

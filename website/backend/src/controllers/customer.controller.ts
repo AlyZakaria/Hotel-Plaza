@@ -83,6 +83,7 @@ class CustomerController extends Controller {
             Number(req.body.id)
             const customer: customerData = req.body
             // get all data of customer and update it
+            customer.dob = new Date(customer.dob as string)
             const updatedCustomer =
                 await this.repository.updateCustomer(customer)
             if (!updatedCustomer) throw new Error()

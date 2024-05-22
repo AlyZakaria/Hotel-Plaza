@@ -53,9 +53,6 @@ const RoomDetailsDetailsBox = () => {
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
           Starts at: 1000EGP/Night{" "}
         </Typography>
-        <TextField label="Check In" size="small"></TextField>
-        <TextField label="Check Out" size="small"></TextField>
-
         <Button
           size="large"
           sx={{ bgcolor: "#143c5c", color: "white" }}
@@ -63,11 +60,6 @@ const RoomDetailsDetailsBox = () => {
         >
           Check Price
         </Button>
-        {selected && (
-          <Button size="large" sx={{ bgcolor: "#143c5c", color: "white" }}>
-            Proceed To Checkout
-          </Button>
-        )}
       </Stack>
     </Box>
   );
