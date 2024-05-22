@@ -9,8 +9,9 @@ const verifyToken: express.RequestHandler = (
     next: express.NextFunction
 ) => {
     try {
+        console.log('Here')
         const authHeader = req.get('Authorization')
-        console.log(authHeader)
+        // console.log(authHeader)
         if (authHeader) {
             const bearer = authHeader.split(' ')[0].toLowerCase()
             const token = authHeader.split(' ')[1]
@@ -24,7 +25,7 @@ const verifyToken: express.RequestHandler = (
             } else throw new Error()
         } else throw new Error()
     } catch (error) {
-        console.log('here')
+        console.log(error)
         res.status(statusCode.clientError.unauthorized).send(
             `User is not verified`
         )

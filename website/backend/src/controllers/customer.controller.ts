@@ -30,12 +30,16 @@ class CustomerController extends Controller {
                 )
             )
                 throw new Error('Invalid password')
+            // generate token
+
             // check if he has profile or not
             if (customer.image && customer.imageType) {
                 customer.image = uint8ArrayToBase64(customer.image)
             }
-            // generate token
-            let token = jwt.sign(customer, TOKEN as string)
+            let tempCustomer = { ...customer }
+            delete tempCustomer['image']
+            delete tempCustomer['imageType']
+            let token = jwt.sign(tempCustomer, TOKEN as string)
             delete customer['password']
             customer['token'] = token
             res.status(statusCode.success.ok).send(customer)
@@ -94,6 +98,7 @@ class CustomerController extends Controller {
         try {
             if (!req.params.id) throw new Error()
             let id = Number(req.params.id)
+
             const image: any = req.file
             // convert to base64 as large string with data:image/jpeg;base64,
             let base64 =

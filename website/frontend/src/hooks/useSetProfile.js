@@ -15,7 +15,9 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
       console.log(token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
       const response = await axios.put(
         `${urls.uploadProfile}/${customer.id}`,
         data,
@@ -26,7 +28,6 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
           },
         }
       );
-      console.log("After response");
       if (response.status === 200) {
         setCustomer({
           ...customer,
