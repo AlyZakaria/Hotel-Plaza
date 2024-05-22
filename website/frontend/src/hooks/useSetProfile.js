@@ -13,11 +13,12 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
       data.append("files", profile, profile.name);
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
       const response = await axios.put(
         `${urls.uploadProfile}/${customer.id}`,
         data,
-
         {
           headers: {
             "Content-Type": data.type,
