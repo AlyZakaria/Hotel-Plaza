@@ -29,7 +29,6 @@ class availabilityRepository extends Repository {
                             roomtype.description,
                             roomtype.bed,
                             roomtype.size,
-
                             (roomtype.count - COUNT(booking.roomId)) as available
                             FROM booking
                             JOIN reservations ON reservations.id = booking.reservationId
