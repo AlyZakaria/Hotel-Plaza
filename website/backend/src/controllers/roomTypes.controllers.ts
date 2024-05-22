@@ -69,6 +69,24 @@ class RoomTypeController extends Controller {
             )
         }
     }
+    // get room Images
+    async getRoomImages(req: Request, res: Response, next: NextFunction) {
+        try {
+            if (!req.params.id) throw new Error()
+            let roomId = Number(req.params.id)
+            console.log(roomId)
+            const images = await this.repository.getRoomImages(roomId)
+
+            // loop on images and convert it to base64
+            for (let image of images) {
+                console.log(image)
+                image.imageURL.blob = uint8ArrayToBase64(image.imageURL.blob)
+            }
+            res.status(statusCode.success.ok).send(images)
+        } catch (error: unknown) {
+            res.status(statusCode.clientError.badRequest)
+        }
+    }
 }
 
 export default RoomTypeController

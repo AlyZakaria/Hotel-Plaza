@@ -4,18 +4,15 @@ import { PrismaClient, Prisma } from '@prisma/client'
 import fs from 'fs'
 import path from 'path'
 import { base64toBlob } from '../src/helpers'
+import sharp from 'sharp'
 
-function getImageAsBase64(filePath: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
-                reject(err)
-            } else {
-                const base64Image = Buffer.from(data).toString('base64')
-                resolve(base64Image)
-            }
-        })
-    })
+async function getImageAsBase64(filePath: string) {
+    const buffer = await sharp(filePath)
+        .resize(800, 600) // Resize to 800x600
+        .jpeg({ quality: 80 }) // Compress to 80% quality
+        .toBuffer()
+
+    return buffer.toString('base64')
 }
 
 async function main() {
@@ -44,6 +41,7 @@ async function main() {
             continue
         }
         const filePath = path.join(imageDirectory, file)
+
         const base64Image = await getImageAsBase64(filePath)
         // console.log(base64Image)
         // console.log('-----------')

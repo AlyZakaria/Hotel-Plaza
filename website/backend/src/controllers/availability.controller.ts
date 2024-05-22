@@ -33,7 +33,7 @@ class availabilityController extends Controller {
                 })
                 return { ...room, images2 }
             })
-            console.log(offers)
+           
             let { offerStartDate, offerEndDate, common_days } = {
                 offerStartDate: new Date(),
                 offerEndDate: new Date(),

@@ -49,7 +49,7 @@ const RoomsAvailable = () => {
                     setSelectedRooms={setSelectedRooms}
                     key={room.roomtypeId}
                     roomType={room}
-                    roomImages={room.images2}
+                    roomImage={room.images2}
                   ></RoomAvailable>
                 );
               })}

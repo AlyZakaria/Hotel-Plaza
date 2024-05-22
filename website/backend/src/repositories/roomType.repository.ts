@@ -71,6 +71,31 @@ class RoomTypeRepository extends Repository {
             throw error
         }
     }
+    // get room Images
+    async getRoomImages(id: number): Promise<any | never> {
+        try {
+            const roomImages = await this.prisma.typeImage.findMany({
+                where: {
+                    typeId: id,
+                },
+                select: {
+                    imageId: true,
+                    imageURL: {
+                        select: {
+                            id: true,
+                            blob: true,
+                            type: true,
+                        },
+                    },
+                },
+            })
+
+            if (!roomImages.length) throw new Error(`No room images found`)
+            return roomImages
+        } catch (error: unknown) {
+            throw error
+        }
+    }
 }
 
 export default RoomTypeRepository
