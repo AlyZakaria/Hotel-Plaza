@@ -11,8 +11,10 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
     try {
       let data = new FormData();
       data.append("files", profile, profile.name);
+
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
+      console.log(token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.put(
         `${urls.uploadProfile}/${customer.id}`,
@@ -24,6 +26,7 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
           },
         }
       );
+      console.log("After response");
       if (response.status === 200) {
         setCustomer({
           ...customer,
@@ -41,6 +44,7 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
         console.log("Error uploading profile");
       }
     } catch (err) {
+      console.log("Error uploading profile");
       console.log(err);
     } finally {
       setUpload(false);

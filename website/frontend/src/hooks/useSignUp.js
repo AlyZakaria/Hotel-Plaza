@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import axios from "../Apis/axios";
 import URLs from "../Apis/URLS.json";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
   const navigate = useNavigate();
   const signUp = async () => {
@@ -11,7 +12,7 @@ const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
       if (response.status === 201) {
         setCustomer({ ...response.data });
         navigate("/");
-        console.log("SignUp Successfull");
+        console.log("Sign Up Successfull");
       }
       console.log(response.data);
     } catch (error) {
