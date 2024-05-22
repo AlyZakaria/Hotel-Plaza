@@ -76,6 +76,7 @@ class availabilityRepository extends Repository {
                                 ),
                             },
                         },
+                        distinct: ['typeId'],
                         include: {
                             imageURL: true,
                         },

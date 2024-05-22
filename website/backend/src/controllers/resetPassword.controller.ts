@@ -59,6 +59,7 @@ class ResetPasswordController extends Controller {
             )
             res.status(statusCode.success.ok).send(token)
         } catch (error: unknown) {
+            console.log(error)
             res.status(statusCode.clientError.unauthorized).send(`Wrong OTP`)
         }
     }

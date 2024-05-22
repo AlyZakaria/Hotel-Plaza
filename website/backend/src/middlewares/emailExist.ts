@@ -6,10 +6,11 @@ const customerRepository = new CustomerRepository()
 async function emailExist(req: Request, res: Response, next: NextFunction) {
     try {
         const email = req.body.email
+    
         if (!email) throw new Error()
         const customer: customerData | null =
             await customerRepository.checkEmail(req.body.email)
-
+        console.log(customer)
         if (customer) {
             req.body['customer'] = customer
             next()
@@ -17,6 +18,7 @@ async function emailExist(req: Request, res: Response, next: NextFunction) {
             throw new Error()
         }
     } catch (error) {
+        console.log(error)
         res.status(statusCode.clientError.notFound).end(`Email doesn't exist`)
     }
 }

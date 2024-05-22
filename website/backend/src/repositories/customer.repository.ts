@@ -1,5 +1,6 @@
 import Repository from './repository'
 import { customerData } from '../interfaces'
+import { gender } from '@prisma/client'
 
 class CustomerRepository extends Repository {
     constructor() {
@@ -78,9 +79,7 @@ class CustomerRepository extends Repository {
                     email: true,
                     fname: true,
                     phone: true,
-                    country: true,
-                    address: true,
-                    zip: true,
+                    gender: true,
                 },
                 where: {
                     email: email,

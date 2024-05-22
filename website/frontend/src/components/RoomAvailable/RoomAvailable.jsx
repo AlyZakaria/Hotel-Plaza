@@ -8,19 +8,30 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import useLoadImages from "../../hooks/useLoadImages";
 
 const RoomAvailable = ({
   selectedRooms,
   setSelectedRooms,
   key,
   roomType,
-  roomImages,
+  roomImage,
 }) => {
   const [wrap, setWrap] = useState(true);
   const [text, setText] = useState("Show more");
   const [imageClick, setImageClick] = useState(false);
-
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const [roomImages, setRoomImages] = useState([
+    {
+      imageURL: {
+        type: roomImage[0].type,
+        blob: roomImage[0].imageURL,
+      },
+    },
+  ]);
+  console.log(roomImage);
+  useLoadImages(roomType.roomtypeId, setRoomImages, imageClick);
 
   const openModal = (index) => {
     setSelectedImageIndex(index);
@@ -38,6 +49,7 @@ const RoomAvailable = ({
   };
 
   const nextImage = () => {
+    console.log(roomImages);
     setSelectedImageIndex((prevIndex) =>
       prevIndex < roomImages.length - 1 ? prevIndex + 1 : 0
     );
@@ -63,7 +75,7 @@ const RoomAvailable = ({
       setSelectedRooms([...newSelectedRooms]);
     } else setSelectedRooms([...selectedRooms, { ...roomType, count: 1 }]);
   }
-
+  console.log(roomImages[selectedImageIndex]);
   return (
     <>
       {imageClick && (
@@ -76,7 +88,7 @@ const RoomAvailable = ({
               </Button>
               <img
                 width={1000}
-                src={`data:${roomImages[selectedImageIndex].type};base64,${roomImages[selectedImageIndex].imageURL}`}
+                src={`data:${roomImages[selectedImageIndex].imageURL.type};base64,${roomImages[selectedImageIndex].imageURL.blob}`}
                 alt={`Image ${selectedImageIndex}`}
               />
               <Button>
@@ -111,8 +123,8 @@ const RoomAvailable = ({
                 alt={`${roomType.roomtype}`}
                 width="100%"
                 src={
-                  roomImages.length
-                    ? `data:${roomImages[0].type};base64,${roomImages[0].imageURL}`
+                  roomImage.length
+                    ? `data:${roomImage[0].type};base64,${roomImage[0].imageURL}`
                     : ""
                 }
                 style={{ borderRadius: "5px 0px 0px 0px" }}
