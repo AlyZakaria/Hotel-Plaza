@@ -6,8 +6,9 @@
   "otp": "/api/verify-otp",
   "resetPassword": "/api/reset-password",
   "receiveOffer": "/api/receive-offer",
-  "updateCustomer":"/api/update-customer",
+  "updateCustomer": "/api/update-customer",
   "uploadProfile": "/api/upload-profile",
   "availableRooms": "/api/all-available",
-  "roomTypeImages": "/api/room-type/images"
+  "roomTypeImages": "/api/room-type/images",
+  "roomDetails": "/api/room-details"
 }

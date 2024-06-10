@@ -2,11 +2,23 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useMediaQuery } from "@mui/material";
 import Stack from "@mui/material/Stack";
+import useGetRoomDetailBox from "../../hooks/useGetRoomDetailBox";
+
+let roomInfo = {
+  roomName: "Single Deleux",
+  capacity: "2 adults",
+  view: "Sea View",
+  bedType: "King bed",
+  roomSize: "24",
+  pricePerNight: 1000,
+};
 
 const RoomDetailsDetailsBox = () => {
+  // State to hold room details
+  const [roomDetails, setRoomDetails] = React.useState();
+  useGetRoomDetailBox(setRoomDetails);
   const isSmallScreen = useMediaQuery("(max-width:1000px)");
   const [selected, setSelected] = React.useState(false);
   const onSelect = () => {
@@ -40,25 +52,35 @@ const RoomDetailsDetailsBox = () => {
           bgcolor: "white",
           display: "flex",
           justifyContent: "space-around",
+          textAlign: "left",
           height: { xs: "80%", sm: "80%", md: "90%" },
           padding: "0 10%",
         }}
       >
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Capacity: 2 adults
+          Room Name: {roomInfo.roomName}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          View: Sea View
+          Capacity: {roomInfo.capacity}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Starts at: 1000EGP/Night{" "}
+          View: {roomInfo.view}
+        </Typography>
+        <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
+          Bed Type: {roomInfo.bedType}
+        </Typography>
+        <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
+          Room Size: {roomInfo.roomSize}m²
+        </Typography>
+        <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
+          Starts at: {roomInfo.pricePerNight}EGP/night
         </Typography>
         <Button
           size="large"
           sx={{ bgcolor: "#143c5c", color: "white" }}
           onClick={onSelect}
         >
-          Check Price
+          Book
         </Button>
       </Stack>
     </Box>
