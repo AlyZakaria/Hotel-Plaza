@@ -50,6 +50,8 @@ class RoomTypeRepository extends Repository {
                     name: true,
                     description: true,
                     pricepernight: true,
+                    bed: true,
+                    size: true,
                     imageURLs: {
                         select: {
                             imageId: true,

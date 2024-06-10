@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid";
 import { DateContext } from "../../contexts/Date";
 import ErrorIcon from "@mui/icons-material/Error";
+import dayjs from "dayjs"; // Using dayjs for date manipulation, ensure it is installed
 import "./styles.css";
 
 const CheckAvailability = () => {
@@ -20,16 +21,35 @@ const CheckAvailability = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (date.checkOut <= date.checkIn) {
-      setDate({ ...{ date, checkOut: date.checkIn.add(1, "day") } });
+    const checkIn = dayjs(date.checkIn);
+    const checkOut = dayjs(date.checkOut);
+    // get the date now
+    const now = dayjs();
+    if (checkIn < now || checkOut < now) {
+      setDate({
+        ...date,
+        checkIn: now,
+        checkOut: now.add(1, "day"),
+      });
+
+      return;
+    }
+    if (dayjs(date.checkOut).isBefore(dayjs(date.checkIn))) {
+      const newCheckOut = checkIn.add(1, "day");
+      console.log(newCheckOut);
+      setDate((prevDate) => ({ ...prevDate, checkOut: newCheckOut }));
+      console.log(date);
       toast("Check-out date must be after check-in date", {
         icon: <ErrorIcon sx={{ color: "yellow" }} />,
         theme: "light",
         autoClose: 2000,
         hideProgressBar: true,
       });
-    } else if (date.checkIn >= date.checkOut) {
-      setDate({ ...{ date, checkIn: date.checkOut.subtract(1, "day") } });
+    } else if (dayjs(date.checkIn).isAfter(dayjs(date.checkOut))) {
+      setDate({
+        ...date,
+        checkIn: checkOut.subtract(1, "day").toDate(),
+      });
       toast("Check-In date must be before check-in date", {
         icon: <ErrorIcon sx={{ color: "yellow" }} />,
         theme: "light",
@@ -38,7 +58,7 @@ const CheckAvailability = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date.checkOut, date.checkIn]);
+  }, [date.checkOut, date.checkIn, setDate]);
 
   function navigateTo() {
     navigate("/available-rooms");
@@ -50,7 +70,7 @@ const CheckAvailability = () => {
         <Grid item md={3} xs={12}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              label="Check-in"
+              label="Check-In"
               value={date.checkIn}
               onChange={(newValue) => setDate({ ...date, checkIn: newValue })}
               sx={{ width: "auto" }}
@@ -61,7 +81,7 @@ const CheckAvailability = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               aria-describedby="id"
-              label="Check-out"
+              label="Check-Out"
               value={date.checkOut}
               onChange={(newValue) => setDate({ ...date, checkOut: newValue })}
               sx={{ width: "auto" }}

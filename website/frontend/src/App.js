@@ -13,9 +13,10 @@ import dayjs from "dayjs";
 
 function App() {
   const [customer, setCustomer] = useState({});
+  const now = dayjs();
   const [date, setDate] = useState({
-    checkIn: dayjs("2024-04-17"),
-    checkOut: dayjs("2024-04-18"),
+    checkIn: now,
+    checkOut: now.add(1, "day"),
   });
   useGetCustomer(setCustomer);
 
