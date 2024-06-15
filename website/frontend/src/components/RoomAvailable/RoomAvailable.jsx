@@ -64,7 +64,7 @@ const RoomAvailable = ({
       console.log(index);
       const newSelectedRooms = [...selectedRooms];
       newSelectedRooms[index].count += 1;
-      // change the price
+      // change the price 
       if (newSelectedRooms[index].hasOwnProperty("totalAfterDiscount"))
         newSelectedRooms[index].totalAfterDiscount *=
           newSelectedRooms[index].count;

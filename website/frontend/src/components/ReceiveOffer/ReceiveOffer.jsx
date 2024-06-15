@@ -8,6 +8,8 @@ import Button from "../Button/Button";
 import Typography from "@mui/material/Typography";
 import backgroundImage from "../../assets/productCTAImageDots.png";
 import useReceiveOffer from "../../hooks/useReceiveOffer";
+import { ToastContainer, toast } from "react-toastify";
+import { OfferSchema } from "../../Validations/ReceiveOffer";
 
 let email;
 let name;
@@ -20,6 +22,16 @@ function ProductCTA() {
     const data = new FormData(event.currentTarget);
     email = data.get("email");
     name = data.get("name");
+    const user = {
+      email: email,
+      name: name,
+    };
+    const isValid = OfferSchema.isValidSync(user);
+    console.log(isValid);
+    if (!isValid) {
+      toast.error("Enter a valid Email");
+      return;
+    }
 
     setSubmit(true);
   };

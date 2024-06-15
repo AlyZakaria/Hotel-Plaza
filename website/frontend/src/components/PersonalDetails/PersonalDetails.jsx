@@ -4,17 +4,17 @@ import Box from "@mui/material/Box";
 import { Divider, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import NameForm from "./NameForm";
-import Email from "./Email";
 import PhoneForm from "./PhoneForm";
 import Birthdate from "./Birthdate";
 import Address from "./Address";
 import CountrySelect from "./CountrySelect";
-import ZipCode from "./ZipCode";
 import { CustomerContext } from "../../contexts/Customer";
 import useSavePersonalDetails from "../../hooks/useSavePersonalDetails";
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/material/styles";
 import useSetprofile from "../../hooks/useSetProfile";
+import Provenance from "./Provenance";
+import moment from "moment";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -48,21 +48,21 @@ const PeronDetails = () => {
 
   let details = [
     ["Name", "Let us know what to call you"],
-    ["Email address", customer.email],
+
     ["Phone number", customer.phone],
-    ["Date of birth", "Enter your date of birth"],
+    ["Date of birth", moment(customer.dob).format("YYYY-MM-DD")],
     ["Address", customer.address],
     ["Country", customer.country],
-    ["Zip code", customer.zip],
+    ["Provenance", customer.provenance],
   ];
   let components = [
     <NameForm customer={tempCustomer} setCustomer={setTempCustomer} />,
-    <Email customer={tempCustomer} setCustomer={setTempCustomer} />,
+
     <PhoneForm customer={tempCustomer} setCustomer={setTempCustomer} />,
     <Birthdate customer={tempCustomer} setCustomer={setTempCustomer} />,
     <Address customer={tempCustomer} setCustomer={setTempCustomer} />,
     <CountrySelect customer={tempCustomer} setCustomer={setTempCustomer} />,
-    <ZipCode customer={tempCustomer} setCustomer={setTempCustomer} />,
+    <Provenance customer={tempCustomer} setCustomer={setTempCustomer} />,
   ];
   const clicking = (index) => {
     console.log(clicked);

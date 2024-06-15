@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
-const Email = () => {
+const Provenance = ({ customer, setCustomer }) => {
   return (
     <Box
       component="form"
@@ -15,14 +15,16 @@ const Email = () => {
     >
       <div>
         <TextField
-          label="Email"
+          label="Provenance"
           id="outlined-size-small"
           size="small"
-          placeholder="Email"
+          placeholder="Provenance"
+          onChange={(e) =>
+            setCustomer({ ...customer, provenance: e.target.value })
+          }
         />
       </div>
     </Box>
   );
 };
-
-export default Email;
+export default Provenance;

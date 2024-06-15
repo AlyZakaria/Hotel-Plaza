@@ -17,10 +17,9 @@ const useSavePersonalDetails = (save, setSave, tempCustomer, setCustomer) => {
         email: tempCustomer.email,
         phone: tempCustomer.phone,
         address: tempCustomer.address,
-        city: tempCustomer.city,
-        state: tempCustomer.state,
+        dob: tempCustomer.dob,
+        provenance: tempCustomer.provenance,
         country: tempCustomer.country,
-        zip: tempCustomer.zip,
       });
       if (response.status === 200) {
         console.log(response.data);

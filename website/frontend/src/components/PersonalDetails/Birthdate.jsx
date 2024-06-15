@@ -2,21 +2,32 @@ import * as React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
-import { CustomerContext } from "../../contexts/Customer";
 import dayjs from "dayjs";
 
 const Birthdate = ({ customer, setCustomer }) => {
-  const [value, setValue] = React.useState(dayjs("2022-04-17"));
+  const [value, setValue] = React.useState(
+    dayjs(customer.dob).format("YYYY-MM-DD")
+  );
+  const minDate = dayjs("1900-01-01");
+  const maxDate = dayjs().subtract(21, "year");
+  if (!dayjs(customer.dob).isValid()) {
+    alert("Invalid date");
+  } else if (dayjs(customer.dob).isBefore(minDate)) {
+    alert("Invalid date");
+  } else if (dayjs(customer.dob).isAfter(maxDate)) {
+    alert("Invalid date");
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateField
-        defaultValue={customer.birthdate}
         label="Birthdate"
-        value={value}
         onChange={(newValue) => {
+          const formattedDate = newValue
+            ? dayjs(newValue).format("YYYY-MM-DD")
+            : "";
           setValue(newValue);
-          setCustomer({ ...customer, birthdate: newValue });
+          setCustomer({ ...customer, dob: formattedDate });
         }}
       />
     </LocalizationProvider>
