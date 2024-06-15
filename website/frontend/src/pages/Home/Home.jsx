@@ -5,6 +5,7 @@ import Anchor from "../../components/Anchor/Anchor.jsx";
 import RoomTypesCarousel from "../../components/RoomTypesCarousel/RoomTypesCarousel.jsx";
 import ReceiveOffer from "../../components/ReceiveOffer/ReceiveOffer.jsx";
 import CheckAvailability from "../../components/CheckAvalibilty/CheckAvailability.jsx";
+import Footer from "../../components/Footer/Footer.jsx";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <RoomTypesCarousel></RoomTypesCarousel>
       <ReceiveOffer></ReceiveOffer>
       <Anchor></Anchor>
+      <Footer></Footer>
     </div>
   );
 };
