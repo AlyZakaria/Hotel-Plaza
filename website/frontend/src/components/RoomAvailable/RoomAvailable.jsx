@@ -1,4 +1,6 @@
 import { Button, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
@@ -64,7 +66,7 @@ const RoomAvailable = ({
       console.log(index);
       const newSelectedRooms = [...selectedRooms];
       newSelectedRooms[index].count += 1;
-      // change the price 
+      // change the price
       if (newSelectedRooms[index].hasOwnProperty("totalAfterDiscount"))
         newSelectedRooms[index].totalAfterDiscount *=
           newSelectedRooms[index].count;
@@ -76,6 +78,14 @@ const RoomAvailable = ({
     } else setSelectedRooms([...selectedRooms, { ...roomType, count: 1 }]);
   }
   console.log(roomImages[selectedImageIndex]);
+
+  const navigate = useNavigate();
+  const handleNavigation = () => {
+    const dynamicData = { id: roomType.roomtypeId }; // Data you want to fetch later
+    const queryParams = new URLSearchParams(dynamicData).toString();
+    navigate(`/room-details?${queryParams}`);
+  };
+
   return (
     <>
       {imageClick && (
@@ -132,7 +142,9 @@ const RoomAvailable = ({
             </Box>
           </Grid>
           <Grid item sm={6.3} xs={12} sx={{ padding: "1px" }}>
-            <h3 style={{ textAlign: "left" }}>{roomType.roomtype} </h3>
+            <h3 style={{ textAlign: "left" }}>
+              <button onClick={handleNavigation}>{roomType.roomtype}</button>
+            </h3>
             <div
               style={{
                 display: "flex",

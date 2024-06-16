@@ -6,8 +6,17 @@ import RoomDetailsImageView from "../../components/RoomDetailsImageView/RoomDeta
 import RoomDetailsDetailsBox from "../../components/RoomDetailsDetailsBox/RoomDetailsDetailsBox";
 import RoomDetailsDesc from "../../components/RoomDetailsDesc/RoomDetailsDesc";
 import ReviewsCarousel from "../../components/ReviewsCarousel/ReviewsCarousel";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import useRoomDetails from "../../hooks/useRoomDetails.js";
 
 const RoomView = () => {
+  const [roomDetails, setRoomDetails] = React.useState({});
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
+  useRoomDetails(setRoomDetails, id);
+
   return (
     <div>
       <AppBar></AppBar>
@@ -42,7 +51,6 @@ const RoomView = () => {
         <Box display="flex" justifyContent={"center"} alignContent={"center"}>
           <RoomDetailsDesc></RoomDetailsDesc>
         </Box>
-
         <ReviewsCarousel></ReviewsCarousel>
       </Box>
     </div>
