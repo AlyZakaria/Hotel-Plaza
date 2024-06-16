@@ -1,5 +1,6 @@
 import Repository from './repository'
 import { roomType } from '../interfaces'
+import { ALL } from 'dns'
 class RoomTypeRepository extends Repository {
     constructor() {
         super()
@@ -70,6 +71,58 @@ class RoomTypeRepository extends Repository {
             if (!roomType) throw new Error(`No room type found`)
             return roomType
         } catch (error: unknown) {
+            throw error
+        }
+    }
+    async getRoomTypeDetails(roomTypeId: number): Promise<any | never> {
+        try {
+            const roomTypeDetails = await this._model.findUnique({
+                where: {
+                    id: roomTypeId,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    view: true,
+                    description: true,
+                    capacity: true,
+                    pricepernight: true,
+                    bed: true,
+                    size: true,
+                    imageURLs: {
+                        select: {
+                            imageId: true,
+                            imageURL: {
+                                select: {
+                                    id: true,
+                                    blob: true,
+                                    type: true,
+                                },
+                            },
+                        },
+                    },
+                    reviews: {
+                        select: {
+                            id: true,
+                            comment: true,
+                            rating: true,
+                            updatedAt: true,
+                            customer: {
+                                select: {
+                                    fname: true,
+                                    lname: true,
+                                    image: true,
+                                    imageType: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            })
+            if (!roomTypeDetails) throw new Error(`No room type found`)
+            return roomTypeDetails
+        } catch (error: unknown) {
+            console.log(error)
             throw error
         }
     }
