@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 
-const RoomDetailsDesc = () => {
+const RoomDetailsDesc = ({ details }) => {
   return (
     <Box
       sx={{
@@ -12,27 +12,7 @@ const RoomDetailsDesc = () => {
     >
       <h1>Room Description</h1>
       <Box sx={{ padding: { md: "0% 3% 3% 3%" }, textAlign: "left" }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit officia
-        voluptatum libero? Impedit, ducimus cumque corrupti nulla totam
-        voluptate accusamus quis? Aliquid optio ullam officiis aperiam? Optio
-        quasi assumenda doloribus. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Odit officia voluptatum libero? Impedit, ducimus
-        cumque corrupti nulla totam voluptate accusamus quis? Aliquid optio
-        ullam officiis aperiam? Optio quasi assumenda doloribus. Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Odit officia voluptatum
-        libero? Impedit, ducimus cumque corrupti nulla totam voluptate accusamus
-        quis? Aliquid optio ullam officiis aperiam? Optio quasi assumenda
-        doloribus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-        officia voluptatum libero? Impedit, ducimus cumque corrupti nulla totam
-        voluptate accusamus quis? Aliquid optio ullam officiis aperiam? Optio
-        quasi assumenda doloribus. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Odit officia voluptatum libero? Impedit, ducimus
-        cumque corrupti nulla totam voluptate accusamus quis? Aliquid optio
-        ullam officiis aperiam? Optio quasi assumenda doloribus. Lorem ipsum
-        dolor sit amet consectetur adipisicing elit. Odit officia voluptatum
-        libero? Impedit, ducimus cumque corrupti nulla totam voluptate accusamus
-        quis? Aliquid optio ullam officiis aperiam? Optio quasi assumenda
-        doloribus.
+        {details}
       </Box>
     </Box>
   );

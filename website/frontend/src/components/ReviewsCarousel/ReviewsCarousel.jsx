@@ -23,7 +23,7 @@ const responsive = {
   },
 };
 
-function ReviewsCarousel() {
+function ReviewsCarousel({ reviews }) {
   return (
     <div style={{ margin: "100px 0px" }}>
       <Box
@@ -37,13 +37,9 @@ function ReviewsCarousel() {
           responsive={responsive}
           itemClass="carousel-item-padding-40-px"
         >
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
-          <ReviewCard></ReviewCard>
+          {reviews.map((review) => {
+            <ReviewCard review={review}></ReviewCard>;
+          })}
         </Carousel>
       </Box>
     </div>

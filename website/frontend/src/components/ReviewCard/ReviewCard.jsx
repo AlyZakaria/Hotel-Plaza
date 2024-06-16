@@ -6,7 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 
-export default function ReviewCard() {
+export default function ReviewCard({ review }) {
   return (
     <Card
       sx={{
@@ -25,12 +25,12 @@ export default function ReviewCard() {
         }
         title={
           <Typography sx={{ textAlign: "left", fontWeight: "bold" }}>
-            Chehab Yakoot
+            {review.customer.fname} {review.customer.lname}
           </Typography>
         }
         subheader={
           <Typography sx={{ textAlign: "left", fontSize: 14 }}>
-            September 14, 2016
+            {review.updatedAt}
           </Typography>
         }
       />
@@ -40,9 +40,7 @@ export default function ReviewCard() {
           color="text.secondary"
           sx={{ textAlign: "left" }}
         >
-          "This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like."
+          "{review.comment}"
         </Typography>
       </CardContent>
     </Card>

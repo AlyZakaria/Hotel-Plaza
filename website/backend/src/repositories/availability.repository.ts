@@ -36,7 +36,7 @@ class availabilityRepository extends Repository {
                             JOIN roomtype ON room.typeId = roomtype.id
                             WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                             OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
-                            GROUP BY (room.typeId)  
+                            GROUP BY (room.typeId)    
                             
                         )
                         SELECT 

@@ -71,6 +71,7 @@ class RoomTypeController extends Controller {
     }
     async getRoomTypeDetails(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.query)
             if (!req.query.id) throw new Error()
             const roomType = Number(req.query.id)
             const roomTypeDetails =

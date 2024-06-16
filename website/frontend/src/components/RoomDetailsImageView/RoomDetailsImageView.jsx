@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 
-const RoomDetailsImageView = () => {
+const RoomDetailsImageView = (details) => {
   return (
     <Grid container>
       <Grid

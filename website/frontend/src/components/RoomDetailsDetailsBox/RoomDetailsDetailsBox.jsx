@@ -6,16 +6,7 @@ import { useMediaQuery } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import useGetRoomDetailBox from "../../hooks/useGetRoomDetailBox";
 
-let roomInfo = {
-  roomName: "Single Deleux",
-  capacity: "2 adults",
-  view: "Sea View",
-  bedType: "King bed",
-  roomSize: "24",
-  pricePerNight: 1000,
-};
-
-const RoomDetailsDetailsBox = () => {
+const RoomDetailsDetailsBox = ({ details }) => {
   // State to hold room details
   const [roomDetails, setRoomDetails] = React.useState();
   useGetRoomDetailBox(setRoomDetails);
@@ -58,22 +49,22 @@ const RoomDetailsDetailsBox = () => {
         }}
       >
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Room Name: {roomInfo.roomName}
+          Room Name: {details.name}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Capacity: {roomInfo.capacity}
+          Capacity: {details.capacity}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          View: {roomInfo.view}
+          View: {details.view}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Bed Type: {roomInfo.bedType}
+          Bed Type: {details.bed}
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Room Size: {roomInfo.roomSize}m²
+          Room Size: {details.size}m²
         </Typography>
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
-          Starts at: {roomInfo.pricePerNight}EGP/night
+          Starts at: {details.pricepernight}EGP/night
         </Typography>
         <Button
           size="large"
