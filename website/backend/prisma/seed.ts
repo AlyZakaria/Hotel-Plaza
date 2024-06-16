@@ -18,19 +18,19 @@ async function getImageAsBase64(filePath: string) {
 async function main() {
     // Seed Customer data
     // loop on customers and inserted in my db
-    await prisma.customer.create({
-        data: {
-            id: 11,
-            email: 'ali.zakariya1929@outlook.com',
-            password: '12345678',
-            fname: 'Aly',
-            lname: 'Zakaria',
-            phone: '01154567214', // Starts with '01'
-            image: null,
-            imageType: null,
-            gender: 'male',
-        },
-    })
+    // await prisma.customer.create({
+    //     data: {
+    //         id: 11,
+    //         email: 'ali.zakariya1929@outlook.com',
+    //         password: '12345678',
+    //         fname: 'Aly',
+    //         lname: 'Zakaria',
+    //         phone: '01154567214', // Starts with '01'
+    //         image: null,
+    //         imageType: null,
+    //         gender: 'male',
+    //     },
+    // })
 
     const imageDirectory = './assets'
     const byteArrays: any[] = []
@@ -220,6 +220,21 @@ async function main() {
                 },
             })
         }
+    }
+    // add reviews
+    for (let i = 1; i <= 10; i++) {
+        await prisma.review.create({
+            data: {
+                customer: {
+                    connect: { id: i },
+                },
+                roomType: {
+                    connect: { id: i },
+                },
+                rating: i % 5,
+                comment: `Comment${i}`,
+            },
+        })
     }
     console.log('Seed data has been added successfully!')
 }

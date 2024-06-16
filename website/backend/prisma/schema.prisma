@@ -30,6 +30,7 @@ model Customer {
   image      Bytes?
   imageType  String?
   reservation    Reservation[]
+  reviews       Review[]
   otp otp?
   @@map("customers")
 }
@@ -112,8 +113,22 @@ model RoomType {
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
-   @@unique([name, view , capacity])
+  reviews       Review[]   // Add the opposite relation field
+  @@unique([name, view , capacity])
+}
 
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  roomTypeId  Int
+  customerId  Int
+  rating      Decimal 
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  roomType    RoomType @relation(fields: [roomTypeId], references: [id])
+  customer    Customer  @relation(fields: [customerId], references: [id])
 }
 
 enum bed_types{
