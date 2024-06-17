@@ -10,6 +10,7 @@ import Settings from "../pages/userSettings/userSettings.jsx";
 import RoomsAvailable from "../pages/RoomsAvailable/RoomsAvailable.jsx";
 import RoomView from "../pages/RoomView/RoomView.jsx";
 import Checkout from "../pages/Checkout/Checkout.jsx";
+import Policies from "../pages/Policies/Policies.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <Checkout></Checkout>,
+  },
+  {
+    path: "/policies",
+    element: <Policies></Policies>,
   },
 ]);
 
