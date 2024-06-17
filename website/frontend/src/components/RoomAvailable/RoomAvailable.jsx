@@ -32,7 +32,6 @@ const RoomAvailable = ({
       },
     },
   ]);
-  console.log(roomImage);
   useLoadImages(roomType.roomtypeId, setRoomImages, imageClick);
 
   const openModal = (index) => {
@@ -51,7 +50,6 @@ const RoomAvailable = ({
   };
 
   const nextImage = () => {
-    console.log(roomImages);
     setSelectedImageIndex((prevIndex) =>
       prevIndex < roomImages.length - 1 ? prevIndex + 1 : 0
     );
@@ -63,7 +61,6 @@ const RoomAvailable = ({
       (selectedRoom) => selectedRoom.roomtypeId === roomType.roomtypeId
     );
     if (index !== -1) {
-      console.log(index);
       const newSelectedRooms = [...selectedRooms];
       newSelectedRooms[index].count += 1;
       // change the price
@@ -77,7 +74,6 @@ const RoomAvailable = ({
       setSelectedRooms([...newSelectedRooms]);
     } else setSelectedRooms([...selectedRooms, { ...roomType, count: 1 }]);
   }
-  console.log(roomImages[selectedImageIndex]);
 
   const navigate = useNavigate();
   const handleNavigation = () => {

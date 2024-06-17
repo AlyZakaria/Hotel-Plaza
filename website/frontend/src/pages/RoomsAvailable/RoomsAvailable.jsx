@@ -9,19 +9,23 @@ import { Box } from "@mui/material";
 import { DateContext } from "../../contexts/Date.js";
 import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
+import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 const RoomsAvailable = () => {
   let { date } = useContext(DateContext);
   const [rooms, setRooms] = useState([]);
+  const [roomsTemp, setRoomsTemp] = useState([]);
+  const [roomFilter, setRoomFilter] = useState([]);
+  const [capacityFilter, setCapacityFilter] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const nights = date.checkOut.diff(date.checkIn, "day");
 
-  useGetAvailableRooms(setRooms, date);
+  useGetAvailableRooms(setRooms, date, setRoomsTemp);
 
   return (
     <Box>
       <ProductHero></ProductHero>
       <CheckAvailability></CheckAvailability>
-      <Container sx={{ marginTop: "100px" }}>
+      <Container sx={{ marginTop: "100px", marginBottom: "100px" }}>
         <Grid
           container
           sx={{
@@ -41,8 +45,8 @@ const RoomsAvailable = () => {
               scrollbarWidth: "none",
             }}
           >
-            {rooms &&
-              rooms.map((room) => {
+            {roomsTemp &&
+              roomsTemp.map((room) => {
                 return (
                   <RoomAvailable
                     selectedRooms={selectedRooms}
@@ -55,6 +59,15 @@ const RoomsAvailable = () => {
               })}
           </Grid>
           <Grid item md={4} xs={12}>
+            <FilterPanel
+              rooms={rooms}
+              roomFilter={roomFilter}
+              setRoomFilter={setRoomFilter}
+              setRoomsTemp={setRoomsTemp}
+              capacityFilter={capacityFilter}
+              setCapacityFilter={setCapacityFilter}
+            ></FilterPanel>
+            <br></br>
             <SelectedRooms
               rooms={rooms}
               selectedRooms={selectedRooms}
@@ -65,7 +78,7 @@ const RoomsAvailable = () => {
           </Grid>
         </Grid>
       </Container>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </Box>
   );
 };
