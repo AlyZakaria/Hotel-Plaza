@@ -65,14 +65,23 @@ const RoomAvailable = ({
       newSelectedRooms[index].count += 1;
       // change the price
       if (newSelectedRooms[index].hasOwnProperty("totalAfterDiscount"))
-        newSelectedRooms[index].totalAfterDiscount *=
+        newSelectedRooms[index].sum =
+          newSelectedRooms[index].totalAfterDiscount *
           newSelectedRooms[index].count;
       else {
-        newSelectedRooms[index].total =
+        newSelectedRooms[index].sum =
           newSelectedRooms[index].total * newSelectedRooms[index].count;
       }
       setSelectedRooms([...newSelectedRooms]);
-    } else setSelectedRooms([...selectedRooms, { ...roomType, count: 1 }]);
+    } else
+      setSelectedRooms([
+        ...selectedRooms,
+        {
+          ...roomType,
+          count: 1,
+          sum: roomType.totalAfterDiscount || roomType.total,
+        },
+      ]);
   }
 
   const navigate = useNavigate();
