@@ -8,7 +8,7 @@ import { useState, useContext } from "react";
 import { Box } from "@mui/material";
 import { DateContext } from "../../contexts/Date.js";
 import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
-
+import Footer from "../../components/Footer/Footer.jsx";
 const RoomsAvailable = () => {
   let { date } = useContext(DateContext);
   const [rooms, setRooms] = useState([]);
@@ -65,6 +65,7 @@ const RoomsAvailable = () => {
           </Grid>
         </Grid>
       </Container>
+      <Footer></Footer>
     </Box>
   );
 };

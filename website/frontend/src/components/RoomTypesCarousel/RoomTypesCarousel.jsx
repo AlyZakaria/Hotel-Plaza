@@ -5,10 +5,16 @@ import Box from "@mui/material/Box";
 import RoomTypeCard from "../RoomTypeCard/RoomTypeCard";
 import useGetRoomTypes from "../../hooks/useGetRoomTypes";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RoomTypesCarousel = () => {
   const [roomTypes, setRoomTypes] = useState([]);
+  const navigate = useNavigate();
+
   useGetRoomTypes(setRoomTypes);
+  const ToRoomDetails = (roomTypeId) => {
+    navigate(`/room-details?id=${roomTypeId}`);
+  };
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -37,7 +43,10 @@ const RoomTypesCarousel = () => {
           itemClass="carousel-item-padding-40-px"
         >
           {roomTypes.map((roomType) => (
-            <RoomTypeCard roomType={roomType}></RoomTypeCard>
+            <RoomTypeCard
+              roomType={roomType}
+              OnClick={() => ToRoomDetails(roomType.id)}
+            ></RoomTypeCard>
           ))}
         </Carousel>
       </Box>

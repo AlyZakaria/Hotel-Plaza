@@ -17,8 +17,9 @@ const verifyToken: express.RequestHandler = (
             const token = authHeader.split(' ')[1]
             console.log(token)
             if (token && bearer === 'bearer') {
-                const decoded = verify(token, TOKEN as unknown as string)
-                if (decoded) {
+                const decoded: any = verify(token, TOKEN as unknown as string)
+                let dateNow = new Date()
+                if (decoded && decoded.exp < dateNow.getTime() - decoded.iat) {
                     console.log(decoded)
                     next()
                 } else throw new Error()

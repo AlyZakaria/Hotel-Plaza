@@ -150,8 +150,9 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-          {sessionStorage.getItem("customer") && <AccountMenu />}
-          {!sessionStorage.getItem("customer") && (
+          {Object.keys(customer).length ? (
+            <AccountMenu />
+          ) : (
             <>
               <Box
                 sx={{
@@ -171,19 +172,6 @@ function ResponsiveAppBar() {
                       }}
                     >
                       Sign In
-                    </Typography>
-                  </Link>
-                  <Link href="/checkout">
-                    <Typography
-                      textAlign="center"
-                      sx={{
-                        color: "white",
-                        textTransform: "uppercase",
-                        fontWeight: "bold",
-                        textDecoration: "none",
-                      }}
-                    >
-                      Checkout
                     </Typography>
                   </Link>
                 </MenuItem>

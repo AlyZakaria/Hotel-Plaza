@@ -53,9 +53,11 @@ export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     user = {
       email: data.get("email"),
       password: data.get("password"),
+      remember: data.get("remember"),
     };
     const isValid = UserLoginSchema.isValidSync(user);
     if (!isValid) {
@@ -131,6 +133,7 @@ export default function SignInSide() {
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
+                name="remember"
               />
               <Button
                 type="submit"
