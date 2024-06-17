@@ -16,6 +16,7 @@ const useGetCustomer = (setCustomer) => {
         sessionStorage.setItem("customer", JSON.stringify(customer));
         sessionStorage.setItem("token", JSON.stringify(customer.token));
       }
+      
       setCustomer({ ...customer });
     }
   }
