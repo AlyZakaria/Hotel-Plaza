@@ -35,8 +35,9 @@ class availabilityRepository extends Repository {
                             JOIN room ON booking.roomId = room.room_id
                             JOIN roomtype ON room.typeId = roomtype.id
                             WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
-                            OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                            OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout})) 
                             GROUP BY (room.typeId)    
+                           
                             
                         )
                         SELECT 
@@ -59,7 +60,6 @@ class availabilityRepository extends Repository {
                         JOIN room ON roomtype.id = room.typeId 
                         WHERE roomtype.name NOT IN(SELECT roomtype FROM cte ) 
                         GROUP BY (roomtype.name)
-
                         `
 
                     if (!availability)

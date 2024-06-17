@@ -126,6 +126,22 @@ class RoomTypeRepository extends Repository {
             throw error
         }
     }
+
+    async getRoomTypesWithCapacity(): Promise<any | never> {
+        try{
+            const roomTypes = await this.prisma.roomType.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                    capacity: true,
+                }
+            })
+            if(!roomTypes.length) throw new Error(`No room types found`)
+            return roomTypes
+        }catch(error: unknown){
+            throw error
+        }
+    }
     // get room Images
     async getRoomImages(id: number): Promise<any | never> {
         try {

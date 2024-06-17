@@ -97,7 +97,21 @@ class RoomTypeController extends Controller {
             )
         }
     }
-
+    async getRoomTypesWithCapacity(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const roomTypes = await this.repository.getRoomTypesWithCapacity()
+            if (!roomTypes) throw new Error()
+            res.status(statusCode.success.ok).send(roomTypes)
+        } catch (error: unknown) {
+            res.status(statusCode.clientError.notFound).send(
+                'No room Types found'
+            )
+        }
+    }
     // get room Images
     async getRoomImages(req: Request, res: Response, next: NextFunction) {
         try {

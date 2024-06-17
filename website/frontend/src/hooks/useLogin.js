@@ -9,13 +9,9 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
   const navigate = useNavigate();
   const login = async () => {
     try {
-      console.log(userData);
-      console.log(axios.getBaseURL);
       const response = await axios.post(URLs.login, userData);
-      console.log(response);
       if (response.status === 200) {
-        console.log("Login Successfull");
-        setCustomer({ ...response.data });
+        setCustomer({ ...response.data, remember: userData.remember });
         // check if already customer in session storage as maybe
         // I logged out from other tab and still this tab save old customer
         // in session storage

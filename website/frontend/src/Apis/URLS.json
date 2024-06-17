@@ -10,5 +10,6 @@
   "uploadProfile": "/api/upload-profile",
   "availableRooms": "/api/all-available",
   "roomTypeImages": "/api/room-type/images",
-  "roomDetails": "/api/room-details?"
+  "roomDetails": "/api/room-details?",
+  "roomTypesWithCapacity": "/api/room-types&capacity"
 }

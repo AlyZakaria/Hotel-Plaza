@@ -34,7 +34,11 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
           image: response.data.image,
           imageType: response.data.imageType,
         });
+        sessionStorage.removeItem("customer");
         sessionStorage.setItem("customer", JSON.stringify(response.data));
+        if (customer.remember) {
+          localStorage.setItem("customer", JSON.stringify(response.data));
+        }
         toast("Profile uploaded successfully", {
           icon: <CheckCircleIcon sx={{ color: "green" }} />,
           theme: "light",

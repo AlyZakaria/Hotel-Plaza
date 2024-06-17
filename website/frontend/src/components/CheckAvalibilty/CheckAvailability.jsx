@@ -75,7 +75,14 @@ const CheckAvailability = () => {
 
   return (
     <Container className="checkAvailability">
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Grid item md={3} xs={12}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
@@ -97,22 +104,7 @@ const CheckAvailability = () => {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item md={3} xs={12}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Autocomplete
-              disablePortal
-              // id="combo-box-demo"
-              options={[
-                { label: "1" },
-                { label: "2" },
-                { label: "3" },
-                { label: "4" },
-              ]}
-              sx={{ width: 250 }}
-              renderInput={(params) => <TextField {...params} label="Guests" />}
-            />
-          </div>
-        </Grid>
+        {/* <Grid item md={3} xs={12}></Grid> */}
         <Grid
           item
           md={3}

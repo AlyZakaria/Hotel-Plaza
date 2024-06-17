@@ -8,7 +8,6 @@ const useGetCustomer = (setCustomer) => {
     }
     let customer = JSON.parse(sessionStorage.getItem("customer"));
     if (localStorage.getItem("customer") && localStorage.getItem("token")) {
-      console.log("localStorage");
       customer = JSON.parse(localStorage.getItem("customer"));
     }
     if (customer) {
@@ -16,6 +15,7 @@ const useGetCustomer = (setCustomer) => {
         sessionStorage.setItem("customer", JSON.stringify(customer));
         sessionStorage.setItem("token", JSON.stringify(customer.token));
       }
+
       setCustomer({ ...customer });
     }
   }

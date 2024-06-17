@@ -1,6 +1,6 @@
 .checkAvailability {
   display: flex;
-  justify-content: start;
+  justify-content: space-between !important;
   /* height: auto; */
   margin-top: -50px;
   background-color: white;

@@ -122,7 +122,7 @@ const PeronDetails = () => {
               alt={`${customer.fname}`}
               src={
                 customer.image
-                  ? `data:image/${customer.imageType};base64,${customer.image}`
+                  ? `data:${customer.imageType};base64,${customer.image}`
                   : customer.fname
               }
               sx={{

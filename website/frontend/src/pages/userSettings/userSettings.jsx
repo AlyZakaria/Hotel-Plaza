@@ -32,7 +32,7 @@ export default function UserSettings() {
       navigate("/");
     }
 
-    if (!customer || !sessionStorage.getItem("customer")) {
+    if (!customer) {
       console.log("No customer");
       navigate("/");
     }
