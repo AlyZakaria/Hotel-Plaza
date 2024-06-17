@@ -16,8 +16,29 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
       if (response.status === 200) {
         console.log("Login Successfull");
         setCustomer({ ...response.data });
+        // check if already customer in session storage as maybe
+        // I logged out from other tab and still this tab save old customer
+        // in session storage
+
+        if (
+          sessionStorage.getItem("token") ||
+          sessionStorage.getItem("customer")
+        ) {
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("customer");
+        }
+        // set new customer in storage
         sessionStorage.setItem("token", JSON.stringify(response.data.token));
         sessionStorage.setItem("customer", JSON.stringify(response.data));
+        if (userData.remember) {
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+          localStorage.setItem("customer", JSON.stringify(response.data));
+        }
+
+        if (localStorage.getItem("logout")) {
+          localStorage.removeItem("logout");
+        }
+
         toast.success("Login Successfull", {
           icon: <CheckCircleIcon sx={{ color: "green" }} />,
           hideProgressBar: true,

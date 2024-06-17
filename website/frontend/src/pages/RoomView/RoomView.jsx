@@ -9,64 +9,69 @@ import ReviewsCarousel from "../../components/ReviewsCarousel/ReviewsCarousel";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useRoomDetails from "../../hooks/useRoomDetails.js";
+import Footer from "../../components/Footer/Footer.jsx";
 
 const RoomView = () => {
   const [roomDetails, setRoomDetails] = useState({});
+  const [rendered, setRender] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
-  useRoomDetails(setRoomDetails, id);
+  useRoomDetails(setRoomDetails, setRender, id);
   console.log(roomDetails);
 
   return (
     <>
-      {roomDetails && (
-        <div>
-          <AppBar></AppBar>
-          <Box height="100vh" width="100%">
-            <Box
-              display="flex"
-              justifyContent={"center"}
-              alignContent={"center"}
-              paddingTop="5%"
-              paddingBottom="5%"
-            >
-              <Grid
-                container
-                sx={{ width: { sm: "90%", md: "70%" } }}
-                height="100%"
-                margin="auto"
+      {rendered && (
+        <>
+          <div>
+            <AppBar></AppBar>
+            <Box height="100vh" width="100%">
+              <Box
+                display="flex"
+                justifyContent={"center"}
+                alignContent={"center"}
+                paddingTop="5%"
+                paddingBottom="5%"
               >
-                <Grid item xs={12} md={8.5}>
-                  <RoomDetailsImageView
-                    details={roomDetails.imageURLs}
-                  ></RoomDetailsImageView>
-                </Grid>
-                <Grid item xs={12} md={0.5}></Grid>
                 <Grid
-                  item
-                  xs={12}
-                  md={3}
-                  sx={{ paddingTop: { xs: "5%", sm: "5%", md: "0%" } }}
+                  container
+                  sx={{ width: { sm: "90%", md: "70%" } }}
+                  height="100%"
+                  margin="auto"
                 >
-                  <RoomDetailsDetailsBox
-                    details={roomDetails}
-                  ></RoomDetailsDetailsBox>
+                  <Grid item xs={12} md={8.5}>
+                    <RoomDetailsImageView
+                      images={roomDetails.imageURLs}
+                    ></RoomDetailsImageView>
+                  </Grid>
+                  <Grid item xs={12} md={0.5}></Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    md={3}
+                    sx={{ paddingTop: { xs: "5%", sm: "5%", md: "0%" } }}
+                  >
+                    <RoomDetailsDetailsBox
+                      details={roomDetails}
+                    ></RoomDetailsDetailsBox>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent={"center"}
+                alignContent={"center"}
+              >
+                <RoomDetailsDesc
+                  details={roomDetails.description}
+                ></RoomDetailsDesc>
+              </Box>
+              <ReviewsCarousel reviews={roomDetails.reviews}></ReviewsCarousel>
             </Box>
-            <Box
-              display="flex"
-              justifyContent={"center"}
-              alignContent={"center"}
-            >
-              <RoomDetailsDesc
-                details={roomDetails.description}
-              ></RoomDetailsDesc>
-            </Box>
-            <ReviewsCarousel reviews={roomDetails.reviews}></ReviewsCarousel>
-          </Box>
-        </div>
+            <Box></Box>
+          </div>
+        </>
       )}
     </>
   );

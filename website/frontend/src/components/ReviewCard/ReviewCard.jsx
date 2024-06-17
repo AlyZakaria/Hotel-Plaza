@@ -5,8 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
+import { format } from 'date-fns';
+
 
 export default function ReviewCard({ review }) {
+  console.log(review);
   return (
     <Card
       sx={{
@@ -15,6 +18,7 @@ export default function ReviewCard({ review }) {
         border: "1px solid #e6e6e6",
         marginLeft: 1,
         marginRight: 1,
+        marginBottom: 5,
       }}
     >
       <CardHeader
@@ -25,12 +29,12 @@ export default function ReviewCard({ review }) {
         }
         title={
           <Typography sx={{ textAlign: "left", fontWeight: "bold" }}>
-            {review.customer.fname} {review.customer.lname}
+            {review.customer.fname}
           </Typography>
         }
         subheader={
           <Typography sx={{ textAlign: "left", fontSize: 14 }}>
-            {review.updatedAt}
+            {format(new Date(review.updatedAt), 'MMMM d, yyyy')}
           </Typography>
         }
       />

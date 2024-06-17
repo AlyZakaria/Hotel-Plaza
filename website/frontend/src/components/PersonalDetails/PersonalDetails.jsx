@@ -42,7 +42,14 @@ const PeronDetails = () => {
 
   const [save, setSave] = React.useState(false);
 
-  useSavePersonalDetails(save, setSave, tempCustomer, setCustomer);
+  useSavePersonalDetails(
+    save,
+    setSave,
+    tempCustomer,
+    setTempCustomer,
+    customer,
+    setCustomer
+  );
 
   useSetprofile(upload, setUpload, customer, setCustomer, profile);
 

@@ -8,15 +8,7 @@ const Birthdate = ({ customer, setCustomer }) => {
   const [value, setValue] = React.useState(
     dayjs(customer.dob).format("YYYY-MM-DD")
   );
-  const minDate = dayjs("1900-01-01");
-  const maxDate = dayjs().subtract(21, "year");
-  if (!dayjs(customer.dob).isValid()) {
-    alert("Invalid date");
-  } else if (dayjs(customer.dob).isBefore(minDate)) {
-    alert("Invalid date");
-  } else if (dayjs(customer.dob).isAfter(maxDate)) {
-    alert("Invalid date");
-  }
+ 
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

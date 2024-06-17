@@ -31,7 +31,16 @@ export default function AccountMenu() {
     handleClose();
     sessionStorage.removeItem("customer");
     sessionStorage.removeItem("token");
+    if (localStorage.getItem("customer") && localStorage.getItem("token")) {
+      localStorage.removeItem("customer");
+      localStorage.removeItem("token");
+    }
+    localStorage.setItem("logout", Date.now());
     setCustomer({});
+  };
+  const ToMyReservations = () => {
+    handleClose();
+    navigate("/my-reservations");
   };
   const ToManageAccount = () => {
     handleClose();
@@ -49,7 +58,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            {customer && (
+            {Object.keys(customer).length ? (
               <Avatar
                 alt={`${customer.fname}`}
                 src={
@@ -59,8 +68,7 @@ export default function AccountMenu() {
                 }
                 sx={{ width: 40, height: 40 }}
               />
-            )}
-            {!customer && (
+            ) : (
               <AccountCircleIcon
                 sx={{
                   color: "white",
@@ -123,7 +131,7 @@ export default function AccountMenu() {
           Manage account
         </MenuItem>
 
-        <MenuItem onClick={handleClose} sx={{ fontSize: "15px" }}>
+        <MenuItem onClick={ToMyReservations} sx={{ fontSize: "15px" }}>
           <BookOnlineOutlinedIcon
             sx={{ fontSize: "20px ", marginRight: "10px" }}
           />

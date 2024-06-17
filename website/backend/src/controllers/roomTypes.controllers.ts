@@ -76,10 +76,22 @@ class RoomTypeController extends Controller {
             const roomType = Number(req.query.id)
             const roomTypeDetails =
                 await this.repository.getRoomTypeDetails(roomType)
-            console.log(roomTypeDetails)
-            if (!roomTypeDetails) throw new Error()
+
+            roomTypeDetails.imageURLs = roomTypeDetails.imageURLs.map(
+                (imageUrl: any) => ({
+                    id: imageUrl.imageURL.id,
+                    blob: uint8ArrayToBase64(imageUrl.imageURL.blob),
+                    type: imageUrl.imageURL.type,
+                })
+            )
+            console.log(roomTypeDetails.imageURLs)
+
+            if (!roomTypeDetails) {
+                throw new Error()
+            }
             res.status(statusCode.success.ok).send(roomTypeDetails)
         } catch (error: unknown) {
+            console.log(error)
             res.status(statusCode.clientError.notFound).send(
                 'No room Type found'
             )

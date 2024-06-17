@@ -16,7 +16,7 @@ class CustomerController extends Controller {
     async login(req: Request, res: Response, next: NextFunction) {
         try {
             console.log(req.body)
-            const { email, password }: signedCustomer = req.body
+            const { email, password, remember }: signedCustomer = req.body
             // check first that the email is not null
             if (!email) throw new Error('Please enter an email')
             // find by email
@@ -39,7 +39,11 @@ class CustomerController extends Controller {
             let tempCustomer = { ...customer }
             delete tempCustomer['image']
             delete tempCustomer['imageType']
-            let token = jwt.sign(tempCustomer, TOKEN as string)
+
+            const options = remember
+                ? { expiresIn: '30d' }
+                : { expiresIn: '1h' }
+            let token = jwt.sign(tempCustomer, TOKEN as string, options)
             delete customer['password']
             customer['token'] = token
             res.status(statusCode.success.ok).send(customer)

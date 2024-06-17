@@ -5,12 +5,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button, CardActionArea, CardActions } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function MultiActionAreaCard({ roomType }) {
-  console.log(roomType);
+  const navigate = useNavigate();
+
+  const ToRoomDetails = (roomTypeId) => {
+    navigate(`/room-details?id=${roomTypeId}`);
+  };
   return (
     <Card sx={{ maxWidth: 345, padding: "0 0%", margin: "0 20px" }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => ToRoomDetails(roomType.id)}>
         <CardMedia
           component="img"
           height="140"

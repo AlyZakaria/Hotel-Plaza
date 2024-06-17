@@ -27,7 +27,12 @@ export default function UserSettings() {
   const navigate = useNavigate();
   console.log(sessionStorage.getItem("customer"));
   React.useEffect(() => {
-    if (!sessionStorage.getItem("customer") || !customer) {
+    if (localStorage.getItem("logout")) {
+      // Perform logout actions in this tab
+      navigate("/");
+    }
+
+    if (!customer || !sessionStorage.getItem("customer")) {
       console.log("No customer");
       navigate("/");
     }

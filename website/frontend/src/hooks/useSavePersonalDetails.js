@@ -1,11 +1,30 @@
 import { useEffect } from "react";
 import axios from "../Apis/axios";
 import urls from "../Apis/URLS";
-
-const useSavePersonalDetails = (save, setSave, tempCustomer, setCustomer) => {
+import dayjs from "dayjs";
+const useSavePersonalDetails = (
+  save,
+  setSave,
+  tempCustomer,
+  setTempCustomer,
+  customer,
+  setCustomer
+) => {
   const savePersonalDetails = async () => {
     try {
       console.log(tempCustomer);
+      const minDate = dayjs("1900-01-01");
+      const maxDate = dayjs().subtract(21, "year");
+      if (
+        !dayjs(tempCustomer.dob).isValid() ||
+        dayjs(tempCustomer.dob).isBefore(minDate) ||
+        dayjs(tempCustomer.dob).isAfter(maxDate)
+      ) {
+        setTempCustomer({ ...tempCustomer, dob: customer.dob });
+        alert("Invalid date");
+        return;
+      }
+      
 
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
