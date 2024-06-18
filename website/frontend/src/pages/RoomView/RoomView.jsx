@@ -11,14 +11,18 @@ import { useLocation } from "react-router-dom";
 import useRoomDetails from "../../hooks/useRoomDetails.js";
 import Footer from "../../components/Footer/Footer.jsx";
 
+let requested = {
+  value: false,
+};
+
 const RoomView = () => {
   const [roomDetails, setRoomDetails] = useState({});
   const [rendered, setRender] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
-  useRoomDetails(setRoomDetails, setRender, id);
-  console.log(roomDetails);
+
+  useRoomDetails(setRoomDetails, setRender, id,rendered);
 
   return (
     <>

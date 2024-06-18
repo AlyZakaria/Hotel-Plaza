@@ -84,7 +84,6 @@ class RoomTypeController extends Controller {
                     type: imageUrl.imageURL.type,
                 })
             )
-            console.log(roomTypeDetails.imageURLs)
 
             if (!roomTypeDetails) {
                 throw new Error()
@@ -117,12 +116,10 @@ class RoomTypeController extends Controller {
         try {
             if (!req.params.id) throw new Error()
             let roomId = Number(req.params.id)
-            console.log(roomId)
             const images = await this.repository.getRoomImages(roomId)
 
             // loop on images and convert it to base64
             for (let image of images) {
-                console.log(image)
                 image.imageURL.blob = uint8ArrayToBase64(image.imageURL.blob)
             }
             res.status(statusCode.success.ok).send(images)
