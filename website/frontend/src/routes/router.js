@@ -10,6 +10,7 @@ import Settings from "../pages/userSettings/userSettings.jsx";
 import RoomsAvailable from "../pages/RoomsAvailable/RoomsAvailable.jsx";
 import RoomView from "../pages/RoomView/RoomView.jsx";
 import Checkout from "../pages/Checkout/Checkout.jsx";
+import Policies from "../pages/Policies/Policies.jsx";
 import MyReservations from "../pages/MyReservations/MyReservations.jsx";
 import ContactUs from "../pages/ContactUs/ContactUs.jsx";
 const router = createBrowserRouter([
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <Checkout></Checkout>,
+  },
+  {
+    path: "/policies",
+    element: <Policies></Policies>,
   },
   {
     path: "/my-reservations",

@@ -147,9 +147,17 @@ const RoomAvailable = ({
             </Box>
           </Grid>
           <Grid item sm={6.3} xs={12} sx={{ padding: "1px" }}>
-            <h3 style={{ textAlign: "left" }}>
-              <button onClick={handleNavigation}>{roomType.roomtype}</button>
-            </h3>
+            <p
+              style={{
+                textAlign: "left",
+                fontWeight: "bold",
+                fontSize: "20px",
+                cursor: "pointer",
+              }}
+              onClick={handleNavigation}
+            >
+              {roomType.roomtype}
+            </p>
             <div
               style={{
                 display: "flex",

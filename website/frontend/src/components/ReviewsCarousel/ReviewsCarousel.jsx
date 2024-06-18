@@ -2,6 +2,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import Box from "@mui/material/Box";
+import Footer from "../../components/Footer/Footer";
 
 const responsive = {
   superLargeDesktop: {
@@ -43,6 +44,7 @@ function ReviewsCarousel({ reviews }) {
           ))}
         </Carousel>
       </Box>
+      <Footer></Footer>
     </div>
   );
 }

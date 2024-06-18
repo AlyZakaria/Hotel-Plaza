@@ -4,31 +4,41 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
+import AppBar from "../../components/AppBar/AppBar";
+import Footer from "../../components/Footer/Footer";
 
 const Checkout = () => {
   return (
-    <Container>
-      <Box sx={{ padding: "2% 0 2% 0" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: "left",
-            paddingBottom: "2%",
-            fontSize: { xs: "25px", md: "35px" },
-          }}
-        >
-          Review Your Reservation(s):
-        </Typography>
-        <CheckoutCard></CheckoutCard>
-        <CheckoutCard></CheckoutCard>
-        <CheckoutCard></CheckoutCard>
-        <Button sx={{ width: "100%", bgcolor: "blue" }}>
-          <Typography sx={{ textTransform: "capitalize", color: "white" }}>
-            Pay Now
+    <>
+      <AppBar></AppBar>
+      <Container>
+        <Box sx={{ padding: "2% 0 2% 0" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "left",
+              paddingBottom: "2%",
+              fontSize: { xs: "25px", md: "35px" },
+            }}
+          >
+            Review Your Reservation(s):
           </Typography>
-        </Button>
-      </Box>
-    </Container>
+          <CheckoutCard></CheckoutCard>
+          <CheckoutCard></CheckoutCard>
+          <CheckoutCard></CheckoutCard>
+          <Button
+            sx={{
+              width: { xs: "90%", sm: "50%", md: "20%" },
+              backgroundColor: "#CC0000",
+            }}
+            variant="contained"
+          >
+            Pay Now
+          </Button>
+        </Box>
+      </Container>
+      <Footer></Footer>
+    </>
   );
 };
 

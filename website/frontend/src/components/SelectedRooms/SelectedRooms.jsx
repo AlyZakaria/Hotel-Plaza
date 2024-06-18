@@ -5,6 +5,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const SelectedRooms = ({
   rooms,
   selectedRooms,
@@ -14,6 +16,11 @@ const SelectedRooms = ({
 }) => {
   useUpdateSelectedRooms(rooms, setSelectedRooms);
   const [sum, setSum] = useState(0);
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/checkout");
+  };
 
   useEffect(() => {
     let totalPrice = 0;
@@ -225,8 +232,9 @@ const SelectedRooms = ({
             variant="contained"
             size="large"
             disabled={selectedRooms.length === 0}
+            onClick={handleClick}
           >
-            Book
+            Proceed To Checkout
           </Button>
         </Box>
       </Box>

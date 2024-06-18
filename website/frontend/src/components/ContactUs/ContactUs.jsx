@@ -17,6 +17,36 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 const ContactUs = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, marginBottom: 5 }}>
+      <Typography
+        variant="h3"
+        sx={{
+          fontFamily: "Dancing script",
+          fontWeight: "bold",
+          paddingBottom: "2%",
+        }}
+      >
+        Welcome to Plaza Hotel
+      </Typography>
+      <Box
+        sx={{
+          textAlign: "justify",
+          paddingBottom: "5%",
+          textIndent: "40px",
+          fontSize: { sm: "12px", md: "15px", lg: "17px" },
+        }}
+      >
+        We are delighted to welcome you to Plaza Hotel, where luxury meets
+        comfort and exceptional service. Nestled in the heart of [City Name],
+        Plaza Hotel is your perfect retreat, whether you are here for business,
+        leisure, or a special occasion. Our commitment to excellence ensures
+        that every moment of your stay is memorable. From our elegantly
+        appointed rooms to our world-class amenities, we strive to create an
+        unforgettable experience tailored just for you. Explore the best that
+        [City Name] has to offer while enjoying the tranquility and elegance of
+        Plaza Hotel. We look forward to making your stay with us extraordinary.
+        Welcome to your home away from home.
+      </Box>
+
       <Box sx={{ mb: 4 }}>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.9982345898546!2d-73.97534362319286!3d40.757743478172936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258f9c295a239%3A0xfacbafc166e14e9a!2sThe%20Atrium!5e0!3m2!1sen!2sus!4v1659887620002!5m2!1sen!2sus"
