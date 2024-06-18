@@ -18,6 +18,7 @@ import { useContext } from "react";
 import { CustomerContext } from "../../contexts/Customer";
 import { UserLoginSchema } from "../../Validations/UserLogin";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function Copyright(props) {
   return (
@@ -47,6 +48,7 @@ let user = {};
 export default function SignInSide() {
   const [submit, setSubmit] = React.useState(false);
   let { customer, setCustomer } = useContext(CustomerContext);
+  const [loading, setLoading] = React.useState(false);
 
   useLogin(user, setCustomer, submit, setSubmit); // hook called
 
@@ -64,6 +66,7 @@ export default function SignInSide() {
       toast.error("Invalid data format and/or empty field(s)");
       return;
     }
+    setLoading(true);
     setSubmit(true);
   };
 
@@ -135,14 +138,15 @@ export default function SignInSide() {
                 label="Remember me"
                 name="remember"
               />
-              <Button
+              <LoadingButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                loading={loading}
               >
                 Sign In
-              </Button>
+              </LoadingButton>
               <Grid container>
                 <Grid item xs>
                   <Link href="/forgetpassword" variant="body2">
