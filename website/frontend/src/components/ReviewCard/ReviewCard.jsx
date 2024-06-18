@@ -5,8 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import { format } from 'date-fns';
-
+import { format } from "date-fns";
+import Rating from "@mui/material/Rating";
+import { Box } from "@mui/material";
 
 export default function ReviewCard({ review }) {
   console.log(review);
@@ -24,7 +25,7 @@ export default function ReviewCard({ review }) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            C
+            {review.customer.fname[0].toUpperCase()}
           </Avatar>
         }
         title={
@@ -33,9 +34,19 @@ export default function ReviewCard({ review }) {
           </Typography>
         }
         subheader={
-          <Typography sx={{ textAlign: "left", fontSize: 14 }}>
-            {format(new Date(review.updatedAt), 'MMMM d, yyyy')}
-          </Typography>
+          <>
+            <Typography sx={{ textAlign: "left", fontSize: 14 }}>
+              {format(new Date(review.updatedAt), "MMMM d, yyyy")}
+            </Typography>
+            <Box sx={{ display: "flex" }}>
+              <Rating
+                name="read-only"
+                sx={{ fontSize: "17px" }}
+                value={review.rating}
+                readOnly
+              />
+            </Box>
+          </>
         }
       />
       <CardContent>

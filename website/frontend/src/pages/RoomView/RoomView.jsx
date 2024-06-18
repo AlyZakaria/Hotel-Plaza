@@ -69,7 +69,6 @@ const RoomView = () => {
               </Box>
               <ReviewsCarousel reviews={roomDetails.reviews}></ReviewsCarousel>
             </Box>
-            <Box></Box>
           </div>
         </>
       )}

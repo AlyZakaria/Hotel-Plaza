@@ -46,6 +46,7 @@ const RoomDetailsDetailsBox = ({ details }) => {
           textAlign: "left",
           height: { xs: "80%", sm: "80%", md: "90%" },
           padding: "0 10%",
+          borderRadius: "0 0 9px 9px",
         }}
       >
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>

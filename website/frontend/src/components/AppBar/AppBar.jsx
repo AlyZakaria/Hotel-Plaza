@@ -14,11 +14,10 @@ import LoginIcon from "@mui/icons-material/Login";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import { CustomerContext } from "../../contexts/Customer";
-import LogoutIcon from "@mui/icons-material/Logout";
 import AccountMenu from "../AccountMenu/AccountMenu";
 
-const pages = ["Availability", "About", "Contact", "Policies"];
-const links = ["/available-rooms", "/about", "/contact", "/policies"];
+const pages = ["Availability", "Contact", "Policies"];
+const links = ["/available-rooms", "/contact", "/policies"];
 
 function ResponsiveAppBar() {
   let { customer, setCustomer } = React.useContext(CustomerContext);
