@@ -4,6 +4,7 @@ import useUpdateSelectedRooms from "../../hooks/useUpdateSelectedRooms.js";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
+import { useEffect, useState } from "react";
 const SelectedRooms = ({
   rooms,
   selectedRooms,
@@ -11,15 +12,17 @@ const SelectedRooms = ({
   nights,
   date,
 }) => {
-  const sum = () =>{
-     let total = 0;
-      selectedRooms.forEach(room => {
-        total += room.totalAfterDiscount ? room.totalAfterDiscount : room.total;
-      }); 
-
-    return total
-  }
   useUpdateSelectedRooms(rooms, setSelectedRooms);
+  const [sum, setSum] = useState(0);
+
+  useEffect(() => {
+    let totalPrice = 0;
+    for (let i = 0; i < selectedRooms.length; i++) {
+      totalPrice += selectedRooms[i].sum;
+    }
+    setSum(totalPrice);
+  }, [selectedRooms]);
+
   return (
     <Container>
       <Box
@@ -40,7 +43,7 @@ const SelectedRooms = ({
               fontWeight: "bold",
             }}
           >
-            EGY {sum} total
+            EGP {sum} total
           </Typography>
           <Box
             sx={{
@@ -157,10 +160,7 @@ const SelectedRooms = ({
                         padding: "0px 20px",
                       }}
                     >
-                      EGY{" "}
-                      {room.totalAfterDiscount
-                        ? room.totalAfterDiscount
-                        : room.total}
+                      EGP {room.sum}
                     </Typography>
                   </Box>
                 </Box>
@@ -197,7 +197,7 @@ const SelectedRooms = ({
               paddingLeft: "0px",
             }}
           >
-            EGY {sum}
+            EGP {sum}
           </Typography>
         </Box>
         <Box>
