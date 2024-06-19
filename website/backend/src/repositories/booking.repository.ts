@@ -10,12 +10,42 @@ class bookingRepository extends Repository {
     //Book.
     async book(booking: booking): Promise<any | never> {
         try {
-            const bookingStatus = await this._model.$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, @message);
+            const bookingStatus = await this._model
+                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, @message);
                                                               SELECT @message`
 
             if (!bookingStatus) throw new Error(`Error in the booking process!`)
             return bookingStatus
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async getMyReservations(userId: number): Promise<any | never> {
+        try {
+            const completedBookings = await this.prisma.reservation.findMany({
+                where: {
+                    customerId: userId,
+                },
+                include: {
+                    rooms: {
+                        include: {
+                            room: {
+                                include: {
+                                    roomType: true, // Include room type details
+                                },
+                            },
+                        },
+                    },
+                    bill: true, // Include bill details
+                },
+            })
 
+            console.log(completedBookings)
+            if (!completedBookings)
+                throw new Error(
+                    `No completed bookings found for the user with id: ${userId}`
+                )
+            return completedBookings
         } catch (error: unknown) {
             throw error
         }

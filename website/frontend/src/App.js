@@ -9,6 +9,7 @@ import { CustomerContext } from "./contexts/Customer";
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import useGetCustomer from "./hooks/useGetCustomer";
+
 import dayjs from "dayjs";
 
 function App() {
@@ -28,20 +29,20 @@ function App() {
             <RouterProvider router={router} />
           </DateContext.Provider>
         </CustomerContext.Provider>
-
-        <ToastContainer
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          type="warning"
-        />
       </ThemeProvider>
+
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        type="warning"
+      />
     </div>
   );
 }

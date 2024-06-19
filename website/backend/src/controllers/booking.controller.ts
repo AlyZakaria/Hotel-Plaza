@@ -2,6 +2,7 @@ import Controller from './Controller'
 import { Request, Response, NextFunction } from 'express'
 import booking from '../interfaces/booking'
 import bookingRepository from '../repositories/booking.repository'
+import { statusCode } from '../constants/statusCode'
 
 const paypal = require('paypal-rest-sdk')
 paypal.configure({
@@ -12,7 +13,7 @@ paypal.configure({
         'EEqIFUBqpaXg4xJfzrb36jD2wxPdDzrGTwFoJZlGghbJ2S8bPiw5tzQtycFXYR2iG0hCeNNkl1_7vCfU',
 })
 
-class bookingController extends Controller {
+class BookingController extends Controller {
     constructor() {
         super()
         this.repository = new bookingRepository()
@@ -157,5 +158,19 @@ class bookingController extends Controller {
             res.status(404).send('Error booking!')
         }
     }
+
+    async getMyReservations(req: Request, res: Response, next: NextFunction) {
+        try {
+            const CustomerId = Number(req.body.id)
+            const completedBookings =
+                await this.repository.getMyReservations(CustomerId)
+            res.status(statusCode.success.ok).send(completedBookings)
+        } catch (error) {
+            console.log(error)
+            res.status(statusCode.clientError.badRequest).send(
+                'Error getting completed bookings!'
+            )
+        }
+    }
 }
-export default bookingController
+export default BookingController

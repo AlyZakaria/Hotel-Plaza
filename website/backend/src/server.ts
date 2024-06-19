@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import offerUpdateSchedule from './scheduled-events/offerUpdate'
 import otpTokenDelete from './scheduled-events/otpTokenDelete'
 import cors from 'cors'
-import { roomTypesRoute, availabilityRoute, resetPasswordRoute } from './routes'
+import { roomTypesRoute, availabilityRoute, resetPasswordRoute, bookingRoute } from './routes'
 import { NODE_ENV, PORT } from './config/constants'
 
 const app = express()
@@ -35,6 +35,7 @@ app.use('/api/', customerRoute)
 app.use('/api/', resetPasswordRoute)
 app.use('/api/', roomTypesRoute)
 app.use('/api/', availabilityRoute)
+app.use('/api/', bookingRoute)
 
 if (NODE_ENV !== 'test') {
     const port = PORT || 3000
