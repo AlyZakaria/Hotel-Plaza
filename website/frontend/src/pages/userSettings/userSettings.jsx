@@ -13,6 +13,7 @@ import EmailNotify from "../../components/EmailNotify/EmailNotify";
 import PersonalDetails from "../../components/PersonalDetails/PersonalDetails";
 import { CustomerContext } from "../../contexts/Customer";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer/Footer";
 
 let sideBar = ["Personal details", "Security", "Email notifications"];
 let component = [<PersonalDetails />, <Security />, <EmailNotify />];
@@ -124,6 +125,7 @@ export default function UserSettings() {
           </Grid>
         </Grid>
       </Container>
+      <Footer></Footer>
     </div>
   );
 }

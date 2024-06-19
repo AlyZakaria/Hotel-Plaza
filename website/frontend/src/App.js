@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import router from "../src/routes/router";
 import customTheme from "../src/themes/customTheme";
+import GlobalTheme from "../src/themes/GlobalTheme";
 import { ToastContainer } from "react-toastify";
 import { DateContext } from "./contexts/Date";
 import { CustomerContext } from "./contexts/Customer";
@@ -23,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <ThemeProvider theme={customTheme}>
+      <ThemeProvider theme={GlobalTheme}>
         <CustomerContext.Provider value={{ customer, setCustomer }}>
           <DateContext.Provider value={{ date, setDate }}>
             <RouterProvider router={router} />

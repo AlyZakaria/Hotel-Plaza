@@ -20,6 +20,7 @@ import { useContext } from "react";
 import { CustomerContext } from "../../contexts/Customer";
 import { AddUserSchema } from "../../Validations/AddUser";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function Copyright(props) {
   return (
@@ -52,6 +53,7 @@ export default function SignUp() {
   const [error, setError] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   useSignUp(user, customer, setCustomer, submit, setSubmit);
 
@@ -70,12 +72,11 @@ export default function SignUp() {
       gender: data.get("gender"),
     };
     const isValid = AddUserSchema.isValidSync(user);
-    console.log(isValid);
     if (!isValid) {
       toast.error("Invalid data format and/or empty field(s)");
       return;
     }
-    console.log(user);
+    setLoading(true);
     setSubmit(true);
   };
   const handlePhoneNumberChange = (newValue) => {
@@ -180,14 +181,15 @@ export default function SignUp() {
                 </FormControl>
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              loading={loading}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

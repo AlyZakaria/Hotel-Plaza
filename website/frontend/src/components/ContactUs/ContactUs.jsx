@@ -66,10 +66,10 @@ const ContactUs = () => {
               Contact Info
             </Typography>
             <Typography variant="body1">📞 0123456789</Typography>
-            <Typography variant="body1">✉️ demo@example.com</Typography>
+            <Typography variant="body1">✉️ Plaza@example.com</Typography>
             <Typography variant="body1">📍 Your address goes here</Typography>
             <Box sx={{ mt: 3 }}>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" sx={{ color: "black" }} gutterBottom>
                 Social Media
               </Typography>
               <Box>
