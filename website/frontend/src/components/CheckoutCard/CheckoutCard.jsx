@@ -6,12 +6,16 @@ import Button from "@mui/material/Button";
 
 const CheckoutCard = () => {
   return (
-    <Box sx={{ paddingBottom: "10px" }}>
+    <Box
+      sx={{
+        paddingBottom: "10px",
+      }}
+    >
       <Grid
         container
         sx={{
           height: { xs: "200px", sm: "200px", md: "200px" },
-          border: "1px solid grey",
+          border: "1px solid #D3D3D3",
           borderRadius: "6px",
         }}
       >
@@ -26,11 +30,11 @@ const CheckoutCard = () => {
             display: { xs: "none", sm: "none", md: "block" },
           }}
         ></Grid>
-        <Grid xs={0} sm={0} md={0.01} sx={{ bgcolor: "grey" }}></Grid>
+        <Grid xs={0} sm={0} md={0.01} sx={{ bgcolor: "#D3D3D3" }}></Grid>
         <Grid xs={12} sm={12} md={8.48}>
           <Box sx={{ height: "20%", textAlign: "left" }}>
             <Typography
-              variant="h6"
+              variant="h5"
               sx={{ fontWeight: "bold", paddingLeft: "2%" }}
             >
               Super Delux Room
@@ -61,7 +65,7 @@ const CheckoutCard = () => {
           <Box
             sx={{
               height: "1px",
-              bgcolor: "grey",
+              bgcolor: "#D3D3D3",
               display: { xs: "none", sm: "none", md: "flex" },
             }}
           ></Box>
@@ -112,7 +116,7 @@ const CheckoutCard = () => {
         <Grid
           item
           md={0.01}
-          sx={{ bgcolor: "grey", height: { xs: "0px", md: "100%" } }}
+          sx={{ bgcolor: "#D3D3D3", height: { xs: "0px", md: "100%" } }}
         ></Grid>
 
         <Grid item xs={12} sm={12} md={0.5}>

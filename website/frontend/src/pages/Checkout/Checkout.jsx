@@ -29,7 +29,6 @@ const Checkout = () => {
           <Button
             sx={{
               width: { xs: "90%", sm: "50%", md: "20%" },
-              backgroundColor: "#CC0000",
             }}
             variant="contained"
           >

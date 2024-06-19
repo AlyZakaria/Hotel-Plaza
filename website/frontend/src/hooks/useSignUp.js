@@ -7,14 +7,12 @@ const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
   const navigate = useNavigate();
   const signUp = async () => {
     try {
-      console.log(userData);
       const response = await axios.post(URLs.SignUp, userData);
       if (response.status === 201) {
         setCustomer({ ...response.data });
         navigate("/");
-        console.log("Sign Up Successfull");
+        toast.success(`Welcome ${userData.fname}`);
       }
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -24,7 +22,6 @@ const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
   useEffect(() => {
     console.log("Inside useEffect");
     if (submit) {
-      console.log("Inside if");
       signUp();
     }
   }, [submit]);

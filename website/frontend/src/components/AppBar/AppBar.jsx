@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { CustomerContext } from "../../contexts/Customer";
 import AccountMenu from "../AccountMenu/AccountMenu";
 
-const pages = ["Availability", "Contact", "Policies"];
+const pages = ["Book", "Contact", "Policies"];
 const links = ["/available-rooms", "/contact", "/policies"];
 
 function ResponsiveAppBar() {
@@ -38,6 +38,10 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#143c5c" }}>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet"
+      ></link>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ paddingLeft: "5%", paddingRight: "5%" }}>
           <style>
@@ -111,7 +115,7 @@ function ResponsiveAppBar() {
                   key={page}
                   onClick={(e) => navigateTo(e, links[index])}
                 >
-                  <Typography>{page}</Typography>
+                  <Typography sx={{ fontFamily: "Lato" }}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -141,8 +145,10 @@ function ResponsiveAppBar() {
                   my: 2,
                   color: "white",
                   display: "block",
-                  fontFamily: "'Roboto Condensed', sans-serif",
+                  fontFamily: "Lato",
                   fontWeight: "bold",
+                  textTransform: "capitalize",
+                  fontSize: "17px",
                 }}
               >
                 {page}
@@ -160,14 +166,13 @@ function ResponsiveAppBar() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link href="/login">
+                  <Link href="/login" sx={{ textDecoration: "none" }}>
                     <Typography
                       textAlign="center"
                       sx={{
                         color: "white",
                         textTransform: "uppercase",
                         fontWeight: "bold",
-                        textDecoration: "none",
                       }}
                     >
                       Sign In
@@ -183,11 +188,10 @@ function ResponsiveAppBar() {
                 }}
               >
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link href="/signup">
+                  <Link href="/signup" sx={{ textDecoration: "none" }}>
                     <Typography
                       textAlign="center"
                       sx={{
-                        color: "red",
                         textTransform: "uppercase",
                         fontWeight: "bold",
                         textDecoration: "none",

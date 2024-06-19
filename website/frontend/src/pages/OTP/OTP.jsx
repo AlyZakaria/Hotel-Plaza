@@ -41,7 +41,6 @@ export default function OTP() {
   const [otp, setOtp] = React.useState("");
   const [submit, setSubmit] = React.useState(false);
   useOTP(otp, submit, setSubmit); // hook called
-
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
@@ -54,6 +53,13 @@ export default function OTP() {
     };
     setSubmit(true);
   };
+
+  const [timer, setTimer] = React.useState(59);
+  setTimeout(() => {
+    if (timer > 0) {
+      setTimer(timer - 1);
+    }
+  }, 1000);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -76,7 +82,7 @@ export default function OTP() {
             variant="h5"
             sx={{ paddingBottom: "10%", fontSize: "21px" }}
           >
-            Verify Email
+            Verify Email 0:{timer}
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12}>
