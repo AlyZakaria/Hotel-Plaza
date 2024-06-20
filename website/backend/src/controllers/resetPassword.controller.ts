@@ -66,6 +66,7 @@ class ResetPasswordController extends Controller {
     //reset password
     async resetPassword(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log(req.body)
             const { token, newPassword } = req.body
             // hash the password
             const hash = bcrypt.hashSync(

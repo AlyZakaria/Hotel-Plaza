@@ -18,10 +18,8 @@ const verifyToken: express.RequestHandler = (
                 const decoded: any = verify(token, TOKEN as unknown as string)
                 let dateNow = new Date()
                 if (decoded && decoded.exp < dateNow.getTime() - decoded.iat) {
-                    if (req.body) Object.assign(req.body, decoded)
-                    else
-                    req.body = decoded
-                    
+                    // concactenate the decoded data to the request
+                    req.body = { body: req.body, decoded: decoded }
                     next()
                 } else throw new Error()
             } else throw new Error()

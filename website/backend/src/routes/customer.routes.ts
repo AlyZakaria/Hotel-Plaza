@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { CustomerController } from '../controllers'
 import { checkEmail, verifyToken } from '../middlewares'
 import multer from 'multer'
+import updateCustomerDetails from '../middlewares/updateCustomerDetails'
 
 const upload = multer()
 
@@ -23,6 +24,7 @@ customerRoute.put(
 customerRoute.put(
     '/update-customer',
     verifyToken,
+    updateCustomerDetails,
     customerController.updateCustomer
 )
 customerRoute.get('/customers', customerController.getAllCustomers)

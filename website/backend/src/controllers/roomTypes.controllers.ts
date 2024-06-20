@@ -71,7 +71,6 @@ class RoomTypeController extends Controller {
     }
     async getRoomTypeDetails(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.query)
             if (!req.query.id) throw new Error()
             const roomType = Number(req.query.id)
             const roomTypeDetails =
@@ -129,7 +128,8 @@ class RoomTypeController extends Controller {
     }
     async addReview(req: Request, res: Response, next: NextFunction) {
         try {
-            const { id, rating, comment, roomTypeId } = req.body
+            const { rating, comment, roomTypeId } = req.body.body
+            const id = req.body.decoded.id
             const review = {
                 rating,
                 comment,

@@ -15,7 +15,6 @@ class CustomerController extends Controller {
     // login
     async login(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body)
             const { email, password, remember }: signedCustomer = req.body
             // check first that the email is not null
             if (!email) throw new Error('Please enter an email')
@@ -81,15 +80,14 @@ class CustomerController extends Controller {
     }
     async updateCustomer(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log(req.body)
             if (!req.body.id) throw new Error()
+            const { customer, id }: any = req.body
 
-            Number(req.body.id)
-            const customer: customerData = req.body
-            // get all data of customer and update it
             customer.dob = new Date(customer.dob as string)
-            const updatedCustomer =
-                await this.repository.updateCustomer(customer)
+            const updatedCustomer = await this.repository.updateCustomer(
+                id,
+                customer
+            )
             if (!updatedCustomer) throw new Error()
             res.status(statusCode.success.ok).send(updatedCustomer)
         } catch (error: unknown) {

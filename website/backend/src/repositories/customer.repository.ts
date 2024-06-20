@@ -56,12 +56,13 @@ class CustomerRepository extends Repository {
     }
 
     async updateCustomer(
+        id: number,
         customerData: customerData
     ): Promise<customerData | never> {
         try {
             const customer = await this._model.update({
                 where: {
-                    id: customerData.id,
+                    id: id,
                 },
                 data: customerData,
             })

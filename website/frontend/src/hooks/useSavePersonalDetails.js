@@ -24,7 +24,6 @@ const useSavePersonalDetails = (
         alert("Invalid date");
         return;
       }
-      
 
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
@@ -44,6 +43,9 @@ const useSavePersonalDetails = (
         console.log(response.data);
         setCustomer({ ...tempCustomer });
         sessionStorage.setItem("customer", JSON.stringify(tempCustomer));
+        if (customer.remember) {
+          localStorage.setItem("customer", JSON.stringify(tempCustomer));
+        }
         setSave(false);
       }
     } catch (error) {

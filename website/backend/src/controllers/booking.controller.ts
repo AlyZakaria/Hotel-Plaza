@@ -161,7 +161,7 @@ class BookingController extends Controller {
 
     async getMyReservations(req: Request, res: Response, next: NextFunction) {
         try {
-            const CustomerId = Number(req.body.id)
+            const CustomerId = Number(req.body.decoded.id)
             console.log(CustomerId)
             const completedBookings =
                 await this.repository.getMyReservations(CustomerId)
