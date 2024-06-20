@@ -34,6 +34,7 @@ const reservations = [
             size: "25",
             description: "Description for RoomType1",
             imageURL: "https://via.placeholder.com/150", // Replace with actual image URL
+            review: {},
           },
         },
       },
@@ -56,6 +57,7 @@ const reservations = [
             size: "30",
             description: "Description for RoomType2",
             imageURL: "https://via.placeholder.com/150", // Replace with actual image URL
+            review: {},
           },
         },
       },
@@ -94,6 +96,7 @@ const reservations = [
             size: "35",
             description: "Description for RoomType3",
             imageURL: "https://via.placeholder.com/150", // Replace with actual image URL
+            review: {},
           },
         },
       },
@@ -133,6 +136,7 @@ const reservations = [
             description: "Description for RoomType4",
             imageURL: "https://via.placeholder.com/150", // Replace with actual image URL
             review: {
+              // Adding review for the checked-out room
               rating: 4,
               comment: "Great room with beautiful view.",
             },

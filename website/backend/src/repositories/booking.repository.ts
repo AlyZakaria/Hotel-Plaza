@@ -31,7 +31,16 @@ class bookingRepository extends Repository {
                         include: {
                             room: {
                                 include: {
-                                    roomType: true, // Include room type details
+                                    roomType: {
+                                        include: {
+                                            reviews: {
+                                                // add condition here
+                                                where: {
+                                                    customerId: userId,
+                                                },
+                                            },
+                                        }, // Include reviews for the room type
+                                    },
                                 },
                             },
                         },
@@ -40,7 +49,6 @@ class bookingRepository extends Repository {
                 },
             })
 
-            console.log(completedBookings)
             if (!completedBookings)
                 throw new Error(
                     `No completed bookings found for the user with id: ${userId}`

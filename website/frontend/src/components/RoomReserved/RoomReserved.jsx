@@ -9,80 +9,49 @@ import {
   Button,
   Rating,
   Grid,
-  Fade,
 } from "@mui/material";
 
 const RoomCard = ({ room }) => {
-  // Ensure that all hooks are called unconditionally at the beginning of the component
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const { roomType } = room.room;
+  const review = roomType.review || {};
+  const [rating, setRating] = useState(review?.rating || 0);
+  const [comment, setComment] = useState(review?.comment || "");
   const [submitted, setSubmitted] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-
-  if (!room || !room.room || !room.room.roomType) {
-    return null; // Handle case where room data is missing
-  }
-
-  const { roomType, review } = room.room;
+  const [editMode, setEditMode] = useState(false); 
 
   const handleSubmit = () => {
-    // Here you would typically send the review to the backend
+    
     console.log("Rating:", rating);
     console.log("Comment:", comment);
     setSubmitted(true);
-    // Reset edit mode after submission
-    setEditMode(false);
+    setEditMode(false); 
   };
 
   const handleEdit = () => {
-    setEditMode(true); // Activate edit mode
+    setEditMode(true); 
   };
 
   return (
-    <Fade in={true} timeout={500}>
-      <Card sx={{ mb: 2, backgroundColor: "white", boxShadow: 3 }}>
-        <CardMedia
-          component="img"
-          height="140"
-          image={roomType?.imageURL || ""}
-          alt={roomType?.name || ""}
-        />
-        <CardContent>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ color: "primary.main" }}
-          >
-            {roomType?.name || ""}
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" color="text.secondary">
-                Price per Night: ${roomType?.pricepernight || ""}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Capacity: {roomType?.capacity || ""}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                View: {roomType?.view || ""}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1" color="text.secondary">
-                Bed Type: {roomType?.bed || ""}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Size: {roomType?.size} sqm
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Status: {room?.status || ""}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {roomType?.description || ""}
-              </Typography>
-            </Grid>
+    <Card sx={{ mb: 2, backgroundColor: "white", boxShadow: 3 }}>
+      <CardContent>
+        <Typography variant="h6" component="div" sx={{ color: "primary.main" }}>
+          {roomType.name}
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1" color="text.secondary">
+              Total: ${roomType.pricepernight}
+            </Typography>
           </Grid>
-          {room?.status === "checked_out" && review && !editMode && (
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1" color="text.secondary">
+              Status: {room.status}
+            </Typography>
+          </Grid>
+        </Grid>
+        {(room.status === "checked_out" &&
+          Object.keys(review).length &&
+          !editMode && (
             <Box sx={{ mt: 2 }}>
               <Typography
                 variant="h6"
@@ -104,44 +73,79 @@ const RoomCard = ({ room }) => {
                 Edit Review
               </Button>
             </Box>
-          )}
-          {(room?.status === "checked_out" && !review) || editMode ? (
-            <Box sx={{ mt: 2 }}>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ color: "primary.main" }}
-              >
-                {editMode ? "Edit Review" : "Leave a Review"}
-              </Typography>
-              <Rating
-                value={rating}
-                onChange={(event, newValue) => {
-                  setRating(newValue);
-                }}
-              />
-              <TextField
-                fullWidth
-                label="Comment"
-                multiline
-                rows={4}
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-                sx={{ mt: 2 }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-                sx={{ mt: 2 }}
-              >
-                {editMode ? "Update" : "Submit"}
-              </Button>
-            </Box>
-          ) : null}
-        </CardContent>
-      </Card>
-    </Fade>
+          )) ||
+          (room.status === "checked_out" &&
+            !Object.keys(review).length &&
+            !submitted && (
+              <Box sx={{ mt: 2 }}>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ color: "primary.main" }}
+                >
+                  Leave a Review
+                </Typography>
+                <Rating
+                  value={rating}
+                  onChange={(event, newValue) => {
+                    setRating(newValue);
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  label="Comment"
+                  multiline
+                  rows={4}
+                  value={comment}
+                  onChange={(event) => setComment(event.target.value)}
+                  sx={{ mt: 2 }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                  sx={{ mt: 2 }}
+                >
+                  Submit
+                </Button>
+              </Box>
+            ))}
+        {editMode && (
+          <Box sx={{ mt: 2 }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ color: "primary.main" }}
+            >
+              Edit Review
+            </Typography>
+            <Rating
+              value={rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+            />
+            <TextField
+              fullWidth
+              label="Comment"
+              multiline
+              rows={4}
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+              sx={{ mt: 2 }}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              sx={{ mt: 2 }}
+            >
+              Update
+            </Button>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
