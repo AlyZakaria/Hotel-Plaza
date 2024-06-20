@@ -4,23 +4,26 @@ import useUpdateSelectedRooms from "../../hooks/useUpdateSelectedRooms.js";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
 
 const SelectedRooms = ({
   rooms,
-  selectedRooms,
-  setSelectedRooms,
+  // selectedRooms,
+  // setSelectedRooms,
   nights,
   date,
 }) => {
-  useUpdateSelectedRooms(rooms, setSelectedRooms);
+  let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
+  // useUpdateSelectedRooms(rooms, setSelectedRooms);
   const [sum, setSum] = useState(0);
 
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/checkout");
   };
+  console.log(selectedRooms);
 
   useEffect(() => {
     let totalPrice = 0;

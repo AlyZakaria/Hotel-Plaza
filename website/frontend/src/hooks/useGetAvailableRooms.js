@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import urls from "../Apis/URLS.json";
 import axios from "../Apis/axios.js";
-import * as React from "react";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ErrorIcon from "@mui/icons-material/Error";
 import dayjs from "dayjs"; // Using dayjs for date manipulation, ensure it is installed
 
 function check(date, setDate) {
@@ -36,7 +33,9 @@ const useGetAvailableRooms = (
   setRoomsTemp,
   setSelectedRooms,
   click,
-  setClick
+  setClick,
+  isInitialRender,
+  setIsInitialRender
 ) => {
   const availableRooms = async () => {
     try {
@@ -47,7 +46,10 @@ const useGetAvailableRooms = (
         checkout: date.checkOut,
       });
       if (response.status === 200) {
-        setSelectedRooms([]);
+        if (!isInitialRender) {
+          setSelectedRooms([]);
+        }
+        setIsInitialRender(false);
         setRooms(response.data);
         setRoomsTemp(response.data);
       }
@@ -59,7 +61,8 @@ const useGetAvailableRooms = (
   };
   useEffect(() => {
     availableRooms();
-  }, [date]);
+    console.log("Here");
+  }, [date.checkIn, date.checkOut]);
 };
 
 export default useGetAvailableRooms;

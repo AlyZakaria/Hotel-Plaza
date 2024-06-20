@@ -10,15 +10,21 @@ import { DateContext } from "../../contexts/Date.js";
 import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 import { ClickContext } from "../../contexts/ButtonClick.js";
+import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
+
 const RoomsAvailable = () => {
+  // Contexts
   let { date, setDate } = useContext(DateContext);
   let { click, setClick } = useContext(ClickContext);
+  let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
+  let tempDate = date;
   const [rooms, setRooms] = useState([]);
   const [roomsTemp, setRoomsTemp] = useState([]);
   const [roomFilter, setRoomFilter] = useState([]);
   const [capacityFilter, setCapacityFilter] = useState([]);
-  const [selectedRooms, setSelectedRooms] = useState([]);
   const nights = date.checkOut.diff(date.checkIn, "day");
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
   useGetAvailableRooms(
     setRooms,
     date,
@@ -26,7 +32,9 @@ const RoomsAvailable = () => {
     setRoomsTemp,
     setSelectedRooms,
     click,
-    setClick
+    setClick,
+    isInitialRender,
+    setIsInitialRender
   );
 
   return (
@@ -57,8 +65,8 @@ const RoomsAvailable = () => {
               roomsTemp.map((room) => {
                 return (
                   <RoomAvailable
-                    selectedRooms={selectedRooms}
-                    setSelectedRooms={setSelectedRooms}
+                    // selectedRooms={selectedRooms}
+                    // setSelectedRooms={setSelectedRooms}
                     key={room.roomtypeId}
                     roomType={room}
                     roomImage={room.images2}
@@ -78,8 +86,8 @@ const RoomsAvailable = () => {
             <br></br>
             <SelectedRooms
               rooms={rooms}
-              selectedRooms={selectedRooms}
-              setSelectedRooms={setSelectedRooms}
+              // selectedRooms={selectedRooms}
+              // setSelectedRooms={setSelectedRooms}
               nights={nights}
               date={date}
             />

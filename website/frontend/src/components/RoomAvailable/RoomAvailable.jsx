@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Box } from "@mui/material";
 import "./styles.css";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
@@ -11,10 +11,11 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import useLoadImages from "../../hooks/useLoadImages";
+import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
 
 const RoomAvailable = ({
-  selectedRooms,
-  setSelectedRooms,
+  // selectedRooms,
+  // setSelectedRooms,
   key,
   roomType,
   roomImage,
@@ -23,6 +24,7 @@ const RoomAvailable = ({
   const [text, setText] = useState("Show more");
   const [imageClick, setImageClick] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
 
   const [roomImages, setRoomImages] = useState([
     {
