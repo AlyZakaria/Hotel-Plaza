@@ -8,18 +8,16 @@ import { useState, useContext } from "react";
 import { Box } from "@mui/material";
 import { DateContext } from "../../contexts/Date.js";
 import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
-import Footer from "../../components/Footer/Footer.jsx";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 const RoomsAvailable = () => {
-  let { date } = useContext(DateContext);
+  let { date, setDate } = useContext(DateContext);
   const [rooms, setRooms] = useState([]);
   const [roomsTemp, setRoomsTemp] = useState([]);
   const [roomFilter, setRoomFilter] = useState([]);
   const [capacityFilter, setCapacityFilter] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const nights = date.checkOut.diff(date.checkIn, "day");
-
-  useGetAvailableRooms(setRooms, date, setRoomsTemp);
+  useGetAvailableRooms(setRooms, date, setDate, setRoomsTemp, setSelectedRooms);
 
   return (
     <Box>
@@ -78,7 +76,6 @@ const RoomsAvailable = () => {
           </Grid>
         </Grid>
       </Container>
-      {/* <Footer></Footer> */}
     </Box>
   );
 };

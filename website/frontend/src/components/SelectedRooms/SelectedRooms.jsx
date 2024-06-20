@@ -129,7 +129,7 @@ const SelectedRooms = ({
                         marginBottom: "20px",
                       }}
                     >
-                      x{room.count}
+                      x{parseInt(room.count)}
                     </Typography>
                     <DeleteOutlineIcon
                       onClick={() => {

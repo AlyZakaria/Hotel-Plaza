@@ -12,6 +12,8 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import useOTP from "../../hooks/useOTP";
 import AppBar from "../../components/AppBar/AppBar";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import { useNavigate } from "react-router-dom";
+
 function Copyright(props) {
   return (
     <Typography
@@ -60,6 +62,13 @@ export default function OTP() {
       setTimer(timer - 1);
     }
   }, 1000);
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (!sessionStorage.getItem("emailOtp")) {
+      navigate("/");
+    }
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>
