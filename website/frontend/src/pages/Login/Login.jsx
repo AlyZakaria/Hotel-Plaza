@@ -19,6 +19,7 @@ import { CustomerContext } from "../../contexts/Customer";
 import { UserLoginSchema } from "../../Validations/UserLogin";
 import { ToastContainer, toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -69,6 +70,13 @@ export default function SignInSide() {
     setLoading(true);
     setSubmit(true);
   };
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (sessionStorage.getItem("customer")) {
+      navigate("/");
+    }
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>

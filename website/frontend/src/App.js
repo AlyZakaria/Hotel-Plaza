@@ -2,7 +2,6 @@ import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import router from "../src/routes/router";
-import customTheme from "../src/themes/customTheme";
 import GlobalTheme from "../src/themes/GlobalTheme";
 import { ToastContainer } from "react-toastify";
 import { DateContext } from "./contexts/Date";

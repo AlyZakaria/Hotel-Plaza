@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AppBar from "../../components/AppBar/AppBar";
 import useResetPassword from "../../hooks/useResetPassword";
+import { useNavigate } from "react-router-dom";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function Copyright(props) {
   return (
@@ -38,6 +40,7 @@ let passwords = {};
 
 export default function ResetPassword() {
   const [submit, setSubmit] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   useResetPassword(passwords, submit, setSubmit);
 
@@ -51,9 +54,16 @@ export default function ResetPassword() {
     passwords = {
       newPassword: data.get("new-password"),
     };
-    console.log(passwords);
+    setLoading(true);
     setSubmit(true);
   };
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (!sessionStorage.getItem("otpToken")) {
+      navigate("/");
+    }
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -101,14 +111,15 @@ export default function ResetPassword() {
                 />
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              loading={loading}
             >
               Reset Password
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

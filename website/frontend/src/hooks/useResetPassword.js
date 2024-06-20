@@ -19,6 +19,8 @@ const useResetPassword = (passwords, submit, setSubmit) => {
           hideProgressBar: true,
         });
         navigate("/");
+        sessionStorage.removeItem("emailOtp");
+        sessionStorage.removeItem("otpToken");
       }
     } catch (error) {
       console.error(error);

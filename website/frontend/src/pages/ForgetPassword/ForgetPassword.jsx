@@ -14,6 +14,8 @@ import useForgetPassword from "../../hooks/useForgetPassword";
 import { ForgetPasswordSchema } from "../../Validations/ForgetPassword";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 function Copyright(props) {
   return (
     <Typography
@@ -56,6 +58,13 @@ export default function ForgetPassword() {
     console.log(user);
     setSubmit(true);
   };
+
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (sessionStorage.getItem("customer")) {
+      navigate("/");
+    }
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>

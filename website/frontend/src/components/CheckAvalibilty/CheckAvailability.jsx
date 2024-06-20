@@ -69,6 +69,42 @@ const CheckAvailability = () => {
   }, [clicked]);
 
   function navigateTo() {
+    const checkIn = dayjs(date.checkIn);
+    const checkOut = dayjs(date.checkOut);
+    // get the date now
+    const now = dayjs();
+    if (checkIn < now || checkOut < now) {
+      setDate({
+        ...date,
+        checkIn: now,
+        checkOut: now.add(1, "day"),
+      });
+
+      return;
+    }
+    if (dayjs(date.checkOut).isBefore(dayjs(date.checkIn))) {
+      const newCheckOut = checkIn.add(1, "day");
+      console.log(newCheckOut);
+      setDate((prevDate) => ({ ...prevDate, checkOut: newCheckOut }));
+      console.log(date);
+      toast("Check-out date must be after check-in date", {
+        icon: <ErrorIcon sx={{ color: "yellow" }} />,
+        theme: "light",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    } else if (dayjs(date.checkIn).isAfter(dayjs(date.checkOut))) {
+      setDate({
+        ...date,
+        checkIn: checkOut.subtract(1, "day").toDate(),
+      });
+      toast("Check-In date must be before check-in date", {
+        icon: <ErrorIcon sx={{ color: "yellow" }} />,
+        theme: "light",
+        autoClose: 2000,
+        progress: undefined,
+      });
+    }
     setClicked(true);
     navigate("/available-rooms");
   }
