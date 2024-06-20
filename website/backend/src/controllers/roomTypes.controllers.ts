@@ -127,6 +127,26 @@ class RoomTypeController extends Controller {
             res.status(statusCode.clientError.badRequest)
         }
     }
+    async addReview(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id, rating, comment, roomTypeId } = req.body
+            const review = {
+                rating,
+                comment,
+                roomTypeId,
+                customerId: id,
+            }
+            console.log(review)
+            const reviewAdded = await this.repository.addReview(review)
+            if (!reviewAdded) throw new Error()
+            res.status(statusCode.success.created).send(reviewAdded)
+        } catch (error: unknown) {
+            console.log(error)
+            res.status(statusCode.clientError.badRequest).send(
+                'Review not added'
+            )
+        }
+    }
 }
 
 export default RoomTypeController

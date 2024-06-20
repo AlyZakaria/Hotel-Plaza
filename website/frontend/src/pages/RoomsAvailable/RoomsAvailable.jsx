@@ -9,15 +9,25 @@ import { Box } from "@mui/material";
 import { DateContext } from "../../contexts/Date.js";
 import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
+import { ClickContext } from "../../contexts/ButtonClick.js";
 const RoomsAvailable = () => {
   let { date, setDate } = useContext(DateContext);
+  let { click, setClick } = useContext(ClickContext);
   const [rooms, setRooms] = useState([]);
   const [roomsTemp, setRoomsTemp] = useState([]);
   const [roomFilter, setRoomFilter] = useState([]);
   const [capacityFilter, setCapacityFilter] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const nights = date.checkOut.diff(date.checkIn, "day");
-  useGetAvailableRooms(setRooms, date, setDate, setRoomsTemp, setSelectedRooms);
+  useGetAvailableRooms(
+    setRooms,
+    date,
+    setDate,
+    setRoomsTemp,
+    setSelectedRooms,
+    click,
+    setClick
+  );
 
   return (
     <Box>

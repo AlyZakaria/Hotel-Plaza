@@ -167,6 +167,18 @@ class RoomTypeRepository extends Repository {
             throw error
         }
     }
+    async addReview(review: any): Promise<any | never> {
+        try {
+            
+            const newReview = await this.prisma.review.create({
+                data: review,
+            })
+            if (!newReview) throw new Error(`Review not added`)
+            return newReview
+        } catch (error: unknown) {
+            throw error
+        }
+    }
 }
 
 export default RoomTypeRepository

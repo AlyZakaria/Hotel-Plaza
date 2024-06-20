@@ -23,6 +23,6 @@ const useFilterPanel = (roomFilter, capacityFilter, rooms, setRoomsTemp) => {
     } else {
       setRoomsTemp(rooms.filter((room) => roomFilter.includes(room.roomtype)));
     }
-  }, [roomFilter, capacityFilter]);
+  }, [roomFilter, capacityFilter, rooms]);
 };
 export default useFilterPanel;

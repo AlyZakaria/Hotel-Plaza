@@ -162,8 +162,10 @@ class BookingController extends Controller {
     async getMyReservations(req: Request, res: Response, next: NextFunction) {
         try {
             const CustomerId = Number(req.body.id)
+            console.log(CustomerId)
             const completedBookings =
                 await this.repository.getMyReservations(CustomerId)
+            console.log(completedBookings)
             res.status(statusCode.success.ok).send(completedBookings)
         } catch (error) {
             console.log(error)

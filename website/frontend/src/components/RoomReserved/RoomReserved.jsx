@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Box,
   TextField,
@@ -10,45 +9,95 @@ import {
   Rating,
   Grid,
 } from "@mui/material";
+import KingBedIcon from "@mui/icons-material/KingBed";
+import LandscapeIcon from "@mui/icons-material/Landscape";
+import GroupIcon from "@mui/icons-material/Group";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import InfoIcon from "@mui/icons-material/Info";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import useAddReview from "../../hooks/useAddReview";
 
-const RoomCard = ({ room }) => {
+const RoomCard = ({ room, reservations, setReservations }) => {
   const { roomType } = room.room;
-  const review = roomType.review || {};
+
+  const review = roomType.reviews.length ? roomType.reviews[0] : {};
   const [rating, setRating] = useState(review?.rating || 0);
   const [comment, setComment] = useState(review?.comment || "");
   const [submitted, setSubmitted] = useState(false);
-  const [editMode, setEditMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "checked_in":
+        return "#388e3c"; // Green for checked-in
+      case "checked_out":
+        return "#fbc02d"; // Yellow for checked-out
+      case "reserved":
+        return "#1976d2"; // Blue for reserved
+      case "cancelled":
+        return "#e53935"; // Red for cancelled
+      default:
+        return "inherit"; // Default color
+    }
+  };
+  useAddReview(
+    setSubmitted,
+    submitted,
+    room,
+    reservations,
+    setReservations,
+    rating,
+    comment,
+    roomType.id
+  );
 
   const handleSubmit = () => {
-    
+    if (rating === 0 && comment === "") {
+      alert("Please rate and comment");
+      return;
+    }
+
     console.log("Rating:", rating);
     console.log("Comment:", comment);
     setSubmitted(true);
-    setEditMode(false); 
+    setEditMode(false);
   };
 
   const handleEdit = () => {
-    setEditMode(true); 
+    setEditMode(true);
   };
 
   return (
-    <Card sx={{ mb: 2, backgroundColor: "white", boxShadow: 3 }}>
-      <CardContent>
+    <Card sx={{ mb: 2, boxShadow: 3, height: "100%" }}>
+      <CardContent sx={{}}>
         <Typography variant="h6" component="div" sx={{ color: "primary.main" }}>
           {roomType.name}
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" color="text.secondary">
-              Total: ${roomType.pricepernight}
+              <LandscapeIcon sx={{ verticalAlign: "middle", mr: 1 }} />
+              {roomType.view}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" color="text.secondary">
-              Status: {room.status}
+              Status:{" "}
+              <span style={{ color: getStatusColor(room.status) }}>
+                {room.status}
+              </span>
             </Typography>
           </Grid>
         </Grid>
+
+        {room.status === "reserved" && (
+          <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+            Cancel
+          </Button>
+        )}
+
         {(room.status === "checked_out" &&
           Object.keys(review).length &&
           !editMode && (
@@ -58,20 +107,13 @@ const RoomCard = ({ room }) => {
                 component="div"
                 sx={{ color: "primary.main" }}
               >
-                Your Review
+                <RateReviewIcon sx={{ verticalAlign: "middle", mr: 1 }} />
+                <strong>Your Review</strong>
               </Typography>
-              <Rating value={review.rating} readOnly />
+              <Rating value={parseInt(review.rating)} readOnly />
               <Typography variant="body2" color="text.secondary">
                 {review.comment}
               </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleEdit}
-                sx={{ mt: 2 }}
-              >
-                Edit Review
-              </Button>
             </Box>
           )) ||
           (room.status === "checked_out" &&
@@ -83,7 +125,8 @@ const RoomCard = ({ room }) => {
                   component="div"
                   sx={{ color: "primary.main" }}
                 >
-                  Leave a Review
+                  <RateReviewIcon sx={{ verticalAlign: "middle", mr: 1 }} />
+                  <strong>Leave a Review</strong>
                 </Typography>
                 <Rating
                   value={rating}
@@ -106,10 +149,12 @@ const RoomCard = ({ room }) => {
                   onClick={handleSubmit}
                   sx={{ mt: 2 }}
                 >
+                  <SaveIcon sx={{ mr: 1 }} />
                   Submit
                 </Button>
               </Box>
             ))}
+
         {editMode && (
           <Box sx={{ mt: 2 }}>
             <Typography
@@ -117,7 +162,8 @@ const RoomCard = ({ room }) => {
               component="div"
               sx={{ color: "primary.main" }}
             >
-              Edit Review
+              <EditIcon sx={{ verticalAlign: "middle", mr: 1 }} />
+              <strong>Edit Review</strong>
             </Typography>
             <Rating
               value={rating}
@@ -140,6 +186,7 @@ const RoomCard = ({ room }) => {
               onClick={handleSubmit}
               sx={{ mt: 2 }}
             >
+              <SaveIcon sx={{ mr: 1 }} />
               Update
             </Button>
           </Box>

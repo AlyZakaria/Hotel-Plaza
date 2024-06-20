@@ -9,18 +9,19 @@ const verifyToken: express.RequestHandler = (
     next: express.NextFunction
 ) => {
     try {
-        console.log('Here')
         const authHeader = req.get('Authorization')
         // console.log(authHeader)
         if (authHeader) {
             const bearer = authHeader.split(' ')[0].toLowerCase()
             const token = authHeader.split(' ')[1]
-            console.log(token)
             if (token && bearer === 'bearer') {
                 const decoded: any = verify(token, TOKEN as unknown as string)
                 let dateNow = new Date()
                 if (decoded && decoded.exp < dateNow.getTime() - decoded.iat) {
-                    console.log(decoded)
+                    if (req.body) Object.assign(req.body, decoded)
+                    else
+                    req.body = decoded
+                    
                     next()
                 } else throw new Error()
             } else throw new Error()

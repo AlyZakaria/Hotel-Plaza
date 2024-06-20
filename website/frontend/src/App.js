@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useGetCustomer from "./hooks/useGetCustomer";
 
 import dayjs from "dayjs";
+import { ClickContext } from "./contexts/ButtonClick";
 
 function App() {
   const [customer, setCustomer] = useState({});
@@ -19,6 +20,7 @@ function App() {
     checkIn: now,
     checkOut: now.add(1, "day"),
   });
+  const [click, setClick] = useState(false);
   useGetCustomer(setCustomer);
 
   return (
@@ -26,7 +28,9 @@ function App() {
       <ThemeProvider theme={GlobalTheme}>
         <CustomerContext.Provider value={{ customer, setCustomer }}>
           <DateContext.Provider value={{ date, setDate }}>
-            <RouterProvider router={router} />
+            <ClickContext.Provider value={{ click, setClick }}>
+              <RouterProvider router={router} />
+            </ClickContext.Provider>
           </DateContext.Provider>
         </CustomerContext.Provider>
       </ThemeProvider>
