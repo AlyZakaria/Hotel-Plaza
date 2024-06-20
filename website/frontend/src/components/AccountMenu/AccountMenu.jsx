@@ -34,6 +34,7 @@ export default function AccountMenu() {
     if (localStorage.getItem("customer") && localStorage.getItem("token")) {
       localStorage.removeItem("customer");
       localStorage.removeItem("token");
+      localStorage.removeItem("remember");
     }
     localStorage.setItem("logout", Date.now());
     setCustomer({});

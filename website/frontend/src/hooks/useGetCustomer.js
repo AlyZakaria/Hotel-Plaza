@@ -1,23 +1,26 @@
 import { useEffect } from "react";
 
-const useGetCustomer = (setCustomer) => {
+const useGetCustomer = (customer, setCustomer) => {
   function handleCustomer() {
     if (localStorage.getItem("logout")) {
       setCustomer({});
       return;
     }
-    let customer = JSON.parse(sessionStorage.getItem("customer"));
+    let tempCustomer = JSON.parse(sessionStorage.getItem("customer"));
+    let remember = false;
     if (localStorage.getItem("customer") && localStorage.getItem("token")) {
-      customer = JSON.parse(localStorage.getItem("customer"));
+      tempCustomer = JSON.parse(localStorage.getItem("customer"));
     }
-    if (customer) {
+    if (tempCustomer) {
       if (localStorage.getItem("customer")) {
-        sessionStorage.setItem("customer", JSON.stringify(customer));
-        sessionStorage.setItem("token", JSON.stringify(customer.token));
+        sessionStorage.setItem("customer", JSON.stringify(tempCustomer));
+        let token = localStorage.getItem("token").replace(/"/g, "");
+        sessionStorage.setItem("token", JSON.stringify(token));
+        remember = true;
       }
-
-      setCustomer({ ...customer });
     }
+
+    setCustomer({ ...tempCustomer, remember: remember });
   }
   useEffect(() => {
     handleCustomer();

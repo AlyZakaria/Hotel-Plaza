@@ -21,7 +21,7 @@ function App() {
     checkOut: now.add(1, "day"),
   });
   const [click, setClick] = useState(false);
-  useGetCustomer(setCustomer);
+  useGetCustomer(customer,setCustomer);
 
   return (
     <div className="App">

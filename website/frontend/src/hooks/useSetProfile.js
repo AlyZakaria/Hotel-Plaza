@@ -14,6 +14,8 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
 
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
+      console.log("Here");
+
       console.log(token);
       if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -28,13 +30,13 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
           },
         }
       );
+
       if (response.status === 200) {
         setCustomer({
           ...customer,
           image: response.data.image,
           imageType: response.data.imageType,
         });
-        sessionStorage.removeItem("customer");
         sessionStorage.setItem("customer", JSON.stringify(response.data));
         if (customer.remember) {
           localStorage.setItem("customer", JSON.stringify(response.data));

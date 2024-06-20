@@ -29,6 +29,7 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
         if (userData.remember) {
           localStorage.setItem("token", JSON.stringify(response.data.token));
           localStorage.setItem("customer", JSON.stringify(response.data));
+          localStorage.setItem("remember", JSON.stringify(true));
         }
 
         if (localStorage.getItem("logout")) {
