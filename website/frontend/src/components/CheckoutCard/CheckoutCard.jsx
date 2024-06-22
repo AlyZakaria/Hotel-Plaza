@@ -3,8 +3,22 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
+import { DateContext } from "../../contexts/Date";
+import { useState, useContext } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { selectedRoomsContext } from "../../contexts/selectedRooms";
 const CheckoutCard = ({ room }) => {
+  let { date, setDate } = useContext(DateContext);
+  let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
+  console.log(room);
+
+  const deleteRoom = () => {
+    let newRooms = selectedRooms.filter(
+      (r) => r.roomtypeId !== room.roomtypeId
+    );
+    setSelectedRooms(newRooms);
+  };
+
   return (
     <Box
       sx={{
@@ -23,8 +37,7 @@ const CheckoutCard = ({ room }) => {
           item
           md={3}
           sx={{
-            backgroundImage:
-              "url(https://cdn.pixabay.com/photo/2017/01/14/12/48/hotel-1979406_640.jpg)",
+            backgroundImage: `url(data:${room.images2[0].type};base64,${room.images2[0].imageURL})`,
             backgroundSize: "cover",
             borderRadius: "5px 0 0 5px",
             display: { xs: "none", sm: "none", md: "block" },
@@ -87,8 +100,8 @@ const CheckoutCard = ({ room }) => {
                   </Typography>
                 </Grid>
                 <Grid item md={6}>
-                  <Typography>24/10/2024</Typography>
-                  <Typography>24/10/2024</Typography>
+                  <Typography>{date.checkIn.format("DD MMM YYYY")}</Typography>
+                  <Typography>{date.checkOut.format("DD MMM YYYY")}</Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -103,8 +116,17 @@ const CheckoutCard = ({ room }) => {
                   </Typography>
                 </Grid>
                 <Grid item md={6}>
-                  <Typography>EGP {room.totalAfterDiscount}</Typography>
-                  <Typography>EGP {room.total}</Typography>
+                  <Typography>
+                    <strong>
+                      {room.price} {""}
+                    </strong>
+                    EGP
+                  </Typography>
+                  <Typography>
+                    <strong>{room.sum} </strong>
+                    {""}
+                    EGP
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
@@ -130,19 +152,16 @@ const CheckoutCard = ({ room }) => {
                 "&:hover": {
                   backgroundColor: "#FFF",
                 },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: 0,
                 padding: 0,
                 minWidth: 0,
               }}
-            >
-              <Typography
-                sx={{
-                  textDecoration: "underline",
-                  textTransform: "capitalize",
-                }}
-              >
-                edit
-              </Typography>
-            </Button>
+              startIcon={<DeleteIcon />}
+              onClick={deleteRoom}
+            ></Button>
           </Box>
         </Grid>
       </Grid>

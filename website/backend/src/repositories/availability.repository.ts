@@ -66,7 +66,7 @@ class availabilityRepository extends Repository {
                         throw new Error(`Error Checking Availability!`)
 
                     console.log(availability)
-                    // get images for rooms
+                    // get images for rooms randomly
                     const images = await tx.typeImage.findMany({
                         where: {
                             typeId: {

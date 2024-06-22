@@ -6,7 +6,7 @@ import RoomDetailsImageView from "../../components/RoomDetailsImageView/RoomDeta
 import RoomDetailsDetailsBox from "../../components/RoomDetailsDetailsBox/RoomDetailsDetailsBox";
 import RoomDetailsDesc from "../../components/RoomDetailsDesc/RoomDetailsDesc";
 import ReviewsCarousel from "../../components/ReviewsCarousel/ReviewsCarousel";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import useRoomDetails from "../../hooks/useRoomDetails.js";
 import Footer from "../../components/Footer/Footer.jsx";
@@ -22,7 +22,7 @@ const RoomView = () => {
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
 
-  useRoomDetails(setRoomDetails, setRender, id,rendered);
+  useRoomDetails(setRoomDetails, setRender, id, rendered);
 
   return (
     <>

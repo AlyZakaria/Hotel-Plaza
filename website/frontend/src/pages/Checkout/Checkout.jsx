@@ -26,10 +26,9 @@ const Checkout = () => {
           >
             Review Your Reservation(s):
           </Typography>
-          {selectedRooms.map((selectedRoom) => {
-            return <CheckoutCard room={selectedRoom}></CheckoutCard>;
+          {selectedRooms.map((room) => {
+            return <CheckoutCard room={room}></CheckoutCard>;
           })}
-
           <Button
             sx={{
               width: { xs: "90%", sm: "50%", md: "20%" },

@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useGetCustomer from "./hooks/useGetCustomer";
 import dayjs from "dayjs";
 import { ClickContext } from "./contexts/ButtonClick";
-
+import { RoomsContext } from "./contexts/Rooms";
 function App() {
   const [customer, setCustomer] = useState({});
   const [selectedRooms, setSelectedRooms] = useState([]);
@@ -22,21 +22,24 @@ function App() {
     checkOut: now.add(1, "day"),
   });
   const [click, setClick] = useState(false);
+  const [rooms, setRooms] = useState([]);
   useGetCustomer(customer, setCustomer);
 
   return (
     <div className="App">
       <ThemeProvider theme={GlobalTheme}>
         <CustomerContext.Provider value={{ customer, setCustomer }}>
-          <DateContext.Provider value={{ date, setDate }}>
-            <ClickContext.Provider value={{ click, setClick }}>
-              <selectedRoomsContext.Provider
-                value={{ selectedRooms, setSelectedRooms }}
-              >
-                <RouterProvider router={router} />
-              </selectedRoomsContext.Provider>
-            </ClickContext.Provider>
-          </DateContext.Provider>
+          <RoomsContext.Provider value={{ rooms, setRooms }}>
+            <DateContext.Provider value={{ date, setDate }}>
+              <ClickContext.Provider value={{ click, setClick }}>
+                <selectedRoomsContext.Provider
+                  value={{ selectedRooms, setSelectedRooms }}
+                >
+                  <RouterProvider router={router} />
+                </selectedRoomsContext.Provider>
+              </ClickContext.Provider>
+            </DateContext.Provider>
+          </RoomsContext.Provider>
         </CustomerContext.Provider>
       </ThemeProvider>
 

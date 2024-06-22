@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { base64toBlob } from '../src/helpers'
 import sharp from 'sharp'
+import { count } from 'console'
 
 async function getImageAsBase64(filePath: string) {
     const buffer = await sharp(filePath)
@@ -16,22 +17,6 @@ async function getImageAsBase64(filePath: string) {
 }
 
 async function main() {
-    // Seed Customer data
-    // loop on customers and inserted in my db
-    // await prisma.customer.create({
-    //     data: {
-    //         id: 11,
-    //         email: 'ali.zakariya1929@outlook.com',
-    //         password: '12345678',
-    //         fname: 'Aly',
-    //         lname: 'Zakaria',
-    //         phone: '01154567214', // Starts with '01'
-    //         image: null,
-    //         imageType: null,
-    //         gender: 'male',
-    //     },
-    // })
-
     const imageDirectory = './assets'
     const byteArrays: any[] = []
     // Read each image file in the directory and encode it to base64
@@ -73,32 +58,98 @@ async function main() {
         })
     }
 
+    const roomTypes: any[] = [
+        {
+            id: 1,
+            name: 'Standard Room',
+            description: 'A standard room with basic amenities.',
+            pricepernight: 120,
+            capacity: 2,
+            view: 'garden',
+            bed: 'double',
+            size: 30,
+            count: 40,
+        },
+        {
+            id: 2,
+            name: 'Luxury Suite',
+            description: 'A luxurious suite with a view of the sea.',
+            pricepernight: 400,
+            capacity: 4,
+            view: 'sea',
+            bed: 'king',
+            size: 70,
+            count: 5,
+        },
+        {
+            id: 3,
+            name: 'Family Room',
+            description:
+                'A spacious room with multiple beds, suitable for families.',
+            pricepernight: 200,
+            capacity: 4,
+            view: 'pool',
+            bed: 'queen',
+            size: 45,
+            count: 20,
+        },
+        {
+            id: 4,
+            name: 'Single Room',
+            description:
+                'A small room with a single bed, suitable for one person.',
+            pricepernight: 100,
+            capacity: 1,
+            view: 'pool',
+            bed: 'single',
+            size: 20,
+            count: 30,
+        },
+        {
+            id: 5,
+            name: 'Deluxe Suite',
+            description:
+                'A luxurious suite with premium amenities and a stunning view.',
+            pricepernight: 500,
+            capacity: 4,
+            view: 'sea',
+            bed: 'king',
+            size: 60,
+            count: 25,
+        },
+    ]
+    // Add more real room type data here
+
+    const createdRoomTypes = await prisma.roomType.createMany({
+        data: roomTypes,
+    })
+
     // Seed RoomType data
-    for (let i = 1; i <= 10; i++) {
-        await prisma.roomType.create({
-            data: {
-                id: i,
-                count: i * 5,
-                pricepernight: new Prisma.Decimal(100 + i * 10),
-                capacity: 2 + (i % 4),
-                view: i % 3 === 0 ? 'sea' : i % 3 === 1 ? 'garden' : 'pool',
-                name: `RoomType${i}`,
-                bed:
-                    i % 4 === 0
-                        ? 'single'
-                        : i % 4 === 1
-                          ? 'double'
-                          : i % 4 === 2
-                            ? 'king'
-                            : 'queen',
-                size: new Prisma.Decimal(20 + i * 5),
-                description: `Description for RoomType${i}`,
-            },
-        })
-    }
+    // for (let i = 1; i <= 10; i++) {
+    //     await prisma.roomType.create({
+    //         data: {
+    //             id: i,
+    //             count: i * 5,
+    //             pricepernight: new Prisma.Decimal(100 + i * 10),
+    //             capacity: 2 + (i % 4),
+    //             view: i % 3 === 0 ? 'sea' : i % 3 === 1 ? 'garden' : 'pool',
+    //             name: `RoomType${i}`,
+    //             bed:
+    //                 i % 4 === 0
+    //                     ? 'single'
+    //                     : i % 4 === 1
+    //                       ? 'double'
+    //                       : i % 4 === 2
+    //                         ? 'king'
+    //                         : 'queen',
+    //             size: new Prisma.Decimal(20 + i * 5),
+    //             description: `Description for RoomType${i}`,
+    //         },
+    //     })
+    // }
 
     // Seed Room data
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.room.create({
             data: {
                 roomType: {
@@ -122,7 +173,7 @@ async function main() {
     }
 
     // Seed Bill data
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.bill.create({
             data: {
                 reservation: {
@@ -141,7 +192,7 @@ async function main() {
         },
     })
     // Seed Booking data
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.booking.create({
             data: {
                 reservation: {
@@ -163,7 +214,7 @@ async function main() {
     }
 
     // Seed Offer data
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.offer.create({
             data: {
                 roomType: {
@@ -179,7 +230,7 @@ async function main() {
     }
 
     // Seed OTP data
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.otp.create({
             data: {
                 otp: `otp${i}code`,
@@ -211,7 +262,7 @@ async function main() {
             },
         })
     }
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         for (let j = 0; j < byteArrays.length; j++) {
             await prisma.typeImage.create({
                 data: {
@@ -222,7 +273,7 @@ async function main() {
         }
     }
     // add reviews
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 5; i++) {
         await prisma.review.create({
             data: {
                 customer: {

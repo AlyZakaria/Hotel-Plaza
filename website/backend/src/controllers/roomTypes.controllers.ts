@@ -18,14 +18,14 @@ class RoomTypeController extends Controller {
             if (!roomTypes) throw new Error()
             // just return only one photo
             const roomTypesFiltered: roomType[] = roomTypes.map(
-                (roomType: any) => ({
+                (roomType: any, index: number) => ({
                     id: roomType.id,
                     name: roomType.name,
                     View: roomType.view,
                     description: roomType.description,
                     pricepernight: roomType.pricepernight,
                     capacity: roomType.capacity,
-                    imageUrl: roomType.imageURLs[0] || null,
+                    imageUrl: roomType.imageURLs[index] || null,
                 })
             )
 

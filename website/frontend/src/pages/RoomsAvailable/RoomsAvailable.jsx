@@ -11,14 +11,14 @@ import SelectedRooms from "../../components/SelectedRooms/SelectedRooms.jsx";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 import { ClickContext } from "../../contexts/ButtonClick.js";
 import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
-
+import { RoomsContext } from "../../contexts/Rooms.js";
 const RoomsAvailable = () => {
   // Contexts
   let { date, setDate } = useContext(DateContext);
   let { click, setClick } = useContext(ClickContext);
   let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
   let tempDate = date;
-  const [rooms, setRooms] = useState([]);
+  const { rooms, setRooms } = useContext(RoomsContext);
   const [roomsTemp, setRoomsTemp] = useState([]);
   const [roomFilter, setRoomFilter] = useState([]);
   const [capacityFilter, setCapacityFilter] = useState([]);
@@ -65,8 +65,6 @@ const RoomsAvailable = () => {
               roomsTemp.map((room) => {
                 return (
                   <RoomAvailable
-                    // selectedRooms={selectedRooms}
-                    // setSelectedRooms={setSelectedRooms}
                     key={room.roomtypeId}
                     roomType={room}
                     roomImage={room.images2}
@@ -76,7 +74,6 @@ const RoomsAvailable = () => {
           </Grid>
           <Grid item md={4} xs={12}>
             <FilterPanel
-              rooms={rooms}
               roomFilter={roomFilter}
               setRoomFilter={setRoomFilter}
               setRoomsTemp={setRoomsTemp}
@@ -84,13 +81,7 @@ const RoomsAvailable = () => {
               setCapacityFilter={setCapacityFilter}
             ></FilterPanel>
             <br></br>
-            <SelectedRooms
-              rooms={rooms}
-              // selectedRooms={selectedRooms}
-              // setSelectedRooms={setSelectedRooms}
-              nights={nights}
-              date={date}
-            />
+            <SelectedRooms nights={nights} date={date} />
           </Grid>
         </Grid>
       </Container>
