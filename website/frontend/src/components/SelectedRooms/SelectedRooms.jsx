@@ -8,13 +8,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
 
-const SelectedRooms = ({
-  rooms,
-  // selectedRooms,
-  // setSelectedRooms,
-  nights,
-  date,
-}) => {
+const SelectedRooms = ({ nights, date }) => {
   let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
   // useUpdateSelectedRooms(rooms, setSelectedRooms);
   const [sum, setSum] = useState(0);

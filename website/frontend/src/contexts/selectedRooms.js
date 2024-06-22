@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const selectedRoomsContext = createContext({});
+export const selectedRoomsContext = createContext([]);

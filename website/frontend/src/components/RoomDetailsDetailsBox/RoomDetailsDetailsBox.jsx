@@ -5,14 +5,55 @@ import Box from "@mui/material/Box";
 import { useMediaQuery } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import useGetRoomDetailBox from "../../hooks/useGetRoomDetailBox";
+import { useContext } from "react";
+import { selectedRoomsContext } from "../../contexts/selectedRooms";
+import { useNavigate } from "react-router-dom";
+import { RoomsContext } from "../../contexts/Rooms.js";
 
 const RoomDetailsDetailsBox = ({ details }) => {
   // State to hold room details
-  const [roomDetails, setRoomDetails] = React.useState();
+  const [roomDetails, setRoomDetails] = React.useState({});
+  let { selectedRooms, setSelectedRooms } =
+    React.useContext(selectedRoomsContext);
+  const { rooms, setRooms } = useContext(RoomsContext);
+
   useGetRoomDetailBox(setRoomDetails);
   const isSmallScreen = useMediaQuery("(max-width:1000px)");
   const [selected, setSelected] = React.useState(false);
+  const navigate = useNavigate();
+
   const onSelect = () => {
+    console.log(details);
+    // get the index of the roomId from the rooms array
+    console.log(rooms);
+    let index = rooms.findIndex((room) => room.roomtypeId === details.id);
+    let roomType = rooms[index];
+    index = selectedRooms.findIndex(
+      (selectedRoom) => selectedRoom.roomtypeId === roomType.roomtypeId
+    );
+    if (index !== -1) {
+      const newSelectedRooms = [...selectedRooms];
+      newSelectedRooms[index].count += 1;
+      // change the price
+      if (newSelectedRooms[index].hasOwnProperty("totalAfterDiscount"))
+        newSelectedRooms[index].sum =
+          newSelectedRooms[index].totalAfterDiscount *
+          newSelectedRooms[index].count;
+      else {
+        newSelectedRooms[index].sum =
+          newSelectedRooms[index].total * newSelectedRooms[index].count;
+      }
+      setSelectedRooms([...newSelectedRooms]);
+    } else
+      setSelectedRooms([
+        ...selectedRooms,
+        {
+          ...roomType,
+          count: 1,
+          sum: roomType.totalAfterDiscount || roomType.total,
+        },
+      ]);
+    navigate("/available-rooms");
     setSelected(true);
   };
   return (

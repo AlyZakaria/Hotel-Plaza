@@ -6,8 +6,12 @@ import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import AppBar from "../../components/AppBar/AppBar";
 import Footer from "../../components/Footer/Footer";
+import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
+import { useState, useContext } from "react";
 
 const Checkout = () => {
+  let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
+
   return (
     <>
       <AppBar></AppBar>
@@ -23,9 +27,11 @@ const Checkout = () => {
           >
             Review Your Reservation(s):
           </Typography>
-          <CheckoutCard></CheckoutCard>
-          <CheckoutCard></CheckoutCard>
-          <CheckoutCard></CheckoutCard>
+            {
+              selectedRooms.map((room) => {
+                return <CheckoutCard room={room}></CheckoutCard>
+              })
+            }
           <Button
             sx={{
               width: { xs: "90%", sm: "50%", md: "20%" },

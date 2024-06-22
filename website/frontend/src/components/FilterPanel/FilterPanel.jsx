@@ -11,16 +11,18 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useFilterPanel from "../../hooks/useFilterPanel";
 import useGetRoomsWithCapacity from "../../hooks/useGetRoomsWithCapacity";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { RoomsContext } from "../../contexts/Rooms.js";
 
 function FilterPanel({
-  rooms,
   roomFilter,
   setRoomFilter,
   setRoomsTemp,
   capacityFilter,
   setCapacityFilter,
 }) {
+  const { rooms, setRooms } = useContext(RoomsContext);
+
   const [roomsTypes, setRoomsTypes] = useState([]);
   const [capacity, setCapacity] = useState([]);
 

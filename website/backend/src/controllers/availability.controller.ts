@@ -31,9 +31,11 @@ class availabilityController extends Controller {
 
                     return image
                 })
+                // want to shuffel the images
+
                 return { ...room, images2 }
             })
-           
+
             let { offerStartDate, offerEndDate, common_days } = {
                 offerStartDate: new Date(),
                 offerEndDate: new Date(),
@@ -58,6 +60,10 @@ class availabilityController extends Controller {
             }
 
             for (let i = 0; i < combinedRooms.length; i++) {
+                // shuffle the images in each combined room
+                combinedRooms[i].images2 = combinedRooms[i].images2.sort(
+                    () => Math.random() - 0.5
+                )
                 combinedRooms[i].stayed = stayed
                 combinedRooms[i].total = Math.ceil(
                     combinedRooms[i].price * stayed
