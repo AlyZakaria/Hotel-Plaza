@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-const CheckoutCard = () => {
+const CheckoutCard = ({ room }) => {
   return (
     <Box
       sx={{
@@ -37,7 +37,7 @@ const CheckoutCard = () => {
               variant="h5"
               sx={{ fontWeight: "bold", paddingLeft: "2%" }}
             >
-              Super Delux Room
+              {room.roomtype}
             </Typography>
           </Box>
           <Box
@@ -56,10 +56,7 @@ const CheckoutCard = () => {
                 textOverflow: "ellipsis",
               }}
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut odio
-              nihil quaerat reiciendis corporis placeat maiores voluptatibus
-              deserunt assumenda laudantium officia nesciunt nemo asperiores,
-              beatae at soluta molestiae distinctio! Pariatur.
+              {room.description}
             </Typography>
           </Box>
           <Box
@@ -106,8 +103,8 @@ const CheckoutCard = () => {
                   </Typography>
                 </Grid>
                 <Grid item md={6}>
-                  <Typography>EGP 2000</Typography>
-                  <Typography>EGP 4000</Typography>
+                  <Typography>EGP {room.totalAfterDiscount}</Typography>
+                  <Typography>EGP {room.total}</Typography>
                 </Grid>
               </Grid>
             </Grid>
