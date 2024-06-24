@@ -62,7 +62,8 @@ async function main() {
         {
             id: 1,
             name: 'Standard Room',
-            description: 'A standard room with basic amenities.',
+            description:
+                'Our Standard Room offers a cozy and comfortable retreat for solo travelers or couples. Thoughtfully designed, this room features a plush queen-sized bed, modern furnishings, and a well-appointed en-suite bathroom. Enjoy complimentary Wi-Fi, a flat-screen TV, and a minibar to make your stay convenient and enjoyable. Ideal for both business and leisure, the Standard Room ensures a restful experience.',
             pricepernight: 2000,
             capacity: 2,
             view: 'garden',
@@ -73,7 +74,8 @@ async function main() {
         {
             id: 2,
             name: 'Luxury Suite',
-            description: 'A luxurious suite with a view of the sea.',
+            description:
+                'Indulge in the epitome of elegance in our Luxury Suite. This expansive suite boasts a separate living area, a lavish king-sized bed, and a deluxe bathroom with a soaking tub and premium toiletries. Enjoy top-tier amenities including a high-definition TV, in-room dining service, and a private balcony with stunning views. Perfect for those seeking the ultimate in comfort and sophistication, our Luxury Suite promises an unforgettable stay.',
             pricepernight: 3000,
             capacity: 4,
             view: 'sea',
@@ -85,7 +87,7 @@ async function main() {
             id: 3,
             name: 'Family Room',
             description:
-                'A spacious room with multiple beds, suitable for families.',
+                "Designed with families in mind, our Family Room provides ample space and comfort for everyone. This room features two queen-sized beds, a sofa bed, and a well-equipped bathroom. Enjoy family-friendly amenities such as a microwave, mini-fridge, and entertainment options including a flat-screen TV with kids' channels. With plenty of space for everyone to relax, the Family Room is your home away from home.",
             pricepernight: 2500,
             capacity: 4,
             view: 'pool',
@@ -97,7 +99,7 @@ async function main() {
             id: 4,
             name: 'Single Room',
             description:
-                'A small room with a single bed, suitable for one person.',
+                'Ideal for solo travelers, our Single Room offers a peaceful and private haven. This compact yet well-designed room features a comfortable single bed, a work desk, and an en-suite bathroom. Enjoy amenities such as complimentary Wi-Fi, a flat-screen TV, and a coffee maker. Perfect for a short stay, the Single Room provides all the essentials for a productive and relaxing visit.',
             pricepernight: 1300,
             capacity: 1,
             view: 'pool',
@@ -109,7 +111,7 @@ async function main() {
             id: 5,
             name: 'Deluxe Suite',
             description:
-                'A luxurious suite with premium amenities and a stunning view.',
+                'Experience the height of luxury in our Deluxe Suite. This spacious suite includes a separate bedroom with a king-sized bed, a stylish living area, and a luxurious bathroom with a rain shower and soaking tub. Enjoy premium amenities such as a large flat-screen TV, a well-stocked minibar, and a private terrace with panoramic views. Whether for business or leisure, the Deluxe Suite offers an extraordinary blend of comfort and sophistication.',
             pricepernight: 3500,
             capacity: 4,
             view: 'sea',
@@ -274,18 +276,20 @@ async function main() {
     }
     // add reviews
     for (let i = 1; i <= 5; i++) {
-        await prisma.review.create({
-            data: {
-                customer: {
-                    connect: { id: i },
+        for (let j = 1; j <= 6; j++) {
+            await prisma.review.create({
+                data: {
+                    customer: {
+                        connect: { id: i },
+                    },
+                    roomType: {
+                        connect: { id: i },
+                    },
+                    rating: Math.random() < 0.5 ? 4 : 5,
+                    comment: `The Deluxe Suite at Plaza was an exceptional experience. The room was spacious and beautifully decorated`,
                 },
-                roomType: {
-                    connect: { id: i },
-                },
-                rating: i % 5,
-                comment: `Comment${i}`,
-            },
-        })
+            })
+        }
     }
     console.log('Seed data has been added successfully!')
 }
