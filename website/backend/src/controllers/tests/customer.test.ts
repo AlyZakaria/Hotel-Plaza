@@ -7,9 +7,9 @@ import app from '../../server'
 const customerRepository = new CustomerRepository()
 
 const user: customerData = {
-    email: 'ahmed',
+    email: 'ali.zakariya1929@outlook.com',
     password: '000',
-    fname: 'aly',
+    fname: 'Aly',
     lname: 'zakaria',
     phone: '01122336392',
     country: 'Egypt',
