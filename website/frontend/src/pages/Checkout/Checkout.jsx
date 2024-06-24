@@ -7,10 +7,16 @@ import Button from "@mui/material/Button";
 import AppBar from "../../components/AppBar/AppBar";
 import Footer from "../../components/Footer/Footer";
 import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
+import { DateContext } from "../../contexts/Date";
 import { useState, useContext } from "react";
-
+import usePay from "../../hooks/usePay";
 const Checkout = () => {
   let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
+  let { date, setDate } = useContext(DateContext);
+ 
+  const [pay, setPay] = useState(false);
+
+  usePay(selectedRooms, pay, setPay, date);
 
   return (
     <>
@@ -27,16 +33,17 @@ const Checkout = () => {
           >
             Review Your Reservation(s):
           </Typography>
-            {
-              selectedRooms.map((room) => {
-                return <CheckoutCard room={room}></CheckoutCard>
-              })
-            }
+          {selectedRooms.map((room) => {
+            return <CheckoutCard room={room}></CheckoutCard>;
+          })}
           <Button
             sx={{
               width: { xs: "90%", sm: "50%", md: "20%" },
             }}
             variant="contained"
+            onClick={() => {
+              setPay(true);
+            }}
           >
             Pay Now
           </Button>

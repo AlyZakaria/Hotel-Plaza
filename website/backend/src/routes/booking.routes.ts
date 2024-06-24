@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { BookingController } from '../controllers'
 import { verifyToken } from '../middlewares'
+import { handleBookingBody } from '../middlewares'
 const bookingRoute = Router()
 
 const bookingController = new BookingController()
@@ -10,5 +11,6 @@ bookingRoute.get(
     verifyToken,
     bookingController.getMyReservations
 )
+bookingRoute.post('/book', verifyToken, handleBookingBody)
 
 export default bookingRoute
