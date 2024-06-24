@@ -75,10 +75,10 @@ class availabilityController extends Controller {
                             ? combinedRooms[i].price * (stayed - common_days) +
                               combinedRooms[i].price *
                                   common_days *
-                                  (offers[0].percentage / 100)
+                                  ((100 - offers[0].percentage) / 100)
                             : combinedRooms[i].price *
                               stayed *
-                              (offers[0].percentage / 100)
+                              ((100 - offers[0].percentage) / 100)
 
                     combinedRooms[i].saved =
                         ((combinedRooms[i].total -
