@@ -10,11 +10,16 @@ class bookingRepository extends Repository {
     //Book.
     async book(booking: booking): Promise<any | never> {
         try {
-            const bookingStatus = await this._model
-                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const bookingStatus =
+                        await tx.$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
 
-            if (!bookingStatus) throw new Error(`Error in the booking process!`)
-            return bookingStatus
+                    if (!bookingStatus)
+                        throw new Error(`Error in the booking process!`)
+                    return bookingStatus
+                }
+            )
         } catch (error: unknown) {
             throw error
         }
@@ -25,6 +30,7 @@ class bookingRepository extends Repository {
                 where: {
                     customerId: userId,
                 },
+
                 include: {
                     rooms: {
                         include: {
@@ -44,6 +50,7 @@ class bookingRepository extends Repository {
                             },
                         },
                     },
+
                     bill: true, // Include bill details
                 },
             })
@@ -61,7 +68,7 @@ class bookingRepository extends Repository {
     async refund(reservationIdArg: String): Promise<any | never> {
         try {
             const refundQueryStatus = await this._model
-                .$queryRaw`CALL  book(SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
+                .$queryRaw`SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
 
             if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
             return refundQueryStatus

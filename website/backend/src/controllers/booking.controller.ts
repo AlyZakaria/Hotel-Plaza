@@ -25,6 +25,8 @@ class BookingController extends Controller {
             const rooms = booking.rooms
             const nights = booking.nights
 
+            console.log(booking)
+            console.log(rooms)
             //Concatenating Checkin and Checkout dates to put them into "custom" field in Paypal json Which only allows one String value.
             var dateUserIdList = []
             dateUserIdList.push(booking.checkin)
@@ -40,9 +42,9 @@ class BookingController extends Controller {
                     parseInt(rooms[i].quantity) * parseFloat(rooms[i].price)
             }
 
-            totalprice *= nights
             const totalpriceString = totalprice.toFixed(2)
-
+            console.log(totalpriceString)
+            console.log(dateUserIdString)
             //Creating the JSON object formatted as specified by Paypal to create the payment.
             const create_payment_json = {
                 intent: 'sale',
@@ -50,8 +52,8 @@ class BookingController extends Controller {
                     payment_method: 'paypal',
                 },
                 redirect_urls: {
-                    return_url: 'http://localhost:3000/success',
-                    cancel_url: 'http://localhost:3000/cancel',
+                    return_url: 'http://localhost:4000/api/success',
+                    cancel_url: 'http://localhost:3000/',
                 },
                 transactions: [
                     {
@@ -67,7 +69,7 @@ class BookingController extends Controller {
                     },
                 ],
             }
-
+            console.log(create_payment_json)
             //Paypal SDK function to create the payment.
             paypal.payment.create(
                 create_payment_json,
@@ -76,6 +78,7 @@ class BookingController extends Controller {
                         throw error
                     } else {
                         for (let i = 0; i < payment.links.length; i++) {
+                            console.log(payment.links[i])
                             if (payment.links[i].rel === 'approval_url') {
                                 res.redirect(payment.links[i].href)
                             }
@@ -84,12 +87,14 @@ class BookingController extends Controller {
                 }
             )
         } catch (error: unknown) {
-            res.status(404).send('Error booking!')
+            console.log(error)
+            res.status(404).end('Error booking!')
         }
     }
 
     async executeBooking(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log('executeBooking')
             //Fetching the PayerId and the PaymentId from the URL to be used to execute the payment.
             const payerId = req.query.PayerID
             const paymentId = req.query.paymentId
@@ -111,22 +116,24 @@ class BookingController extends Controller {
             paypal.payment.execute(
                 paymentId,
                 execute_payment_json,
-                function (error: any, payment: any) {
+                async (error: any, payment: any) => {
                     if (error) {
                         console.log(error.response)
                         throw error
                     } else {
-                        const saleIdArg = payment.transactions[0].related_resources[0].sale.id;
+                        const saleIdArg =
+                            payment.transactions[0].related_resources[0].sale.id
                         const transaction = payment.transactions[0]
                         totalAmountArg = parseFloat(transaction.amount.total)
 
                         //Parsing back Checkin and Checkout date from custom field.
+
                         const dateString = transaction.custom
                         const dateUserIdList = dateString.split(',')
                         checkinArg = dateUserIdList[0]
                         checkoutArg = dateUserIdList[1]
                         userIdArg = parseInt(dateUserIdList[2])
-
+                        console.log('in ' + checkinArg)
                         //Formatting roomtypes and their quantities as a comma separated string to send the as a parameter to the book procedure.
                         const rooms = transaction.item_list.items
 
@@ -140,24 +147,25 @@ class BookingController extends Controller {
 
                         typenamesArg = roomTypeList.join(',')
                         numOfEachTypeArg = roomCountList.join(',')
+                        console.log('out ' + checkinArg)
+                        const booking: booking = {
+                            typenames: typenamesArg,
+                            numOfEachType: numOfEachTypeArg,
+                            checkin: checkinArg,
+                            checkout: checkoutArg,
+                            userId: userIdArg,
+                            totalAmount: totalAmountArg,
+                            saleId: saleIdArg,
+                        }
+                        console.log(booking)
+                        const book = await this.repository.book(booking)
                     }
                 }
             )
-
-            const booking: booking = {
-                typenames: typenamesArg,
-                numOfEachType: numOfEachTypeArg,
-                checkin: checkinArg,
-                checkout: checkoutArg,
-                userId: userIdArg,
-                totalAmount: totalAmountArg,
-                saleId: saleIdArg
-            }
-
-            const book = await this.repository.book(booking)
-
+            res.status(200).send('Booking successful!')
             //paypal.payment.ref
         } catch (error: unknown) {
+            console.log(error)
             res.status(404).send('Error booking!')
         }
     }
