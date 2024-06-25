@@ -37,8 +37,6 @@ class availabilityRepository extends Repository {
                             WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                             OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout})) 
                             GROUP BY (room.typeId)    
-                           
-                            
                         )
                         SELECT 
                         *  FROM cte

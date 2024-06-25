@@ -7,12 +7,13 @@ import ProductHero from "../../components/ProductHero/ProductHero.jsx";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import useGetReservations from "../../hooks/useGetReservations";
-
+import { useNavigate } from "react-router-dom";
 
 const ReservationsPage = () => {
   const [reservations, setReservations] = React.useState([]);
+  const navigate = useNavigate();
+
   useGetReservations(setReservations);
-  console.log(reservations);
   const currentReservations = reservations.filter(
     (reservation) => new Date(reservation.checkout) >= new Date()
   );
@@ -29,6 +30,11 @@ const ReservationsPage = () => {
         default: "#f0f4f8",
       },
     },
+  });
+  React.useEffect(() => {
+    if (!sessionStorage.getItem("customer")) {
+      navigate("/login");
+    }
   });
   return (
     <Box>

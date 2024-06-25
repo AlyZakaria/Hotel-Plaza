@@ -10,7 +10,6 @@ const verifyToken: express.RequestHandler = (
 ) => {
     try {
         const authHeader = req.get('Authorization')
-        // console.log(authHeader)
         if (authHeader) {
             const bearer = authHeader.split(' ')[0].toLowerCase()
             const token = authHeader.split(' ')[1]

@@ -108,7 +108,7 @@ model RoomType {
   name          String
   bed           bed_types
   size          Decimal
-  description   String?
+  description   String? @db.VarChar(1000)
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]

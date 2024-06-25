@@ -9,9 +9,8 @@ const useSignUp = (userData, customer, setCustomer, submit, setSubmit) => {
     try {
       const response = await axios.post(URLs.SignUp, userData);
       if (response.status === 201) {
-        setCustomer({ ...response.data });
-        navigate("/");
-        toast.success(`Welcome ${userData.fname}`);
+        navigate("/login");
+        toast.success(`The user ${userData.email} has been created`);
       }
     } catch (error) {
       console.error(error);
