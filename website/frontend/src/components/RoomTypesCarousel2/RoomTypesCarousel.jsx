@@ -27,49 +27,11 @@ const theme = createTheme({
   },
 });
 
-const rooms = [
-  {
-    title: "Royal Suite",
-    description: "",
-    image:
-      "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: "500",
-  },
-  {
-    title: "Deluxe Suite",
-    description: "",
-    image:
-      "https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: "300",
-  },
-  {
-    title: "Single Room",
-    description: "",
-    image:
-      "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: "200",
-  },
-  {
-    title: "Double Room",
-    description: "",
-    image:
-      "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: "150",
-  },
-  {
-    title: "Royal Suite",
-    description: "",
-    image:
-      "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: "100",
-  },
-];
-
 const RoomCard = ({ room }) => {
   const navigate = useNavigate();
   console.log(room);
   const navigateTo = () => {
-    navigate(`/room-details?id=${room.id}`);
+    navigate(`/room-details?id=${room.id}&book=false`);
   };
   return (
     <Card className="room-card" onClick={navigateTo}>
@@ -123,7 +85,7 @@ const RoomTypesCarousel = () => {
       </Box>
       <Grid container spacing={0}>
         {roomTypes.map((room, index) => (
-          <Grid item xs={12} sm={6} md={12 / rooms.length} key={index}>
+          <Grid item xs={12} sm={6} md={12 / roomTypes.length} key={index}>
             <RoomCard room={room} />
           </Grid>
         ))}

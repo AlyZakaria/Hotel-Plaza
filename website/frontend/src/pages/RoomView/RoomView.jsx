@@ -21,7 +21,8 @@ const RoomView = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
-
+  const book = searchParams.get("book");
+  console.log(book);
   useRoomDetails(setRoomDetails, setRender, id, rendered);
 
   return (
@@ -58,6 +59,7 @@ const RoomView = () => {
                   >
                     <RoomDetailsDetailsBox
                       details={roomDetails}
+                      book={book}
                     ></RoomDetailsDetailsBox>
                   </Grid>
                 </Grid>

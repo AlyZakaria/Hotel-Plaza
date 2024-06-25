@@ -10,7 +10,7 @@ import { selectedRoomsContext } from "../../contexts/selectedRooms";
 import { useNavigate } from "react-router-dom";
 import { RoomsContext } from "../../contexts/Rooms.js";
 
-const RoomDetailsDetailsBox = ({ details }) => {
+const RoomDetailsDetailsBox = ({ details, book }) => {
   // State to hold room details
   const [roomDetails, setRoomDetails] = React.useState({});
   let { selectedRooms, setSelectedRooms } =
@@ -108,13 +108,25 @@ const RoomDetailsDetailsBox = ({ details }) => {
         <Typography sx={{ fontSize: isSmallScreen ? "14px" : "16px" }}>
           Starts at: {details.pricepernight}EGP/night
         </Typography>
-        <Button
-          size="large"
-          sx={{ bgcolor: "#143c5c", color: "white" }}
-          onClick={onSelect}
-        >
-          Book
-        </Button>
+        {book == "true" ? (
+          <Button
+            size="large"
+            sx={{ bgcolor: "#143c5c", color: "white" }}
+            onClick={onSelect}
+          >
+            Book
+          </Button>
+        ) : (
+          <Button
+            size="large"
+            sx={{ bgcolor: "#143c5c", color: "white" }}
+            onClick={() => {
+              navigate("/available-rooms");
+            }}
+          >
+            Check Availability
+          </Button>
+        )}
       </Stack>
     </Box>
   );

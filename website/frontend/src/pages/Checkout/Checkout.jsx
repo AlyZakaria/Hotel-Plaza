@@ -10,14 +10,22 @@ import { selectedRoomsContext } from "../../contexts/selectedRooms.js";
 import { DateContext } from "../../contexts/Date";
 import { useState, useContext } from "react";
 import usePay from "../../hooks/usePay";
+import { useNavigate } from "react-router-dom";
+
 const Checkout = () => {
   let { selectedRooms, setSelectedRooms } = useContext(selectedRoomsContext);
   let { date, setDate } = useContext(DateContext);
- 
+  const navigate = useNavigate();
+
   const [pay, setPay] = useState(false);
 
   usePay(selectedRooms, pay, setPay, date);
 
+  React.useEffect(() => {
+    if (!sessionStorage.getItem("customer")) {
+      navigate("/login");
+    }
+  });
   return (
     <>
       <AppBar></AppBar>

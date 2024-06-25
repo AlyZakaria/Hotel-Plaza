@@ -90,7 +90,7 @@ const RoomAvailable = ({
   const handleNavigation = () => {
     const dynamicData = { id: roomType.roomtypeId }; // Data you want to fetch later
     const queryParams = new URLSearchParams(dynamicData).toString();
-    navigate(`/room-details?${queryParams}`);
+    navigate(`/room-details?${queryParams}&book=true`);
   };
 
   return (
