@@ -11,8 +11,7 @@ class bookingRepository extends Repository {
     async book(booking: booking): Promise<any | never> {
         try {
             const bookingStatus = await this._model
-                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);
-                                                              SELECT @message`
+                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
 
             if (!bookingStatus) throw new Error(`Error in the booking process!`)
             return bookingStatus
@@ -54,6 +53,18 @@ class bookingRepository extends Repository {
                     `No completed bookings found for the user with id: ${userId}`
                 )
             return completedBookings
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    async refund(reservationIdArg: String): Promise<any | never> {
+        try {
+            const refundQueryStatus = await this._model
+                .$queryRaw`CALL  book(SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
+
+            if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
+            return refundQueryStatus
         } catch (error: unknown) {
             throw error
         }
