@@ -105,6 +105,7 @@ class BookingController extends Controller {
             var userIdArg: number = -1
             var typenamesArg: String = ''
             var numOfEachTypeArg: String = ''
+            var saleIdArg: String = ''
 
             //Paypal SDK function to execute the payment.
             paypal.payment.execute(
@@ -115,6 +116,7 @@ class BookingController extends Controller {
                         console.log(error.response)
                         throw error
                     } else {
+                        const saleIdArg = payment.transactions[0].related_resources[0].sale.id;
                         const transaction = payment.transactions[0]
                         totalAmountArg = parseFloat(transaction.amount.total)
 
@@ -149,6 +151,7 @@ class BookingController extends Controller {
                 checkout: checkoutArg,
                 userId: userIdArg,
                 totalAmount: totalAmountArg,
+                saleId: saleIdArg
             }
 
             const book = await this.repository.book(booking)

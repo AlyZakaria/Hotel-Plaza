@@ -11,7 +11,7 @@ class bookingRepository extends Repository {
     async book(booking: booking): Promise<any | never> {
         try {
             const bookingStatus = await this._model
-                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, @message);
+                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);
                                                               SELECT @message`
 
             if (!bookingStatus) throw new Error(`Error in the booking process!`)
