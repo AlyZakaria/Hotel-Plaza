@@ -84,9 +84,11 @@ function ProductCTA() {
               />
               <Button
                 type="submit"
-                color="primary"
                 variant="contained"
-                sx={{ width: "100%" }}
+                sx={{
+                  width: "100%",
+                  backgroundColor: "#143c5c",
+                }}
               >
                 Keep me updated
               </Button>

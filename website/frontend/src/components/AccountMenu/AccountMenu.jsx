@@ -38,6 +38,7 @@ export default function AccountMenu() {
     }
     localStorage.setItem("logout", Date.now());
     setCustomer({});
+    window.location.href = "/";
   };
   const ToMyReservations = () => {
     handleClose();
