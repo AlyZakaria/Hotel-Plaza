@@ -19,14 +19,16 @@ async function getImageAsBase64(filePath: string) {
 async function main() {
     const imageDirectory = './assets'
     const byteArrays: any[] = []
+    const offerImageDirectory = './assets/offers'
+    const byteArraysOffer: any[] = []
     // Read each image file in the directory and encode it to base64
     const imageFiles = fs.readdirSync(imageDirectory)
     for (const file of imageFiles) {
-        if (!file.endsWith('.jpg')) {
+        if (file.endsWith('.ts') || file.endsWith('offers')) {
             continue
         }
         const filePath = path.join(imageDirectory, file)
-
+        console.log(filePath)
         const base64Image = await getImageAsBase64(filePath)
         // console.log(base64Image)
         // console.log('-----------')
@@ -42,6 +44,31 @@ async function main() {
         const byteList = new Uint8Array(byteLists)
         byteArrays.push(byteList)
     }
+    const imageOfferFiles = fs.readdirSync(offerImageDirectory)
+
+    for (const file of imageOfferFiles) {
+        if (file.endsWith('.ts')) {
+            continue
+        }
+
+        const filePath = path.join(offerImageDirectory, file)
+
+        const base64Image = await getImageAsBase64(filePath)
+        // console.log(base64Image)
+        // console.log('-----------')
+
+        // Decode Base64 string
+        const byteCharacters = atob(base64Image)
+        const byteLists = []
+
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteLists.push(byteCharacters.charCodeAt(i))
+        }
+
+        const byteList = new Uint8Array(byteLists)
+        byteArraysOffer.push(byteList)
+    }
+    console.log(byteArraysOffer.length)
     for (let i = 1; i <= 10; i++) {
         await prisma.customer.create({
             data: {
@@ -77,7 +104,7 @@ async function main() {
             description:
                 'Indulge in the epitome of elegance in our Luxury Suite. This expansive suite boasts a separate living area, a lavish king-sized bed, and a deluxe bathroom with a soaking tub and premium toiletries. Enjoy top-tier amenities including a high-definition TV, in-room dining service, and a private balcony with stunning views. Perfect for those seeking the ultimate in comfort and sophistication, our Luxury Suite promises an unforgettable stay.',
             pricepernight: 3000,
-            capacity: 4,
+            capacity: 3,
             view: 'sea',
             bed: 'king',
             size: 70,
@@ -89,7 +116,7 @@ async function main() {
             description:
                 "Designed with families in mind, our Family Room provides ample space and comfort for everyone. This room features two queen-sized beds, a sofa bed, and a well-equipped bathroom. Enjoy family-friendly amenities such as a microwave, mini-fridge, and entertainment options including a flat-screen TV with kids' channels. With plenty of space for everyone to relax, the Family Room is your home away from home.",
             pricepernight: 2500,
-            capacity: 4,
+            capacity: 3,
             view: 'pool',
             bed: 'queen',
             size: 45,
@@ -113,7 +140,7 @@ async function main() {
             description:
                 'Experience the height of luxury in our Deluxe Suite. This spacious suite includes a separate bedroom with a king-sized bed, a stylish living area, and a luxurious bathroom with a rain shower and soaking tub. Enjoy premium amenities such as a large flat-screen TV, a well-stocked minibar, and a private terrace with panoramic views. Whether for business or leisure, the Deluxe Suite offers an extraordinary blend of comfort and sophistication.',
             pricepernight: 3500,
-            capacity: 4,
+            capacity: 3,
             view: 'sea',
             bed: 'king',
             size: 60,
@@ -183,6 +210,7 @@ async function main() {
                 },
                 totalAmount: new Prisma.Decimal(200 + i * 50),
                 status: i % 2 === 0 ? 'complete' : 'incomplete',
+                saleId: '',
             },
         })
     }
@@ -216,21 +244,64 @@ async function main() {
     }
 
     // Seed Offer data
-    for (let i = 1; i <= 5; i++) {
+    // for (let i = 1; i <= 5; i++) {
+    //     await prisma.offer.create({
+    //         data: {
+    //             roomType: {
+    //                 connect: { id: i },
+    //             },
+    //             startDate: new Date(`2024-06-${i}`),
+    //             endDate: new Date(`2024-07-${i}`),
+    //             percentage: new Prisma.Decimal(i * 5),
+
+    //             name: `Offer${i}`,
+    //             status: i % 2 === 0 ? 'active' : 'inactive',
+    //         },
+    //     })
+    // }
+
+    let offers: any[] = [
+        {},
+        {
+            id: 1,
+            roomTypeId: null,
+            startDate: new Date('2024-06-01'),
+            endDate: new Date('2024-06-10'),
+            percentage: 10,
+            description: 'Get 10% off on all rooms',
+            name: 'Special Summer Offer',
+            image: byteArraysOffer[1],
+            imageType: '/image/png',
+            status: 'active',
+        },
+        {
+            id: 2,
+            roomTypeId: null,
+            startDate: new Date('2024-06-20'),
+            endDate: new Date('2024-06-30'),
+            percentage: 12,
+            description: 'Get 12% off on all rooms',
+            name: 'Eid Special Offer',
+            image: byteArraysOffer[0],
+            imageType: '/image/jpg',
+            status: 'active',
+        },
+    ]
+    for (let i = 1; i < offers.length; i++) {
         await prisma.offer.create({
             data: {
-                roomType: {
-                    connect: { id: i },
-                },
-                startDate: new Date(`2024-06-${i}`),
-                endDate: new Date(`2024-07-${i}`),
-                percentage: new Prisma.Decimal(i * 5),
-                name: `Offer${i}`,
-                status: i % 2 === 0 ? 'active' : 'inactive',
+                roomType: { connect: { id: i } },
+                startDate: offers[i].startDate,
+                endDate: offers[i].endDate,
+                percentage: offers[i].percentage,
+                description: offers[i].description,
+                name: offers[i].name,
+                imageType: offers[i].imageType,
+                status: offers[i].status,
+                image: offers[i].image,
             },
         })
     }
-
     // Seed OTP data
     for (let i = 1; i <= 5; i++) {
         await prisma.otp.create({

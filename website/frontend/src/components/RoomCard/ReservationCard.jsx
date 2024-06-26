@@ -62,6 +62,7 @@ const ReservationCard = ({ reservations, setReservations, reservation }) => {
                   room={room}
                   reservations={reservations}
                   setReservation={setReservations}
+                  reservation={reservation}
                 />
               </Grid>
             ))}

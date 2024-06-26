@@ -162,6 +162,9 @@ model Offer {
   endDate    DateTime
   percentage Decimal
   name       String
+  image       Bytes
+  imageType   String
+  description String
   status     offer_status
 }
 

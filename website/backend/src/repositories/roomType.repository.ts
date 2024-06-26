@@ -1,6 +1,7 @@
 import Repository from './repository'
 import { roomType } from '../interfaces'
 import { ALL } from 'dns'
+
 class RoomTypeRepository extends Repository {
     constructor() {
         super()
@@ -128,17 +129,17 @@ class RoomTypeRepository extends Repository {
     }
 
     async getRoomTypesWithCapacity(): Promise<any | never> {
-        try{
+        try {
             const roomTypes = await this.prisma.roomType.findMany({
                 select: {
                     id: true,
                     name: true,
                     capacity: true,
-                }
+                },
             })
-            if(!roomTypes.length) throw new Error(`No room types found`)
+            if (!roomTypes.length) throw new Error(`No room types found`)
             return roomTypes
-        }catch(error: unknown){
+        } catch (error: unknown) {
             throw error
         }
     }
@@ -169,12 +170,25 @@ class RoomTypeRepository extends Repository {
     }
     async addReview(review: any): Promise<any | never> {
         try {
-            
             const newReview = await this.prisma.review.create({
                 data: review,
             })
             if (!newReview) throw new Error(`Review not added`)
             return newReview
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async getOffers(): Promise<any | never> {
+        try {
+            const offers = await this.prisma.offer.findMany({
+                where: {
+                    status: 'active',
+                },
+            })
+            if (!offers.length) throw new Error(`No Offer`)
+
+            return offers
         } catch (error: unknown) {
             throw error
         }

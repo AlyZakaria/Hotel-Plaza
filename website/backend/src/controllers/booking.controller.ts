@@ -80,7 +80,9 @@ class BookingController extends Controller {
                         for (let i = 0; i < payment.links.length; i++) {
                             console.log(payment.links[i])
                             if (payment.links[i].rel === 'approval_url') {
-                                res.redirect(payment.links[i].href)
+                                res.send({
+                                    redirect: payment.links[i].href,
+                                })
                             }
                         }
                     }
@@ -162,7 +164,7 @@ class BookingController extends Controller {
                     }
                 }
             )
-            res.status(200).send('Booking successful!')
+            res.redirect('http://localhost:3000/')
             //paypal.payment.ref
         } catch (error: unknown) {
             console.log(error)
