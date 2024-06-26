@@ -35,7 +35,8 @@ class availabilityRepository extends Repository {
                             JOIN room ON booking.roomId = room.room_id
                             JOIN roomtype ON room.typeId = roomtype.id
                             WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
-                            OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout})) 
+                            OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                            AND booking.status != 'cancelled' 
                             GROUP BY (room.typeId)    
                         )
                         SELECT 
@@ -136,6 +137,7 @@ class availabilityRepository extends Repository {
                     JOIN roomtype ON room.typeId = roomtype.id
                     WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                     OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                    AND booking.status != 'cancelled'
                 )
 
                 SELECT roomtype.name, room.id
@@ -170,6 +172,7 @@ class availabilityRepository extends Repository {
                     JOIN roomtype ON room.typeId = roomtype.id
                     WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                     OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
+                    AND booking.status != 'cancelled'
                     AND roomtype.name = ${type}
                 )
                 

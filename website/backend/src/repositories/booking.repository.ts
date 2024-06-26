@@ -64,6 +64,46 @@ class bookingRepository extends Repository {
             throw error
         }
     }
+
+    async getSaleId(reservationIdArg: String): Promise<any | never> {
+        try {
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const refundQueryStatus =
+                        await tx.$queryRaw`SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
+
+                    if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
+                    return refundQueryStatus
+                }
+            )
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    async cancelStatus(reservationIdArg: String): Promise<any | never> {
+        try {
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const refundQueryStatus =
+                        await tx.$queryRaw`
+                        
+                            UPDATE booking 
+                            SET booking.status = 'cancelled' 
+                            WHERE reservationId = ${reservationIdArg};
+
+                            UPDATE bill
+                            SET bill.status = 'refunded'
+                            WHERE reservationId = ${reservationIdArg};
+                            `
+                    if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
+                    return refundQueryStatus
+                }
+            )
+        } catch (error: unknown) {
+            throw error
+        }
+    }
 }
 
 export default bookingRepository

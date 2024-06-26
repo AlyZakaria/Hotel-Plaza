@@ -187,5 +187,39 @@ class BookingController extends Controller {
             )
         }
     }
+
+    async refund(req: Request, res: Response, next: NextFunction) {
+        try {
+            const reservationId = req.body.reservationId
+            console.log(reservationId)
+
+            const saleId = await this.repository.getSaleId(reservationId)
+            console.log(saleId)
+
+            const updateStatus = await this.repository.cancelStatus(reservationId)
+
+            // Refund JSON payload
+            const refundJson = {};
+
+            // Perform the refund
+            paypal.sale.refund(saleId, refundJson, (error: any, refund: any) => {
+                if (error) {
+                    console.error(error.response);
+                    res.status(500).send(error.response);
+                } else {
+                    console.log("Refund Response");
+                    console.log(JSON.stringify(refund));
+                    res.send('Refund Success');
+                }
+            });
+
+            res.status(statusCode.success.ok)
+        } catch (error) {
+            console.log(error)
+            res.status(statusCode.clientError.badRequest).send(
+                'Error Processing Refund!'
+            )
+        }
+    }
 }
 export default BookingController
