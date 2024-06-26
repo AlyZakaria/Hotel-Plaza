@@ -191,8 +191,10 @@ class BookingController extends Controller {
             const reservationId = req.body.reservationId
             console.log(reservationId)
 
-            const saleId = await this.repository.refund(reservationId)
+            const saleId = await this.repository.getSaleId(reservationId)
             console.log(saleId)
+
+            const updateStatus = await this.repository.cancelStatus(reservationId)
 
             // Refund JSON payload
             const refundJson = {};
