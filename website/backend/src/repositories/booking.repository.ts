@@ -72,10 +72,12 @@ class bookingRepository extends Repository {
                     const refundQueryStatus =
                         await tx.$queryRaw`SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
 
-                    if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
+                    if (!refundQueryStatus)
+                        throw new Error(`Error in the refund process!`)
                     return refundQueryStatus
                 }
             )
+            return transaction
         } catch (error: unknown) {
             throw error
         }
@@ -85,21 +87,26 @@ class bookingRepository extends Repository {
         try {
             const transaction = await this.prisma.$transaction(
                 async (tx: any) => {
-                    const refundQueryStatus =
-                        await tx.$queryRaw`
+                    const refundQueryStatus = await tx.$queryRaw`
                         
                             UPDATE booking 
                             SET booking.status = 'cancelled' 
                             WHERE reservationId = ${reservationIdArg};
 
-                            UPDATE bill
-                            SET bill.status = 'refunded'
-                            WHERE reservationId = ${reservationIdArg};
-                            `
-                    if (!refundQueryStatus) throw new Error(`Error in the refund process!`)
-                    return refundQueryStatus
+                           `
+                    if (refundQueryStatus) {
+                        const refunded = await tx.$queryRaw` UPDATE bill
+                        SET bill.status = 'refunded'
+                        WHERE reservationId = ${reservationIdArg};
+                        `
+                        if (!refunded)
+                            throw new Error(`Error in the refund process!`)
+                        return refunded
+                    } else throw new Error(`Error in the refund process!`)
                 }
             )
+            if (!transaction) throw new Error(`Error in the refund process!`)
+            return transaction
         } catch (error: unknown) {
             throw error
         }

@@ -51,8 +51,15 @@ const PeronDetails = () => {
     setCustomer
   );
 
-  useSetprofile(upload, setUpload, customer, setCustomer, profile);
-
+  useSetprofile(
+    upload,
+    setUpload,
+    customer,
+    setCustomer,
+    setTempCustomer,
+    profile
+  );
+  console.log(customer);
   let details = [
     ["Name", "Let us know what to call you"],
 

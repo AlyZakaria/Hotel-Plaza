@@ -25,8 +25,6 @@ class BookingController extends Controller {
             const rooms = booking.rooms
             const nights = booking.nights
 
-            console.log(booking)
-            console.log(rooms)
             //Concatenating Checkin and Checkout dates to put them into "custom" field in Paypal json Which only allows one String value.
             var dateUserIdList = []
             dateUserIdList.push(booking.checkin)
@@ -43,8 +41,7 @@ class BookingController extends Controller {
             }
 
             const totalpriceString = totalprice.toFixed(2)
-            console.log(totalpriceString)
-            console.log(dateUserIdString)
+
             //Creating the JSON object formatted as specified by Paypal to create the payment.
             const create_payment_json = {
                 intent: 'sale',
@@ -69,7 +66,7 @@ class BookingController extends Controller {
                     },
                 ],
             }
-            console.log(create_payment_json)
+
             //Paypal SDK function to create the payment.
             paypal.payment.create(
                 create_payment_json,
@@ -96,7 +93,6 @@ class BookingController extends Controller {
 
     async executeBooking(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('executeBooking')
             //Fetching the PayerId and the PaymentId from the URL to be used to execute the payment.
             const payerId = req.query.PayerID
             const paymentId = req.query.paymentId
@@ -135,7 +131,7 @@ class BookingController extends Controller {
                         checkinArg = dateUserIdList[0]
                         checkoutArg = dateUserIdList[1]
                         userIdArg = parseInt(dateUserIdList[2])
-                        console.log('in ' + checkinArg)
+
                         //Formatting roomtypes and their quantities as a comma separated string to send the as a parameter to the book procedure.
                         const rooms = transaction.item_list.items
 
@@ -175,10 +171,10 @@ class BookingController extends Controller {
     async getMyReservations(req: Request, res: Response, next: NextFunction) {
         try {
             const CustomerId = Number(req.body.decoded.id)
-            console.log(CustomerId)
+
             const completedBookings =
                 await this.repository.getMyReservations(CustomerId)
-            console.log(completedBookings)
+
             res.status(statusCode.success.ok).send(completedBookings)
         } catch (error) {
             console.log(error)
@@ -190,28 +186,32 @@ class BookingController extends Controller {
 
     async refund(req: Request, res: Response, next: NextFunction) {
         try {
-            const reservationId = req.body.reservationId
-            console.log(reservationId)
+            const reservationId = req.body.body.reservationId
 
-            const saleId = await this.repository.getSaleId(reservationId)
-            console.log(saleId)
+            let saleId = await this.repository.getSaleId(reservationId)
 
-            const updateStatus = await this.repository.cancelStatus(reservationId)
+            saleId = saleId[0].saleId
+            const updateStatus =
+                await this.repository.cancelStatus(reservationId)
 
             // Refund JSON payload
-            const refundJson = {};
+            const refundJson = {}
 
             // Perform the refund
-            paypal.sale.refund(saleId, refundJson, (error: any, refund: any) => {
-                if (error) {
-                    console.error(error.response);
-                    res.status(500).send(error.response);
-                } else {
-                    console.log("Refund Response");
-                    console.log(JSON.stringify(refund));
-                    res.send('Refund Success');
+            paypal.sale.refund(
+                saleId,
+                refundJson,
+                (error: any, refund: any) => {
+                    if (error) {
+                        console.error(error.response)
+                        res.status(500).send(error.response)
+                    } else {
+                        console.log('Refund Response')
+                        console.log(JSON.stringify(refund))
+                        res.send('Refund Success')
+                    }
                 }
-            });
+            )
 
             res.status(statusCode.success.ok)
         } catch (error) {

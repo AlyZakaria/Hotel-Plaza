@@ -29,7 +29,7 @@ const handleBookingBody = (
             rooms: req.body.body.rooms.map((room: any) => {
                 return {
                     name: room.roomtype,
-                    price: String(parseFloat(room.total).toFixed(2)),
+                    price: String(parseFloat(room.sum).toFixed(2)),
                     currency: 'USD',
                     quantity: String(room.count),
                 }

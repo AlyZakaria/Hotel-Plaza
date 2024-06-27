@@ -5,7 +5,14 @@ import urls from "../Apis/URLS.json";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
+const useSetprofile = (
+  upload,
+  setUpload,
+  customer,
+  setCustomer,
+  setTempCustomer,
+  profile
+) => {
   const navigate = useNavigate();
   const uploadProfile = async () => {
     try {
@@ -32,13 +39,11 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
       );
 
       if (response.status === 200) {
-        setCustomer({
-          ...customer,
-          image: response.data.image,
-          imageType: response.data.imageType,
-        });
+        console.log(response.data);
+        console.log(customer);
         sessionStorage.setItem("customer", JSON.stringify(response.data));
-        if (customer.remember) {
+        if (localStorage.getItem("remember") == "true") {
+          console.log("in the remember");
           localStorage.setItem("customer", JSON.stringify(response.data));
         }
         toast("Profile uploaded successfully", {
@@ -46,6 +51,17 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
           theme: "light",
           hideProgressBar: true,
         });
+        setCustomer({
+          ...customer,
+          image: response.data.image,
+          imageType: response.data.imageType,
+        });
+        setTempCustomer({
+          ...customer,
+          image: response.data.image,
+          imageType: response.data.imageType,
+        });
+
         console.log("Profile uploaded successfully");
       } else {
         console.log("Error uploading profile");
@@ -66,7 +82,7 @@ const useSetprofile = (upload, setUpload, customer, setCustomer, profile) => {
     if (upload) {
       uploadProfile();
     }
-  }, [upload]);
+  }, [upload, customer]);
 };
 
 export default useSetprofile;

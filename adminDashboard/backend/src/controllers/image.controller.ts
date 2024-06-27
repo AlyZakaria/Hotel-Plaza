@@ -28,6 +28,7 @@ class ImageController extends Controller {
                 mimetypes,
                 byteArrays
             )
+            console.log(addImages)
             if (!addImages) throw new Error(`Could not add iamges`)
             res.status(200).send('Images added successfully')
         } catch (error) {

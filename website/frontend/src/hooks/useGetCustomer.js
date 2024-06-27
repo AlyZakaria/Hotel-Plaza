@@ -4,6 +4,10 @@ const useGetCustomer = (customer, setCustomer) => {
   function handleCustomer() {
     if (localStorage.getItem("logout")) {
       setCustomer({});
+      localStorage.removeItem("customer");
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("customer");
+      sessionStorage.removeItem("token");
       return;
     }
     let tempCustomer = JSON.parse(sessionStorage.getItem("customer"));

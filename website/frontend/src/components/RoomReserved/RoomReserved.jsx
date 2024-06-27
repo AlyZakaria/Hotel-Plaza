@@ -18,10 +18,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import useAddReview from "../../hooks/useAddReview";
-import useCancelReservation from "../../hooks/useCancelReservation";
 const RoomCard = ({ room, reservations, setReservations, reservation }) => {
   const { roomType } = room.room;
-  const [cancel, setCancel] = useState(false);
+  
   const review = roomType.reviews.length ? roomType.reviews[0] : {};
   const [rating, setRating] = useState(review?.rating || 0);
   const [comment, setComment] = useState(review?.comment || "");
@@ -53,13 +52,7 @@ const RoomCard = ({ room, reservations, setReservations, reservation }) => {
     comment,
     roomType.id
   );
-  useCancelReservation(
-    cancel,
-    setCancel,
-    reservations,
-    reservation,
-    setReservations
-  );
+ 
 
   const handleSubmit = () => {
     if (rating === 0 && comment === "") {
@@ -99,17 +92,6 @@ const RoomCard = ({ room, reservations, setReservations, reservation }) => {
             </Typography>
           </Grid>
         </Grid>
-
-        {room.status === "reserved" && (
-          <Button
-            onClick={() => setCancel(true)}
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Cancel
-          </Button>
-        )}
 
         {(room.status === "checked_out" &&
           Object.keys(review).length &&
