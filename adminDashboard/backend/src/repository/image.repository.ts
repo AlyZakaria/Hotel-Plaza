@@ -60,6 +60,28 @@ class ImageRepository extends Repository {
             throw error
         }
     }
+    // delete image of room type
+    async deleteImageOfRoomType(
+        roomTypeId: number,
+        imageId: number
+    ): Promise<boolean | never> {
+        try {
+
+            const imageDeleted = await this.prisma.typeImage.deleteMany({
+                where: {
+                    typeId: roomTypeId,
+                    imageId: imageId,
+                },
+                
+            })
+            console.log(imageDeleted)
+            if (!imageDeleted) throw new Error(`image can't be deleted`)
+            return true
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    }
     // delete imageId
     async deleteImage(imageId: number): Promise<boolean | never> {
         try {

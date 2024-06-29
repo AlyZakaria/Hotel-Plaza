@@ -10,14 +10,13 @@ import CheckAvailability from "../../components/CheckAvalibilty/CheckAvailabilit
 import Footer from "../../components/Footer/Footer.jsx";
 import OffersList from "../../components/OfferList/OfferList.jsx";
 const Home = () => {
-
   return (
     <div>
       <ProductHero></ProductHero>
       <CheckAvailability></CheckAvailability>
 
       <RoomTypesCarousel></RoomTypesCarousel>
-    
+
       <OffersList />
 
       <HotelServices></HotelServices>

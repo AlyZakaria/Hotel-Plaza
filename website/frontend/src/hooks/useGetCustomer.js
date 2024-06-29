@@ -23,8 +23,7 @@ const useGetCustomer = (customer, setCustomer) => {
         remember = true;
       }
     }
-
-    setCustomer({ ...tempCustomer, remember: remember });
+    if (tempCustomer) setCustomer({ ...tempCustomer, remember: remember });
   }
   useEffect(() => {
     handleCustomer();

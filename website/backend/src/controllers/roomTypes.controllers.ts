@@ -25,7 +25,7 @@ class RoomTypeController extends Controller {
                     description: roomType.description,
                     pricepernight: roomType.pricepernight,
                     capacity: roomType.capacity,
-                    imageUrl: roomType.imageURLs[index] || null,
+                    imageUrl: roomType.imageURLs[0] || null,
                 })
             )
 

@@ -1,0 +1,10 @@
+{
+    "allRoomTypes": "/api//room-types",
+    "allRooms" :"/api/rooms",
+    "roomTypeImages": "/api/room-type-images",
+    "addImage": "/api/images/room-type",
+    "deleteImage": "/api/images/room-type",
+    "updateRoomType": "/api/room-type",
+    "addRoomType": "/api/room-type",
+    "deleteRoomType": "/api/room-type"
+}
