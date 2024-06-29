@@ -11,7 +11,13 @@ const RoomDetailsDesc = ({ details }) => {
       }}
     >
       <h1>Room Description</h1>
-      <Box sx={{ padding: { md: "0% 3% 3% 3%" }, textAlign: "left" }}>
+      <Box
+        sx={{
+          padding: { md: "0% 5% 5% 5%" },
+          textAlign: "left",
+          lineHeight: "35px",
+        }}
+      >
         {details}
       </Box>
     </Box>
