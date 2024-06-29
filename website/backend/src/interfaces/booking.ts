@@ -4,7 +4,8 @@ interface booking {
     checkin: String,
     checkout: String,
     userId: Number,
-    totalAmount: Number
+    totalAmount: Number,
+    saleId: String
 }
 
 export default booking

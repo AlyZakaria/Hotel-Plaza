@@ -29,19 +29,21 @@ const handleBookingBody = (
             rooms: req.body.body.rooms.map((room: any) => {
                 return {
                     name: room.roomtype,
-                    price: room.total,
-                    concurrency: 'USD',
+                    price: String(parseFloat(room.sum).toFixed(2)),
+                    currency: 'USD',
                     quantity: String(room.count),
                 }
             }),
         }
         req.body.booking = booking
 
-        console.log(req.body.booking)
+        // console.log(req.body.booking)
+        // console.log(req.body.booking.rooms)
 
         next()
     } catch (error) {
         console.log(error)
+        res.status(400).end('Error handling booking body')
     }
 }
 

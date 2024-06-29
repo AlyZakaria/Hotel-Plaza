@@ -7,9 +7,9 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import XIcon from "@mui/icons-material/X";
+import XIcon from "@mui/icons-material/Twitter"; // Adjust this import if needed
 import { ThemeProvider } from "@mui/material/styles";
-import FooterTheme from "../../themes/FooterTheme";
+import FooterTheme from "../../themes/FooterTheme"; // Adjust the import based on your file structure
 
 function Copyright() {
   return (
@@ -54,11 +54,8 @@ const LANGUAGES = [
 export default function Footer() {
   return (
     <ThemeProvider theme={FooterTheme}>
-      <Typography
-        component="footer"
-        sx={{ display: "flex", bgcolor: "#143c5c" }}
-      >
-        <Container sx={{ my: 8, display: "flex" }}>
+      <Box component="footer" sx={{ bgcolor: "#143c5c", py: 4, mt: "auto" }}>
+        <Container>
           <Grid container spacing={5}>
             <Grid item xs={6} sm={4} md={3}>
               <Grid
@@ -126,7 +123,7 @@ export default function Footer() {
             </Grid>
           </Grid>
         </Container>
-      </Typography>
+      </Box>
     </ThemeProvider>
   );
 }

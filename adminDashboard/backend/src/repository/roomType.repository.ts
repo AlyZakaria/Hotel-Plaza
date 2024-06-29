@@ -15,13 +15,43 @@ class RoomTypeRepository extends Repository {
         }
     }
     // add room type
-    async addRoomType(roomType: roomType): Promise<roomType | never> {
+    async addRoomType(roomType: any, images: any): Promise<any | never> {
         try {
-            const roomTypeCreated = await this._model.create({
-                data: roomType,
+            const transaction = this.prisma.$transaction(async (tx) => {
+                roomType.count = 1
+                // add room type
+                const roomTypeCreated = await tx.roomType.create({
+                    data: roomType,
+                })
+                if (!roomTypeCreated)
+                    throw new Error(`Room Type can't be created`)
+                // add images
+                if (images) {
+                    for (let i = 0; i < images.length; i++) {
+                        const image = images[i]
+                        const imageCreated = await tx.imageURL.create({
+                            data: {
+                                blob: image.imageURL.blob,
+                                type: image.imageURL.type,
+                            },
+                        })
+                        if (!imageCreated)
+                            throw new Error(`Image can't be created`)
+                        const typeImage = await tx.typeImage.create({
+                            data: {
+                                typeId: roomTypeCreated.id,
+                                imageId: imageCreated.id,
+                            },
+                        })
+                        if (!typeImage)
+                            throw new Error(`Type Image can't be created`)
+                    }
+                }
+                return roomTypeCreated
             })
-            if (!roomTypeCreated) throw new Error(`Room Type can't be created`)
-            return roomTypeCreated
+
+            if (!transaction) throw new Error(`Room Type can't be created`)
+            return transaction
         } catch (error: unknown) {
             throw error
         }
@@ -53,19 +83,38 @@ class RoomTypeRepository extends Repository {
 
             return true
         } catch (error) {
-            throw error
+            return false
         }
     }
-    async editRoomType(roomType: roomType): Promise<roomType | never> {
+    async updateRoomType(
+        roomTypeId: number,
+        roomType: roomType
+    ): Promise<roomType | never> {
         try {
             const roomTypeEdit = await this._model.update({
                 where: {
-                    id: roomType.id,
+                    id: roomTypeId,
                 },
                 data: roomType,
             })
             if (!roomTypeEdit) throw new Error(`Room type can't be edited`)
             return roomTypeEdit
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async getRoomTypeImages(roomTypeId: number): Promise<any | never> {
+        try {
+            const roomTypeImages = await this.prisma.typeImage.findMany({
+                where: {
+                    typeId: roomTypeId,
+                },
+                include: {
+                    imageURL: true,
+                },
+            })
+            if (!roomTypeImages) throw new Error(`Room type can't be found`)
+            return roomTypeImages
         } catch (error: unknown) {
             throw error
         }

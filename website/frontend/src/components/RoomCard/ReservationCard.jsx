@@ -1,22 +1,32 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Grid,
+  Button,
+} from "@mui/material";
 import RoomCard from "../../components/RoomReserved/RoomReserved";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import EventIcon from "@mui/icons-material/Event";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
+import useCancelReservation from "../../hooks/useCancelReservation";
+import { useState } from "react";
 const ReservationCard = ({ reservations, setReservations, reservation }) => {
+  const [cancel, setCancel] = useState(false);
+  useCancelReservation(
+    cancel,
+    setCancel,
+    reservations,
+    reservation,
+    setReservations
+  );
+  console.log(reservation);
   return (
     <Card sx={{ mb: 4, backgroundColor: "white", boxShadow: 3 }}>
       <CardContent>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ color: "primary.main", mb: 2 }}
-        >
-          <strong>Reservation ID:</strong> {reservation.id}
-        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Typography variant="body1" color="text.secondary">
@@ -62,9 +72,22 @@ const ReservationCard = ({ reservations, setReservations, reservation }) => {
                   room={room}
                   reservations={reservations}
                   setReservation={setReservations}
+                  reservation={reservation}
                 />
               </Grid>
             ))}
+            <Grid item xs={12}>
+              {reservation.rooms[0].status === "reserved" && (
+                <Button
+                  onClick={() => setCancel(true)}
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 2 }}
+                >
+                  Cancel
+                </Button>
+              )}
+            </Grid>
           </Grid>
         </Box>
       </CardContent>

@@ -13,44 +13,50 @@ datasource db {
   url      = env("SQL_DATABASE_URL")
 }
 
-
-
 model Customer {
-  id      Int    @id @default(autoincrement())
-  email     String?
-  password  String?
-  fname     String
-  lname     String
-  phone     String  @unique
-  country   String
-  address   String
-  zip       String
-  image      Bytes?
-  imageType  String?
-  reservation    Reservation[]
-  otp otp?
+  id          Int           @id @default(autoincrement())
+  email       String?
+  password    String?
+  fname       String
+  lname       String
+  phone       String        @unique
+  gender      gender
+  dob         DateTime?
+  address     String?
+  provenance  String?
+  country     String?
+  image       Bytes?
+  imageType   String?
+  reservation Reservation[]
+  reviews     Review[]
+  otp         otp?
+
   @@map("customers")
 }
 
+enum gender {
+  male
+  female
+}
 
 model Reservation {
-  id          Int        @id @default(autoincrement())
-  customerId  Int
-  date        DateTime   @default(now())
-  checkin     DateTime
-  checkout    DateTime
-  bill        Bill?
-  rooms       Booking[]
+  id         Int       @id @default(autoincrement())
+  customerId Int
+  date       DateTime  @default(now())
+  checkin    DateTime
+  checkout   DateTime
+  bill       Bill?
+  rooms      Booking[]
 
-  customer    Customer  @relation(fields: [customerId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+
   @@map("reservations")
-
-
-
 }
+
 enum StatusBill {
   incomplete
   complete
+  refunded
 }
 
 model Bill {
@@ -59,6 +65,7 @@ model Bill {
   reservationId Int         @unique
   totalAmount   Decimal
   time          DateTime    @default(now())
+  saleId        String
   status        StatusBill
 }
 
@@ -72,7 +79,7 @@ enum StatusBooking {
 model Booking {
   reservation    Reservation   @relation(fields: [reservationId], references: [id])
   reservationId  Int
-  room           Room          @relation(fields: [roomId], references: [id])
+  room           Room          @relation(fields: [roomId], references: [room_id])
   roomId         Int
   receptionistId Int?
   status         StatusBooking
@@ -87,7 +94,7 @@ enum View {
 }
 
 model Room {
-  id           Int       @id @default(autoincrement())
+  room_id      Int       @id @default(autoincrement())
   roomType     RoomType  @relation(fields: [typeId], references: [id], onDelete: Cascade)
   typeId       Int
   reservations Booking[]
@@ -99,17 +106,32 @@ model RoomType {
   pricepernight Decimal
   capacity      Int
   view          View
-  name          String 
-  bed           bed_types    
+  name          String
+  bed           bed_types
   size          Decimal
-  description   String? 
+  description   String? @db.VarChar(1000)
   room          Room[]
   imageURLs     TypeImage[]
   offer         Offer[]
-   @@unique([name, view , capacity])
+  reviews       Review[] // Add the opposite relation field
+
+  @@unique([name, view, capacity])
 }
 
-enum bed_types{
+model Review {
+  id         Int      @id @default(autoincrement())
+  roomTypeId Int
+  customerId Int
+  rating     Decimal
+  comment    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  roomType RoomType @relation(fields: [roomTypeId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+}
+
+enum bed_types {
   single
   double
   king
@@ -120,12 +142,11 @@ model ImageURL {
   id        Int         @id @default(autoincrement())
   blob      Bytes
   type      String?
-  roomTypes TypeImage[] 
-
+  roomTypes TypeImage[]
 }
 
 model TypeImage {
-  roomType RoomType @relation(fields: [typeId], references: [id] , onDelete: Cascade)
+  roomType RoomType @relation(fields: [typeId], references: [id], onDelete: Cascade)
   typeId   Int
 
   imageURL ImageURL @relation(fields: [imageId], references: [id], onDelete: Cascade)
@@ -135,32 +156,35 @@ model TypeImage {
 }
 
 model Offer {
-  id         Int      @id @default(autoincrement())
-  roomType   RoomType @relation(fields: [typeId], references: [id])
+  id         Int          @id @default(autoincrement())
+  roomType   RoomType     @relation(fields: [typeId], references: [id])
   typeId     Int
   startDate  DateTime
   endDate    DateTime
   percentage Decimal
-  name String
-  status offer_status
+  name       String
+  image       Bytes
+  imageType   String
+  description String
+  status     offer_status
 }
-enum offer_status{
+
+enum offer_status {
   active
   inactive
 }
 
 model otp {
-  id Int @id @default(autoincrement())
-  otp String? 
-  createdAt  DateTime @default(now()) @map("created_at")
-  customer Customer @relation(fields: [userId], references: [id])
-  userId   Int @unique
-  @@unique([otp,userId])
+  id        Int      @id @default(autoincrement())
+  otp       String?
+  createdAt DateTime @default(now()) @map("created_at")
+  customer  Customer @relation(fields: [userId], references: [id])
+  userId    Int      @unique
+
+  @@unique([otp, userId])
 }
 
-
 model newsLetter {
-  email String @id 
-  name String
-
+  email String @id
+  name  String
 }

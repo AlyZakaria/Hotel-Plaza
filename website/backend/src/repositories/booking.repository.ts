@@ -10,12 +10,16 @@ class bookingRepository extends Repository {
     //Book.
     async book(booking: booking): Promise<any | never> {
         try {
-            const bookingStatus = await this._model
-                .$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, @message);
-                                                              SELECT @message`
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const bookingStatus =
+                        await tx.$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
 
-            if (!bookingStatus) throw new Error(`Error in the booking process!`)
-            return bookingStatus
+                    if (!bookingStatus)
+                        throw new Error(`Error in the booking process!`)
+                    return bookingStatus
+                }
+            )
         } catch (error: unknown) {
             throw error
         }
@@ -26,6 +30,7 @@ class bookingRepository extends Repository {
                 where: {
                     customerId: userId,
                 },
+
                 include: {
                     rooms: {
                         include: {
@@ -45,6 +50,7 @@ class bookingRepository extends Repository {
                             },
                         },
                     },
+
                     bill: true, // Include bill details
                 },
             })
@@ -54,6 +60,53 @@ class bookingRepository extends Repository {
                     `No completed bookings found for the user with id: ${userId}`
                 )
             return completedBookings
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    async getSaleId(reservationIdArg: String): Promise<any | never> {
+        try {
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const refundQueryStatus =
+                        await tx.$queryRaw`SELECT saleId FROM bill Where reservationId = ${reservationIdArg}`
+
+                    if (!refundQueryStatus)
+                        throw new Error(`Error in the refund process!`)
+                    return refundQueryStatus
+                }
+            )
+            return transaction
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
+    async cancelStatus(reservationIdArg: String): Promise<any | never> {
+        try {
+            const transaction = await this.prisma.$transaction(
+                async (tx: any) => {
+                    const refundQueryStatus = await tx.$queryRaw`
+                        
+                            UPDATE booking 
+                            SET booking.status = 'cancelled' 
+                            WHERE reservationId = ${reservationIdArg};
+
+                           `
+                    if (refundQueryStatus) {
+                        const refunded = await tx.$queryRaw` UPDATE bill
+                        SET bill.status = 'refunded'
+                        WHERE reservationId = ${reservationIdArg};
+                        `
+                        if (!refunded)
+                            throw new Error(`Error in the refund process!`)
+                        return refunded
+                    } else throw new Error(`Error in the refund process!`)
+                }
+            )
+            if (!transaction) throw new Error(`Error in the refund process!`)
+            return transaction
         } catch (error: unknown) {
             throw error
         }

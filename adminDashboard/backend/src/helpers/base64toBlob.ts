@@ -1,12 +1,11 @@
-function base64toBlob(image: any): any {
+function base64toBlob(image: any, base64: string): any {
     // Split into two parts
-    const parts = image.split(';base64,')
-
+    console.log(image)
     // Hold the content type
-    const imageType = parts[0].split(':')[1]
+    const imageType = image.mimetype
 
     // Decode Base64 string
-    const byteCharacters = atob(parts[1])
+    const byteCharacters = atob(base64)
     const byteArrays = []
 
     for (let i = 0; i < byteCharacters.length; i++) {

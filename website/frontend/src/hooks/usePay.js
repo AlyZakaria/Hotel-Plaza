@@ -11,7 +11,7 @@ const usePay = (selectedRooms, pay, setPay, date) => {
       // set Token
       let token = JSON.parse(sessionStorage.getItem("token"));
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      
+
       const response = await axios.post("/api/book", {
         date: {
           checkin: date.checkIn,
@@ -20,6 +20,8 @@ const usePay = (selectedRooms, pay, setPay, date) => {
         rooms: selectedRooms,
       });
       if (response.status === 200) {
+        let url = response.data.redirect;
+        window.open(url, "_blank");
         console.log("Payment Successful");
       }
     } catch (err) {

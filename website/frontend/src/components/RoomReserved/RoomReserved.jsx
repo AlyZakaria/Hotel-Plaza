@@ -18,16 +18,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import useAddReview from "../../hooks/useAddReview";
-
-const RoomCard = ({ room, reservations, setReservations }) => {
+const RoomCard = ({ room, reservations, setReservations, reservation }) => {
   const { roomType } = room.room;
-
+  
   const review = roomType.reviews.length ? roomType.reviews[0] : {};
   const [rating, setRating] = useState(review?.rating || 0);
   const [comment, setComment] = useState(review?.comment || "");
   const [submitted, setSubmitted] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
+  console.log("Reservation:", reservation);
   const getStatusColor = (status) => {
     switch (status) {
       case "checked_in":
@@ -52,6 +52,7 @@ const RoomCard = ({ room, reservations, setReservations }) => {
     comment,
     roomType.id
   );
+ 
 
   const handleSubmit = () => {
     if (rating === 0 && comment === "") {
@@ -91,12 +92,6 @@ const RoomCard = ({ room, reservations, setReservations }) => {
             </Typography>
           </Grid>
         </Grid>
-
-        {room.status === "reserved" && (
-          <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-            Cancel
-          </Button>
-        )}
 
         {(room.status === "checked_out" &&
           Object.keys(review).length &&

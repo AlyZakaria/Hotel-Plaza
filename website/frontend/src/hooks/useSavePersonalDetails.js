@@ -24,7 +24,7 @@ const useSavePersonalDetails = (
         alert("Invalid date");
         return;
       }
-
+      
       // set token
       let token = JSON.parse(sessionStorage.getItem("token"));
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

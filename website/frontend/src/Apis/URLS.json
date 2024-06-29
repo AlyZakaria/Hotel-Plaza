@@ -13,5 +13,6 @@
   "roomDetails": "/api/room-details?",
   "roomTypesWithCapacity": "/api/room-types&capacity",
   "myReservations":"/api/my-reservations",
-  "addReview": "/api/room-type/add-review"
+  "addReview": "/api/room-type/add-review",
+  "offers": "/api/offers"
 }

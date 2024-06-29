@@ -8,7 +8,7 @@ import RoomTypesCarousel from "../../components/RoomTypesCarousel2/RoomTypesCaro
 import ReceiveOffer from "../../components/ReceiveOffer/ReceiveOffer.jsx";
 import CheckAvailability from "../../components/CheckAvalibilty/CheckAvailability.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-
+import OffersList from "../../components/OfferList/OfferList.jsx";
 const Home = () => {
   return (
     <div>
@@ -16,6 +16,8 @@ const Home = () => {
       <CheckAvailability></CheckAvailability>
 
       <RoomTypesCarousel></RoomTypesCarousel>
+
+      <OffersList />
 
       <HotelServices></HotelServices>
       <ReceiveOffer></ReceiveOffer>

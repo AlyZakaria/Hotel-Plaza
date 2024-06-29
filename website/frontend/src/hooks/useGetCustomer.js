@@ -4,6 +4,10 @@ const useGetCustomer = (customer, setCustomer) => {
   function handleCustomer() {
     if (localStorage.getItem("logout")) {
       setCustomer({});
+      localStorage.removeItem("customer");
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("customer");
+      sessionStorage.removeItem("token");
       return;
     }
     let tempCustomer = JSON.parse(sessionStorage.getItem("customer"));
@@ -19,8 +23,7 @@ const useGetCustomer = (customer, setCustomer) => {
         remember = true;
       }
     }
-
-    setCustomer({ ...tempCustomer, remember: remember });
+    if (tempCustomer) setCustomer({ ...tempCustomer, remember: remember });
   }
   useEffect(() => {
     handleCustomer();

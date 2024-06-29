@@ -1,6 +1,6 @@
 interface email {
     from: string
-    to: string[]
+    to: any
     subject: string[]
     text: string[]
 }

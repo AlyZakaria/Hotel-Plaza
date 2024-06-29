@@ -19,4 +19,6 @@ roomTypesRoute.post(
     verifyToken,
     roomTypesController.addReview
 )
+
+roomTypesRoute.get('/offers', roomTypesController.getOffers)
 export default roomTypesRoute

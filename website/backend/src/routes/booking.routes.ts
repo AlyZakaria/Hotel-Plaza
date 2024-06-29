@@ -11,6 +11,13 @@ bookingRoute.get(
     verifyToken,
     bookingController.getMyReservations
 )
-bookingRoute.post('/book', verifyToken, handleBookingBody)
+bookingRoute.post(
+    '/book',
+    verifyToken,
+    handleBookingBody,
+    bookingController.createBooking
+)
+bookingRoute.get('/success', bookingController.executeBooking)
 
+bookingRoute.post('/cancel-reservation', verifyToken, bookingController.refund)
 export default bookingRoute

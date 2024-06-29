@@ -25,7 +25,7 @@ const verifyToken: express.RequestHandler = (
         } else throw new Error()
     } catch (error) {
         console.log(error)
-        res.status(statusCode.clientError.unauthorized).send(
+        res.status(statusCode.clientError.unauthorized).end(
             `User is not verified`
         )
     }

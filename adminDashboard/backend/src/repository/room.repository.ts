@@ -8,7 +8,11 @@ class RoomRepository extends Repository {
 
     async getRooms(): Promise<Room[] | never> {
         try {
-            const rooms = await this._model.findMany()
+            const rooms = await this._model.findMany({
+                include: {
+                    roomType: true,
+                },
+            })
             return rooms
         } catch (error: unknown) {
             throw error

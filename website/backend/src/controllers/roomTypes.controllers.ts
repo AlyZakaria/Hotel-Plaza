@@ -25,7 +25,7 @@ class RoomTypeController extends Controller {
                     description: roomType.description,
                     pricepernight: roomType.pricepernight,
                     capacity: roomType.capacity,
-                    imageUrl: roomType.imageURLs[index] || null,
+                    imageUrl: roomType.imageURLs[0] || null,
                 })
             )
 
@@ -145,6 +145,21 @@ class RoomTypeController extends Controller {
             res.status(statusCode.clientError.badRequest).send(
                 'Review not added'
             )
+        }
+    }
+    async getOffers(req: Request, res: Response, next: NextFunction) {
+        try {
+            const offers = await this.repository.getOffers()
+            // convert the image to base64
+            for (let offer of offers) {
+                console.log(offer)
+                offer.image = uint8ArrayToBase64(offer.image)
+            }
+            if (!offers) throw new Error()
+
+            res.status(statusCode.success.ok).send(offers)
+        } catch (error: unknown) {
+            res.status(statusCode.clientError.notFound).send('No offer found')
         }
     }
 }
