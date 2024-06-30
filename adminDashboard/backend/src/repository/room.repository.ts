@@ -27,6 +27,8 @@ class RoomRepository extends Repository {
                     data: {
                         typeId: room.typeId,
                         room_id: room.room_id,
+                        status: room.status,
+                        access: 'online_accessible',
                     },
                 })
                 // increase room type count

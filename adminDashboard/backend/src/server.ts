@@ -9,7 +9,7 @@ const app = express()
 app.use('/images', express.static('assets'))
 app.use(express.json({ limit: '100mb' }))
 
-const port = 4000
+const port = 5000
 
 // Enable CORS
 app.use(cors())

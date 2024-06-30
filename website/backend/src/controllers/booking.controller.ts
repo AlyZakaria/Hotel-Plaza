@@ -162,7 +162,7 @@ class BookingController extends Controller {
                     }
                 }
             )
-            res.redirect('http://localhost:3001/')
+            res.redirect('http://localhost:3000/')
             //paypal.payment.ref
         } catch (error: unknown) {
             console.log(error)

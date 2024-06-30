@@ -17,6 +17,7 @@ const useAddRoom = (
       const response = await axios.post(`${URLS.addRoom}`, {
         room_id: roomNumber,
         typeId: newRoomType.id,
+        status: status,
       });
       if (response.status === 201) {
         console.log("Room added successfully:", response.data);

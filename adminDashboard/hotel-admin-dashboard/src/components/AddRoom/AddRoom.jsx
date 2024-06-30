@@ -18,7 +18,7 @@ const AddRoom = () => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [roomNumber, setRoomNumber] = useState("");
   const [roomType, setRoomType] = useState("");
-  const [status, setStatus] = useState("active");
+  const [status, setStatus] = useState("in_service");
   let { active, setActive } = useContext(ActiveContext);
   const [add, setAdd] = useState(false);
 
@@ -61,8 +61,8 @@ const AddRoom = () => {
             onChange={(e) => setStatus(e.target.value)}
             label="Status"
           >
-            <MenuItem value="active">Active</MenuItem>
-            <MenuItem value="locked">Locked</MenuItem>
+            <MenuItem value="in_service">Active</MenuItem>
+            <MenuItem value="out_of_service">Locked</MenuItem>
           </Select>
         </FormControl>
         <Button
