@@ -13,7 +13,7 @@ const useLogin = (userData, setCustomer, submit, setSubmit) => {
       if (response.status === 200) {
         setCustomer({ ...response.data, remember: userData.remember });
         // check if already customer in session storage as maybe
-        // I logged out from other tab and still this tab save old customer
+        // I logged out from other tabs and still this tab save old customer
         // in session storage
 
         if (

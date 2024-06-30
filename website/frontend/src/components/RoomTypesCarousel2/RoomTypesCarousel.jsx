@@ -52,7 +52,7 @@ const RoomCard = ({ room }) => {
             {room.description && room.description.length > 100}
           </Typography>
           <Typography variant="body2" className="room-price">
-            ${room.pricepernight} per night
+            {room.pricepernight} EGP/Night
           </Typography>
         </div>
       </div>

@@ -262,7 +262,7 @@ const RoomAvailable = ({
                     color: "#383b3e",
                   }}
                 >
-                  {roomType.offerName} Offer
+                  {roomType.offerName}
                 </Typography>
               </>
             )}
@@ -324,7 +324,7 @@ const RoomAvailable = ({
               >
                 {roomType.hasOwnProperty("totalAfterDiscount") && (
                   <del data-v-e7c45ce0="" aria-hidden="true">
-                    EGY&nbsp;{roomType.total}
+                    EGP&nbsp;{roomType.total}
                   </del>
                 )}
               </Typography>
@@ -340,7 +340,7 @@ const RoomAvailable = ({
                   margin: "0px",
                 }}
               >
-                EGY {roomType.totalAfterDiscount || roomType.total}
+                EGP {roomType.totalAfterDiscount || roomType.total}
               </Typography>
             </Box>
           </Box>

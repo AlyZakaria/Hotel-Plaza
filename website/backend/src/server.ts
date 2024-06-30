@@ -1,11 +1,16 @@
 import express from 'express'
-import customerRoute from './routes/customer.routes'
 import cron from 'node-cron'
+import cors from 'cors'
 import bodyParser from 'body-parser'
 import offerUpdateSchedule from './scheduled-events/offerUpdate'
 import otpTokenDelete from './scheduled-events/otpTokenDelete'
-import cors from 'cors'
-import { roomTypesRoute, availabilityRoute, resetPasswordRoute, bookingRoute } from './routes'
+import customerRoute from './routes/customer.routes'
+import {
+    roomTypesRoute,
+    availabilityRoute,
+    resetPasswordRoute,
+    bookingRoute,
+} from './routes'
 import { NODE_ENV, PORT } from './config/constants'
 
 const app = express()
