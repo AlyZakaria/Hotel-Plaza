@@ -93,6 +93,7 @@ class BookingController extends Controller {
 
     async executeBooking(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log('executeBooking')
             //Fetching the PayerId and the PaymentId from the URL to be used to execute the payment.
             const payerId = req.query.PayerID
             const paymentId = req.query.paymentId
@@ -157,10 +158,11 @@ class BookingController extends Controller {
                         }
                         console.log(booking)
                         const book = await this.repository.book(booking)
+                        console.log(book)
                     }
                 }
             )
-            res.redirect('http://localhost:3000/')
+            res.redirect('http://localhost:3001/')
             //paypal.payment.ref
         } catch (error: unknown) {
             console.log(error)

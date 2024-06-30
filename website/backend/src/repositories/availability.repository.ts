@@ -58,6 +58,8 @@ class availabilityRepository extends Repository {
                         FROM roomtype
                         JOIN room ON roomtype.id = room.typeId 
                         WHERE roomtype.name NOT IN(SELECT roomtype FROM cte ) 
+                        AND room.status != 'out_of_service'
+                        AND room.access = 'online_accessible'
                         GROUP BY (roomtype.name)
                         `
 
@@ -133,17 +135,19 @@ class availabilityRepository extends Repository {
                     roomtype.name AS roomtype, booking.roomId
                     FROM booking 
                     JOIN reservations ON reservations.id = booking.reservationId
-                    JOIN room ON booking.roomId = room.id
+                    JOIN room ON booking.roomId = room.room_id
                     JOIN roomtype ON room.typeId = roomtype.id
                     WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                     OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
                     AND booking.status != 'cancelled'
                 )
 
-                SELECT roomtype.name, room.id
+                SELECT roomtype.name, room.room_id
                 FROM roomtype
                 JOIN room ON roomtype.id = room.typeId
-                WHERE room.id NOT IN(SELECT roomId FROM cte)`
+                WHERE room.room_id NOT IN(SELECT roomId FROM cte)
+                AND room.status != 'out_of_service'
+                AND room.access = 'online_accessible'`
 
             if (!availability)
                 throw new Error(
@@ -168,7 +172,7 @@ class availabilityRepository extends Repository {
                     roomtype.name AS roomtype, booking.roomId
                     FROM booking 
                     JOIN reservations ON reservations.id = booking.reservationId
-                    JOIN room ON booking.roomId = room.id
+                    JOIN room ON booking.roomId = room.room_id
                     JOIN roomtype ON room.typeId = roomtype.id
                     WHERE ((reservations.checkin BETWEEN ${checkin} AND ${checkout} OR reservations.checkout BETWEEN ${checkin} AND ${checkout})
                     OR (reservations.checkin <= ${checkin} AND reservations.checkout >= ${checkout}))
@@ -176,11 +180,13 @@ class availabilityRepository extends Repository {
                     AND roomtype.name = ${type}
                 )
                 
-                SELECT roomtype.name, room.id
+                SELECT roomtype.name, room.room_id
                 FROM roomtype
                 JOIN room ON roomtype.id = room.typeId
-                WHERE room.id NOT IN(SELECT roomId FROM cte)
-                AND roomtype.name = ${type}`
+                WHERE room.room_id NOT IN(SELECT roomId FROM cte)
+                AND roomtype.name = ${type}
+                AND room.status != 'out_of_service'
+                AND room.access = 'online_accessible'`
 
             if (!availability)
                 throw new Error(
@@ -194,50 +200,3 @@ class availabilityRepository extends Repository {
 }
 
 export default availabilityRepository
-
-// console.log(offers)
-// // Given offer period and hotel stay
-// const offerStartDate = new Date(offers[0].startDate)
-// const offerEndDate = new Date(offers[0].endDate)
-// const checkinDate: any = new Date(checkin)
-// const checkoutDate: any = new Date(checkout)
-
-// const stayed =
-//     (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24) // Convert milliseconds to days
-
-// // Calculate intersection
-// const intersectionStart: any =
-//     offerStartDate > checkinDate
-//         ? offerStartDate
-//         : checkinDate
-// const intersectionEnd: any =
-//     offerEndDate < checkoutDate
-//         ? offerEndDate
-//         : checkoutDate
-
-// // Calculate common days
-// const commonDays =
-//     (intersectionEnd - intersectionStart) /
-//     (1000 * 60 * 60 * 24) // Convert milliseconds to days
-
-// console.log(`Common days: ${commonDays}`)
-// console.log(`Stayed: ${stayed}`)
-
-// for (let i = 0; i < availability.length; i++) {
-//     availability[i].stayed = stayed
-//     availability[i].total = availability[i].price * stayed
-
-//     availability[i].totalAfterDiscount =
-//         stayed > commonDays
-//             ? availability[i].price *
-//                   (stayed - commonDays) +
-//               availability[i].price *
-//                   commonDays *
-//                   (offers[0].percentage / 100)
-//             : availability[i].price *
-//               stayed *
-//               (offers[0].percentage / 100)
-// }
-// console.log(availability)
-
-// return availability

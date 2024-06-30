@@ -96,7 +96,7 @@ async function main() {
             view: 'garden',
             bed: 'double',
             size: 30,
-            count: 40,
+            count: 10,
         },
         {
             id: 2,
@@ -108,7 +108,7 @@ async function main() {
             view: 'sea',
             bed: 'king',
             size: 70,
-            count: 5,
+            count: 10,
         },
         {
             id: 3,
@@ -120,7 +120,7 @@ async function main() {
             view: 'pool',
             bed: 'queen',
             size: 45,
-            count: 20,
+            count: 10,
         },
         {
             id: 4,
@@ -132,7 +132,7 @@ async function main() {
             view: 'pool',
             bed: 'single',
             size: 20,
-            count: 30,
+            count: 10,
         },
         {
             id: 5,
@@ -144,7 +144,7 @@ async function main() {
             view: 'sea',
             bed: 'king',
             size: 60,
-            count: 25,
+            count: 10,
         },
     ]
     // Add more real room type data here
@@ -177,15 +177,25 @@ async function main() {
     //     })
     // }
 
+    //  5 roomtypes
+    // 1 roomtype => 10 rooms
+
     // Seed Room data
     for (let i = 1; i <= 5; i++) {
-        await prisma.room.create({
-            data: {
-                roomType: {
-                    connect: { id: i },
-                }, // Add type assertion to 'any' to match the expected type
-            },
-        })
+        for (let j = 1; j <= 10; j++) {
+            await prisma.room.create({
+                data: {
+                    roomType: {
+                        connect: { id: i },
+                    }, // Add type assertion to 'any' to match the expected type
+                    status: j == 4 ? 'out_of_service' : 'in_service',
+                    access:
+                        j % 2 === 0
+                            ? 'online_accessible'
+                            : 'online_inaccessible',
+                },
+            })
+        }
     }
 
     // Seed Reservation data
@@ -362,6 +372,24 @@ async function main() {
             })
         }
     }
+    // add dummy data in the last year table and current year table
+    for (let i = 1; i <= 12; i++) {
+        await prisma.lastYear.create({
+            data: {
+                month: i,
+                online_reservations: Math.floor(Math.random() * 100),
+                offline_reservations: Math.floor(Math.random() * 100),
+            },
+        })
+        await prisma.currentYear.create({
+            data: {
+                month: i,
+                online_reservations: Math.floor(Math.random() * 100),
+                offline_reservations: Math.floor(Math.random() * 100),
+            },
+        })
+    }
+
     console.log('Seed data has been added successfully!')
 }
 

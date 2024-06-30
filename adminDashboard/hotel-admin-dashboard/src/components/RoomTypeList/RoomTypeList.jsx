@@ -61,7 +61,7 @@ const RoomTypesList = () => {
                 color="primary"
                 onClick={() => {
                   setRoomType(type);
-                  setActive(3);
+                  setActive(5);
                 }}
                 // onClick={() => navigate(`/room-type/${type.id}`)}
               >

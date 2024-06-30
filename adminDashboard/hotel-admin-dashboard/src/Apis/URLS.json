@@ -6,5 +6,10 @@
     "deleteImage": "/api/images/room-type",
     "updateRoomType": "/api/room-type",
     "addRoomType": "/api/room-type",
-    "deleteRoomType": "/api/room-type"
+    "deleteRoomType": "/api/room-type",
+    "addRoom": "/api/room",
+    "lockRoom":"/api/lock-room",
+    "unlockRoom":"/api/unlock-room",
+    "makeRoomOffline":"/api/make-room-offline",
+    "removeRoomOffline":"/api/remove-room-offline"
 }

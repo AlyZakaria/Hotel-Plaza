@@ -6,14 +6,25 @@ class OfferRepository extends Repository {
         this._model = this.prisma.offer
     }
 
-    async addOffer(offer: offer): Promise<any | never> {
+    async addOffer(offer: any): Promise<any | never> {
         try {
             let offerCreated: any
             let roomType: any
             let customers: any
             const transaction = await this.prisma.$transaction(async (tx) => {
                 offerCreated = await tx.offer.create({
-                    data: offer,
+                    data: {
+                        typeId: offer.typeId,
+                        startDate: offer.startDate,
+                        endDate: offer.endDate,
+                        percentage: offer.percentage,
+                        description: offer.description,
+                        name: offer.name,
+                        image: offer.images[0].imageURL.blob,
+                        imageType: offer.images[0].imageURL.type,
+                        status: offer.status,
+                        roomType: offer.roomType,
+                    },
                 })
                 roomType = await tx.roomType.findFirst({
                     where: {
@@ -27,7 +38,7 @@ class OfferRepository extends Repository {
             if (!transaction) throw new Error(`Can't create offer`)
             return transaction
         } catch (error: unknown) {
-            console.log(error)
+            // console.log(error)
             throw error
         }
     }

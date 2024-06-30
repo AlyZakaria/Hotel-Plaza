@@ -12,15 +12,17 @@ class bookingRepository extends Repository {
         try {
             const transaction = await this.prisma.$transaction(
                 async (tx: any) => {
-                    const bookingStatus =
-                        await tx.$queryRaw`CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
+                    const bookingStatus = await tx.$queryRaw`
+                        CALL  book(${booking.typenames}, ${booking.numOfEachType}, ${booking.checkin}, ${booking.checkout}, ${booking.userId}, ${booking.totalAmount}, ${booking.saleId}, @message);`
 
+                    console.log(bookingStatus)
                     if (!bookingStatus)
                         throw new Error(`Error in the booking process!`)
                     return bookingStatus
                 }
             )
         } catch (error: unknown) {
+            console.log(error)
             throw error
         }
     }

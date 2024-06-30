@@ -15,10 +15,11 @@ class OfferController extends Controller {
     // add new Offer
     async addOffer(req: Request, res: Response, next: NextFunction) {
         try {
-            const offer: offer = req.body
+            const offer: any = req.body
             Number(offer.id)
             offer['startDate'] = new Date(offer['startDate'])
             offer['endDate'] = new Date(offer['endDate'])
+            console.log(offer.images)
             const { offerCreated, roomType, customers } =
                 await this.repository.addOffer(offer)
             if (!offerCreated) throw new Error(`Error creating offer`)
