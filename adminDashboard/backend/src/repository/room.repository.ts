@@ -1,5 +1,6 @@
 import Repository from './repository'
 import Room from '../interfaces/room'
+import { access } from 'fs'
 class RoomRepository extends Repository {
     constructor() {
         super()
@@ -18,14 +19,32 @@ class RoomRepository extends Repository {
             throw error
         }
     }
-    async addRoom(room: Room): Promise<Room | never> {
+    async addRoom(room: any): Promise<any | never> {
         try {
-            const roomCreated = await this._model.create({
-                data: room,
+            //
+            const transaction = await this.prisma.$transaction(async (tx) => {
+                const roomCreated = await this._model.create({
+                    data: {
+                        typeId: room.typeId,
+                        room_id: room.room_id,
+                    },
+                })
+                // increase room type count
+                const roomType = await tx.roomType.update({
+                    where: {
+                        id: room.typeId,
+                    },
+                    data: {
+                        count: {
+                            increment: 1,
+                        },
+                    },
+                })
             })
-            if (!roomCreated) throw new Error(`Could not create room`)
-            return roomCreated
+
+            return transaction
         } catch (error: unknown) {
+            console.log(error)
             throw error
         }
     }
@@ -57,6 +76,73 @@ class RoomRepository extends Repository {
             throw error
         }
     }
+
+    async lockRoom(roomId: number): Promise<any | never> {
+        try {
+            const room = await this._model.update({
+                where: {
+                    room_id: roomId,
+                },
+                data: {
+                    status: 'out_of_service',
+                },
+            })
+            if (!room) throw new Error(`Could not lock room`)
+            return room
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async unlockRoom(roomId: number): Promise<any | never> {
+        try {
+            const room = await this._model.update({
+                where: {
+                    room_id: roomId,
+                },
+                data: {
+                    status: 'in_service',
+                },
+            })
+            if (!room) throw new Error(`Could not unlock room`)
+            return room
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+    async makeRoomOffline(roomId: number): Promise<any | never> {
+        try {
+            const room = await this._model.update({
+                where: {
+                    room_id: roomId,
+                },
+                data: {
+                    access: 'online_inaccessible',
+                },
+            })
+            if (!room) throw new Error(`Could not make room offline`)
+            return room
+        } catch (error: unknown) {
+            console.log(error)
+            throw error
+        }
+    }
+    async removeRoomOffline(roomId: number): Promise<any | never> {
+        try {
+            const room = await this._model.update({
+                where: {
+                    room_id: roomId,
+                },
+                data: {
+                    access: 'online_accessible',
+                },
+            })
+            if (!room) throw new Error(`Could not make room online`)
+            return room
+        } catch (error: unknown) {
+            throw error
+        }
+    }
+
     async deleteAll(): Promise<boolean | never> {
         try {
             const rooms = await this._model.deleteMany()

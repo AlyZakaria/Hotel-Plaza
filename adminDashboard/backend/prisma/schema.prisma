@@ -97,8 +97,23 @@ model Room {
   room_id      Int       @id @default(autoincrement())
   roomType     RoomType  @relation(fields: [typeId], references: [id], onDelete: Cascade)
   typeId       Int
+  status       StatusRoom
+  access       access
   reservations Booking[]
 }
+enum StatusRoom {
+  in_service
+  out_of_service
+}
+
+enum access {
+  online_accessible
+  online_inaccessible
+}
+
+
+
+
 
 model RoomType {
   id            Int         @id @default(autoincrement())
@@ -188,3 +203,18 @@ model newsLetter {
   email String @id
   name  String
 }
+
+model lastYear{
+  id        Int      @id @default(autoincrement())
+  month     Int   
+  online_reservations   Int
+  offline_reservations  Int
+}
+
+model currentYear{
+  id        Int      @id @default(autoincrement())
+  month     Int   
+  online_reservations   Int
+  offline_reservations  Int
+}
+

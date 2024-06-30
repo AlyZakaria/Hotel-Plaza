@@ -9,15 +9,23 @@ import RoomTypeDetails from "./components/RoomTypeDetails/RoomTypeDetails";
 import { ActiveContext } from "./contexts/active";
 import { RoomTypeContext } from "./contexts/roomType";
 import { ToastContainer } from "react-toastify";
-
+import AddRoom from "./components/AddRoom/AddRoom";
+import AddOffer from "./components/AddOffer/AddOffer";
 let components = [
   <RoomTypeForm />,
   <ManageRooms />,
+  <AddRoom />,
+  <AddOffer />,
   <RoomTypesList />,
   <RoomTypeDetails />,
 ];
-let menu = ["Add Room Type", "Manage Rooms", "Show All Room Types"];
-// let routes = ["/add-room-type", "/manage-rooms", "/show-all-room-types"];
+let menu = [
+  "Add Room Type",
+  "Manage Rooms",
+  "Add room",
+  "Add New Offer",
+  "Show All Room Types",
+];
 const App = () => {
   let [active, setActive] = useState(0);
   let [roomType, setRoomType] = useState({});
